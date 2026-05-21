@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-en="Tom Chen — portfolio" data-zh="Tom Chen — 作品集">Tom Chen — portfolio</title>
+<meta name="description"
+      data-en="Shipping small, sharp tools for real engineering problems — built with Rust, web, and a heavy lean on AI-assisted development."
+      data-zh="把真實的工程問題拆成小而銳利的工具——以 Rust、Web 為主，並大量使用 AI 輔助開發。"
+      content="Shipping small, sharp tools for real engineering problems — built with Rust, web, and a heavy lean on AI-assisted development." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+:root{
+  --bg:        #0a0c12;
+  --bg-elev:   #11141d;
+  --bg-card:   #161a25;
+  --ink:       #ebe8df;
+  --ink-2:     #9a978c;
+  --ink-3:     #5a5c66;
+  --rule:      #232735;
+  --rule-soft: #1a1d28;
+  --phosphor:  #6fe3b8;
+  --amber:     #f4c47a;
+  --grat:      rgba(111,227,184,0.045);
+  --grat-mid:  rgba(111,227,184,0.10);
+  --serif:     "Instrument Serif","EB Garamond",Georgia,serif;
+  --serif-zh:  "Noto Serif TC","Instrument Serif","PMingLiU",serif;
+  --mono:      "JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --sans-zh:   "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:14px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+a{color:var(--phosphor);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+a:hover{border-bottom-color:var(--phosphor)}
+::selection{background:var(--phosphor);color:var(--bg)}
+
+html[lang="en"] [data-lang="zh"]{display:none}
+html[lang="zh"] [data-lang="en"]{display:none}
+html[lang="zh"] [data-lang="zh"]{font-family:var(--sans-zh)}
+html[lang="zh"] .serif [data-lang="zh"],
+html[lang="zh"] .h-display [data-lang="zh"],
+html[lang="zh"] .h-section [data-lang="zh"],
+html[lang="zh"] .h-card [data-lang="zh"]{font-family:var(--serif-zh);letter-spacing:0}
+[data-lang="zh"] code,[data-lang="zh"] .mono{font-family:var(--mono)}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* ── Typography ─────────────────────────────────────────── */
+.h-display{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(48px,7.5vw,104px);line-height:0.96;
+  letter-spacing:-0.02em;color:var(--ink);margin:0;
+}
+.h-display em{font-style:italic;color:var(--phosphor);font-feature-settings:"ss01"}
+.h-section{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(32px,4.5vw,52px);line-height:1.0;
+  letter-spacing:-0.015em;margin:0;
+}
+.h-section em{font-style:italic;color:var(--amber)}
+.h-card{
+  font-family:var(--serif);font-weight:400;
+  font-size:26px;line-height:1.2;letter-spacing:-0.01em;
+  margin:0 0 8px;color:var(--ink);
+}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--phosphor);
+}
+.eyebrow .dim{color:var(--ink-3)}
+.kicker{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+
+/* ── Topbar ─────────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,12,18,0.85);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.topbar .wrap{
+  display:flex;align-items:center;gap:24px;
+  padding-top:16px;padding-bottom:16px;
+  font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-2);
+}
+.brand{
+  font-family:var(--serif);font-size:22px;letter-spacing:-0.01em;
+  text-transform:none;color:var(--ink);
+  display:flex;align-items:baseline;gap:10px;
+}
+.brand .dot{
+  display:inline-block;width:8px;height:8px;background:var(--phosphor);
+  border-radius:50%;box-shadow:0 0 12px var(--phosphor);
+  animation:pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 12px var(--phosphor)}
+  50%{opacity:0.55;box-shadow:0 0 18px var(--phosphor)}
+}
+.topbar nav{margin-left:auto;display:flex;gap:24px;align-items:center}
+.topbar nav a{color:var(--ink-2);border:0}
+.topbar nav a:hover{color:var(--ink)}
+
+.lang-toggle{
+  margin-left:6px;background:transparent;
+  border:1px solid var(--rule);color:var(--ink-3);
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.08em;
+  padding:5px 12px;cursor:pointer;
+  transition:border-color .2s, color .2s;
+  text-transform:none;user-select:none;
+}
+.lang-toggle:hover{border-color:var(--phosphor)}
+.lang-toggle:focus-visible{outline:1px solid var(--phosphor);outline-offset:2px}
+.lang-toggle .opt{color:var(--ink-3);transition:color .2s, text-shadow .2s;padding:0 2px}
+.lang-toggle .opt-sep{color:var(--ink-3);margin:0 6px;opacity:0.55}
+html[lang="en"] .lang-toggle .opt-en{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4)}
+html[lang="zh"] .lang-toggle .opt-zh{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4);font-family:var(--sans-zh)}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero{position:relative;padding:96px 0 64px;overflow:hidden}
+.hero .graticule{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--grat) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grat) 1px, transparent 1px),
+    linear-gradient(var(--grat-mid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grat-mid) 1px, transparent 1px);
+  background-size:40px 40px, 40px 40px, 200px 200px, 200px 200px;
+  background-position:-1px -1px;
+  mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
+  pointer-events:none;
+}
+.hero .scanline{
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent, var(--phosphor) 30%, var(--phosphor) 70%, transparent);
+  opacity:0.18;animation:scan 9s linear infinite;pointer-events:none;
+}
+@keyframes scan{0%{top:0%}100%{top:100%}}
+.hero-inner{position:relative;z-index:2}
+.hero .preheading{display:flex;gap:14px;align-items:center;margin-bottom:36px;flex-wrap:wrap}
+.hero .preheading .sep{color:var(--ink-3)}
+.hero h1{margin:0 0 28px;max-width:16ch;animation:fadeUp .9s .1s both}
+html[lang="zh"] .hero h1{max-width:20ch}
+.hero .lede{
+  font-family:var(--mono);font-size:16px;line-height:1.75;
+  color:var(--ink-2);max-width:62ch;margin:0 0 32px;
+  animation:fadeUp .9s .2s both;
+}
+.hero .lede strong{color:var(--ink);font-weight:500}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ── Section ────────────────────────────────────────────── */
+.section{padding:80px 0;border-top:1px solid var(--rule)}
+.section-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+  margin-bottom:48px;flex-wrap:wrap;
+}
+.section-head .count{color:var(--ink-3);font-family:var(--mono);font-size:12px;letter-spacing:0.18em}
+
+/* ── Project cards ──────────────────────────────────────── */
+.projects{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+@media (min-width:780px){.projects{grid-template-columns:1fr 1fr}}
+
+.project{
+  position:relative;background:var(--bg);
+  padding:36px 32px 32px;
+  transition:background .25s ease;
+  display:flex;flex-direction:column;min-height:340px;
+}
+.project a.cover{
+  position:absolute;inset:0;z-index:1;border:0;
+}
+.project:hover{background:var(--bg-elev)}
+.project:hover .h-card{color:var(--phosphor)}
+.project .meta{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:20px;
+}
+.project .meta .status{
+  display:inline-flex;align-items:center;gap:6px;color:var(--phosphor);
+}
+.project .meta .status::before{
+  content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--phosphor);box-shadow:0 0 8px var(--phosphor);
+}
+.project .meta .status.wip{color:var(--amber)}
+.project .meta .status.wip::before{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.project .meta .sep{color:var(--ink-3);opacity:0.5}
+.project .h-card{transition:color .25s ease}
+.project .tagline{color:var(--ink-2);font-size:14px;line-height:1.6;margin:0 0 18px;flex:1}
+.project .stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.project .stack span{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.06em;
+  color:var(--ink-2);border:1px solid var(--rule);
+  padding:3px 8px;border-radius:2px;
+}
+.project .open{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--phosphor);
+  display:inline-flex;align-items:center;gap:8px;
+  position:relative;z-index:2;width:max-content;
+}
+.project .open .arr{transition:transform .2s ease;display:inline-block}
+.project:hover .open .arr{transform:translateX(4px)}
+
+/* Placeholder card (future project slot) */
+.project.placeholder{
+  background:transparent;
+  border:1px dashed var(--rule);
+  margin:-1px;
+}
+.project.placeholder:hover{background:transparent}
+.project.placeholder .h-card{color:var(--ink-3)}
+.project.placeholder .tagline{color:var(--ink-3)}
+
+/* ── About / Contact ────────────────────────────────────── */
+.about{display:grid;grid-template-columns:1fr;gap:48px}
+@media (min-width:780px){.about{grid-template-columns:1.2fr 1fr}}
+.about p{color:var(--ink-2);font-size:14px;line-height:1.75;margin:0 0 16px;max-width:60ch}
+.about p strong{color:var(--ink);font-weight:500}
+
+.contact-list{
+  list-style:none;padding:0;margin:0;
+  font-family:var(--mono);font-size:13px;
+}
+.contact-list li{padding:14px 0;border-top:1px solid var(--rule-soft);display:flex;justify-content:space-between;gap:16px}
+.contact-list li:first-child{border-top:0}
+.contact-list .label{color:var(--ink-3);text-transform:uppercase;letter-spacing:0.14em;font-size:10px}
+
+/* ── Footer ─────────────────────────────────────────────── */
+footer{
+  border-top:1px solid var(--rule);padding:32px 0;
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);
+  letter-spacing:0.08em;
+}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span><span>Tom Chen</span></div>
+    <nav>
+      <a href="#work"><span data-lang="en">Work</span><span data-lang="zh">作品</span></a>
+      <a href="#about"><span data-lang="en">About</span><span data-lang="zh">關於</span></a>
+      <a href="#contact"><span data-lang="en">Contact</span><span data-lang="zh">聯絡</span></a>
+      <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">
+        <span class="opt opt-en">EN</span><span class="opt-sep">/</span><span class="opt opt-zh">中</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="graticule"></div>
+  <div class="scanline"></div>
+  <div class="wrap hero-inner">
+    <div class="preheading">
+      <span class="eyebrow"><span data-lang="en">Portfolio</span><span data-lang="zh">作品集</span></span>
+      <span class="sep">·</span>
+      <span class="kicker mono">v1 / 2026</span>
+    </div>
+
+    <h1 class="h-display">
+      <span data-lang="en">Small tools, <em>shipped</em>.</span>
+      <span data-lang="zh">把小工具<em>做完</em>。</span>
+    </h1>
+
+    <p class="lede">
+      <span data-lang="en">
+        I build <strong>desktop and web tools</strong> that solve specific engineering problems — the kind where buying off-the-shelf software is overkill and a script isn't enough. I work in <strong>Rust, TypeScript, and Python</strong>, and lean heavily on <strong>AI-assisted development</strong> (Claude Code, Cursor) to move from rough idea to working product faster than I could alone.
+      </span>
+      <span data-lang="zh">
+        我寫的是<strong>桌面與 Web 工具</strong>，專門解那種「買現成軟體太重、寫腳本又不夠」的工程問題。主要使用 <strong>Rust、TypeScript 與 Python</strong>，並大量結合 <strong>AI 輔助開發</strong>（Claude Code、Cursor）把粗略構想推到能上線的成品。
+      </span>
+    </p>
+
+    <p class="lede" style="margin-top:-8px">
+      <span data-lang="en">
+        Each project below is a real problem I picked up, scoped, and finished — start with <a href="#work">the work</a>.
+      </span>
+      <span data-lang="zh">
+        下方每個專案都是我自己挑題、自己收尾的真實問題——從<a href="#work">作品</a>開始看吧。
+      </span>
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────────── WORK ─────────────────── -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h-section">
+        <span data-lang="en"><em>Work</em></span>
+        <span data-lang="zh"><em>作品</em></span>
+      </h2>
+      <span class="count">001 / 001</span>
+    </div>
+
+    <div class="projects">
+
+      <!--
+        ─── PROJECT CARD TEMPLATE ───
+        To add a new project:
+        1. Create folder ./your-project-slug/ with its own index.html (+ assets).
+        2. Copy one <article class="project"> block below.
+        3. Update: cover href, status (shipped|wip), year, title, tagline, stack chips.
+        4. Bump the "001 / NNN" counter above.
+      -->
+
+      <article class="project">
+        <a class="cover" href="./benchpress/" aria-label="Open benchpress case study"></a>
+        <div class="meta">
+          <span class="status"><span data-lang="en">Shipped</span><span data-lang="zh">已上線</span></span>
+          <span class="sep">·</span>
+          <span>2026</span>
+          <span class="sep">·</span>
+          <span><span data-lang="en">Desktop / Instrumentation</span><span data-lang="zh">桌面 / 儀器</span></span>
+        </div>
+        <h3 class="h-card">benchpress</h3>
+        <p class="tagline">
+          <span data-lang="en">A Windows desktop app that controls bench instruments over GPIB / Ethernet and composes test sequences from drag-and-drop blocks — built to retire a LabVIEW station.</span>
+          <span data-lang="zh">控制 GPIB / Ethernet 儀器、用拖拉積木組裝測試流程的 Windows 桌面 app——目標是淘汰既有的 LabVIEW 工作站。</span>
+        </p>
+        <div class="stack">
+          <span>Rust</span><span>Dioxus</span><span>GPIB</span><span>Windows</span><span>AI-assisted</span>
+        </div>
+        <span class="open">
+          <span data-lang="en">Open case study</span><span data-lang="zh">查看案例</span>
+          <span class="arr">→</span>
+        </span>
+      </article>
+
+      <article class="project placeholder" aria-hidden="true">
+        <div class="meta">
+          <span><span data-lang="en">Coming soon</span><span data-lang="zh">即將推出</span></span>
+        </div>
+        <h3 class="h-card">_ _ _</h3>
+        <p class="tagline">
+          <span data-lang="en">Next project slot. Drop a folder, copy the card block above, edit a few lines.</span>
+          <span data-lang="zh">下一個專案的位置。新增一個資料夾、複製上面那張卡、改幾行字就好。</span>
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── ABOUT ─────────────────── -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h-section">
+        <span data-lang="en"><em>About</em></span>
+        <span data-lang="zh"><em>關於</em></span>
+      </h2>
+    </div>
+
+    <div class="about">
+      <div>
+        <p>
+          <span data-lang="en">
+            I started by automating things I was tired of doing by hand at the bench, then realised the same instinct — <strong>pick a real problem, scope it small, ship the smallest thing that actually works</strong> — generalises to software far beyond test-and-measurement.
+          </span>
+          <span data-lang="zh">
+            一開始只是在實驗台上把重複的事自動化，後來發現同一個直覺——<strong>挑真實問題、把範圍砍小、先做出真的能用的最小版本</strong>——遠遠超出測試/量測領域，幾乎適用於所有軟體題目。
+          </span>
+        </p>
+        <p>
+          <span data-lang="en">
+            AI tools changed how much surface area one person can cover. I treat <strong>Claude Code, Cursor, and Codex-style agents</strong> as collaborators that move me faster through unfamiliar stacks — but the spec, the architecture decisions, and the final review are still mine. Every project here is hand-tested before it leaves the bench.
+          </span>
+          <span data-lang="zh">
+            AI 工具改變了一個人能覆蓋的工作面積。我把 <strong>Claude Code、Cursor、Codex 類 agent</strong> 當成協作者——讓我能更快進入不熟悉的技術棧——但需求拆解、架構決策、最終驗收還是我自己的事。每個專案上線前我都親自跑過一遍。
+          </span>
+        </p>
+      </div>
+
+      <ul class="contact-list" id="contact">
+        <li><span class="label">Email</span><a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a></li>
+        <li><span class="label">GitHub</span><a href="https://github.com/COOMO" target="_blank" rel="noopener">@COOMO</a></li>
+        <li><span class="label">Résumé</span><a href="https://github.com/COOMO/portfolio" target="_blank" rel="noopener"><span data-lang="en">PDF on request</span><span data-lang="zh">需要時可寄送 PDF</span></a></li>
+        <li><span class="label">Location</span><span data-lang="en">Taiwan</span><span data-lang="zh">台灣</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Tom Chen</span>
+    <span class="mono">built with rust · web · claude code</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const KEY = "portfolio-lang";
+  const supported = ["en","zh"];
+  function setLang(l){
+    if(!supported.includes(l)) l = "en";
+    document.documentElement.setAttribute("lang", l);
+    try{ localStorage.setItem(KEY, l); }catch(e){}
+    // Swap <title> + meta description
+    const t = document.querySelector("title");
+    const d = document.querySelector('meta[name="description"]');
+    if(t && t.dataset[l === "en" ? "en" : "zh"]) t.textContent = t.dataset[l === "en" ? "en" : "zh"];
+    if(d && d.dataset[l === "en" ? "en" : "zh"]) d.setAttribute("content", d.dataset[l === "en" ? "en" : "zh"]);
+  }
+  // Init: localStorage → browser pref → en
+  let initial = null;
+  try{ initial = localStorage.getItem(KEY); }catch(e){}
+  if(!initial){
+    initial = (navigator.language || "en").toLowerCase().startsWith("zh") ? "zh" : "en";
+  }
+  setLang(initial);
+  const btn = document.getElementById("langToggle");
+  if(btn) btn.addEventListener("click", function(){
+    const cur = document.documentElement.getAttribute("lang");
+    setLang(cur === "en" ? "zh" : "en");
+  });
+})();
+</script>
+
+</body>
+</html>
