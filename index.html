@@ -262,31 +262,30 @@ html[lang="zh"] .hero h1{max-width:20ch}
 .project.placeholder .tagline{color:var(--ink-3)}
 
 /* ── About / Contact ────────────────────────────────────── */
-.about{display:grid;grid-template-columns:1fr;gap:48px}
-@media (min-width:780px){.about{grid-template-columns:1.2fr 1fr}}
-.about p{color:var(--ink-2);font-size:14px;line-height:1.75;margin:0 0 16px;max-width:60ch}
-.about p strong{color:var(--ink);font-weight:500}
-
+/* ── Contact list ───────────────────────────────────────── */
 .contact-list{
   list-style:none;padding:0;margin:0;
   font-family:var(--mono);font-size:13px;
+  max-width:720px;
 }
-.contact-list li{padding:14px 0;border-top:1px solid var(--rule-soft);display:flex;justify-content:space-between;gap:16px}
+.contact-list li{
+  padding:18px 0;border-top:1px solid var(--rule-soft);
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+}
 .contact-list li:first-child{border-top:0}
-.contact-list .label{color:var(--ink-3);text-transform:uppercase;letter-spacing:0.14em;font-size:10px}
+.contact-list li:last-child{border-bottom:1px solid var(--rule-soft)}
+.contact-list .label{
+  color:var(--ink-3);text-transform:uppercase;
+  letter-spacing:0.14em;font-size:10px;
+}
 
 /* ── Footer ─────────────────────────────────────────────── */
 footer{
-  border-top:1px solid var(--rule);padding:40px 0 48px;
-  font-family:var(--mono);font-size:12px;color:var(--ink-3);
-  letter-spacing:0.06em;
+  border-top:1px solid var(--rule);padding:32px 0;
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);
+  letter-spacing:0.08em;
 }
-footer .wrap{display:flex;flex-direction:column;gap:14px}
-.foot-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
-.foot-links{font-size:13px}
-.foot-links a{color:var(--ink-2)}
-.foot-links a:hover{color:var(--phosphor);border-bottom-color:var(--phosphor)}
-.foot-row .sep{color:var(--ink-3);opacity:0.5}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </style>
 </head>
 
@@ -370,18 +369,29 @@ footer .wrap{display:flex;flex-direction:column;gap:14px}
   </div>
 </section>
 
-<footer id="contact">
+<!-- ─────────────────── CONTACT ─────────────────── -->
+<section class="section" id="contact">
   <div class="wrap">
-    <div class="foot-row foot-links">
-      <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
-      <span class="sep">·</span>
-      <a href="https://github.com/COOMO" target="_blank" rel="noopener">github.com/COOMO</a>
+    <div class="section-head">
+      <h2 class="h-section">
+        <span data-lang="en"><em>Contact</em></span>
+        <span data-lang="zh"><em>聯絡</em></span>
+      </h2>
     </div>
-    <div class="foot-row">
-      <span>© 2026 Tom</span>
-      <span class="sep">·</span>
-      <span class="mono">built with rust · web · claude code</span>
-    </div>
+
+    <ul class="contact-list">
+      <li><span class="label">Email</span><a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a></li>
+      <li><span class="label">GitHub</span><a href="https://github.com/COOMO" target="_blank" rel="noopener">@COOMO</a></li>
+      <li><span class="label">Résumé</span><a href="mailto:cosccmo@gmail.com?subject=Resume%20request"><span data-lang="en">PDF on request</span><span data-lang="zh">需要時可寄送 PDF</span></a></li>
+      <li><span class="label">Location</span><span data-lang="en">Taiwan</span><span data-lang="zh">台灣</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Tom</span>
+    <span class="mono">built with rust · web · claude code</span>
   </div>
 </footer>
 
