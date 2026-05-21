@@ -1,6 +1,6 @@
 # portfolio
 
-Personal portfolio of Tom Chen — small, sharp tools for real engineering problems, built with Rust / web stacks and AI-assisted development (Claude Code, Cursor).
+Personal portfolio of Tom Huang — small, sharp tools for real engineering problems, built with Rust / web stacks and AI-assisted development (Claude Code, Cursor).
 
 **Live:** https://coomo.github.io/portfolio/
 
