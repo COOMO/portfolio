@@ -1603,7 +1603,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
 
 <script>
 (function(){
-  var KEY = 'benchpress-portfolio-lang';
+  var KEY = 'portfolio-lang';
   function setLang(lang){
     if (lang !== 'en' && lang !== 'zh') lang = 'en';
     document.documentElement.lang = lang;
@@ -1622,7 +1622,11 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
   }
   var saved = null;
   try { saved = localStorage.getItem(KEY); } catch(_){}
-  setLang(saved === 'zh' ? 'zh' : 'en');
+  var initial = saved;
+  if (initial !== 'en' && initial !== 'zh'){
+    initial = (navigator.language || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+  }
+  setLang(initial);
   var btn = document.getElementById('langToggle');
   if (btn){
     btn.addEventListener('click', function(){
