@@ -591,6 +591,75 @@ html[lang="zh"] .no-item .item-d{ font-family:var(--sans-zh); font-size:13px; }
 .code .s {color:var(--phosphor)}
 .code .n {color:var(--ink)}
 
+/* ── Roadmap (§ 05) ─────────────────────────────────────────────── */
+.next-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+}
+.next-item{
+  padding:36px 32px 36px 0;
+  border-right:1px solid var(--rule-soft);
+  position:relative;
+}
+.next-item:last-child{border-right:0;padding-right:0}
+.next-item:not(:first-child){padding-left:32px}
+.next-item::before{
+  content:"";
+  position:absolute;
+  top:-1px;left:0;right:24px;height:0;
+  border-top:1px dashed var(--amber);
+  opacity:0.55;
+}
+.next-item:not(:first-child)::before{left:32px}
+.next-item .badge{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid var(--amber-d);
+  padding:3px 10px;
+  display:inline-block;
+  margin-bottom:18px;
+}
+.next-item h3{
+  font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.2;
+  letter-spacing:-0.01em;margin:0 0 14px;color:var(--ink);
+}
+html[lang="zh"] .next-item h3{font-family:var(--serif-zh)}
+.next-item p{
+  margin:0 0 14px;
+  color:var(--ink-2);font-family:var(--mono);font-size:13px;line-height:1.7;
+}
+html[lang="zh"] .next-item p{font-family:var(--sans-zh);font-size:13.5px}
+.next-item p:last-of-type{margin-bottom:0}
+.next-item .extends{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--ink-3);
+  padding-top:12px;
+  border-top:1px solid var(--rule-soft);
+  margin-top:14px;
+}
+.next-item .extends strong{color:var(--phosphor);font-weight:500}
+html[lang="zh"] .next-item .extends{font-family:var(--sans-zh)}
+.next-item .prompt{
+  background:var(--bg-elev);
+  border:1px solid var(--rule);
+  padding:12px 14px;
+  margin:14px 0;
+  font-family:var(--mono);font-size:11.5px;line-height:1.65;
+  color:var(--ink-2);
+  white-space:pre-wrap;
+}
+html[lang="zh"] .next-item .prompt{font-family:var(--mono)}
+
+@media (max-width:880px){
+  .next-grid{grid-template-columns:1fr}
+  .next-item{border-right:0;border-bottom:1px solid var(--rule-soft);padding:32px 0!important}
+  .next-item:last-child{border-bottom:0}
+  .next-item::before{left:0!important;right:0!important}
+}
+
 /* ── Footer ──────────────────────────────────────────────────────── */
 footer{
   padding:64px 0 80px;
@@ -747,6 +816,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
       <a href="#tour"><span data-lang="en">Tour</span><span data-lang="zh">介面導覽</span></a>
       <a href="#arch"><span data-lang="en">Architecture</span><span data-lang="zh">系統架構</span></a>
       <a href="#design"><span data-lang="en">Design</span><span data-lang="zh">設計重點</span></a>
+      <a href="#next"><span data-lang="en">Next</span><span data-lang="zh">下一步</span></a>
       <button id="langToggle" class="lang-toggle" type="button" aria-label="Toggle language / 切換語言">
         <span class="opt opt-en">EN</span>
         <span class="opt-sep">/</span>
@@ -1533,6 +1603,163 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
   </div>
 </section>
 
+<!-- ── Roadmap ────────────────────────────────────────────────── -->
+<section id="next">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">
+        <span data-lang="en">§ 05 · Roadmap</span>
+        <span data-lang="zh">§ 05 · 下一步</span>
+      </span>
+      <h2 class="h-section">
+        <span data-lang="en">Where benchpress is <em>heading</em> next.</span>
+        <span data-lang="zh">接下來 benchpress <em>要走</em>的方向。</span>
+      </h2>
+      <p class="lede">
+        <span data-lang="en">
+          The current build already retires the LabVIEW station. The next three
+          increments take it from "one engineer's bench" to a fleet-aware,
+          LLM-augmented station any team in the lab can drive.
+        </span>
+        <span data-lang="zh">
+          現在這版已經足以替換 LabVIEW 工作站。接下來這三步，是讓它從「一個工程師的工作台」
+          長成「實驗室任何團隊都能操作、跨機台協作、能跟 LLM 對話」的測試平台。
+        </span>
+      </p>
+    </div>
+
+    <div class="next-grid">
+
+      <article class="next-item">
+        <span class="badge">
+          <span data-lang="en">Next · 01</span>
+          <span data-lang="zh">下一步 · 01</span>
+        </span>
+        <h3>
+          <span data-lang="en">LLM-augmented operation</span>
+          <span data-lang="zh">LLM 連動</span>
+        </h3>
+        <p>
+          <span data-lang="en">
+            Four touchpoints, one orchestration layer:
+            (1) a <strong>PDF manual parser</strong> reads instrument datasheets and
+            registers their SCPI commands into <code>instruments.toml</code>;
+            (2) an <strong>MCP server</strong> exposes benchpress's instruments,
+            sequences, and run controls so an agent can drive a test conversationally;
+            (3) an <strong>insight pass</strong> over <code>execution.jsonl</code>
+            flags anomalies in finished reports;
+            (4) <strong>sequence drafting</strong> turns a one-line natural-language
+            brief into an editable sequence.
+          </span>
+          <span data-lang="zh">
+            四個切入點、同一層 LLM 編排：
+            (1) <strong>儀器手冊 PDF parser</strong>，讀 datasheet 自動把 SCPI 指令註冊進
+            <code>instruments.toml</code>；
+            (2) <strong>MCP server</strong>，把儀器、sequence、Run 控制暴露給 agent，
+            讓對話就能驅動測試；
+            (3) <strong>報告洞察</strong>，掃 <code>execution.jsonl</code>
+            標出異常；
+            (4) <strong>sequence 草稿</strong>，一句話自然語意生成可編輯的測試流程。
+          </span>
+        </p>
+        <p class="prompt">
+          <span data-lang="en">「Use the instruments on Test Bench A to run a battery
+charge/discharge test, 50 cycles. Output the report as HTML.」</span>
+          <span data-lang="zh">「用 testbench A 的儀器跑電池充放電測試，
+週期 50 次，報告輸出 HTML 格式。」</span>
+        </p>
+        <div class="extends">
+          <span data-lang="en">extends → <strong>instruments.toml</strong> · <strong>Sequence Editor</strong> · <strong>report.html</strong></span>
+          <span data-lang="zh">延伸自 → <strong>instruments.toml</strong> · <strong>Sequence Editor</strong> · <strong>report.html</strong></span>
+        </div>
+      </article>
+
+      <article class="next-item">
+        <span class="badge">
+          <span data-lang="en">Next · 02</span>
+          <span data-lang="zh">下一步 · 02</span>
+        </span>
+        <h3>
+          <span data-lang="en">Fleet control &amp; remote runs</span>
+          <span data-lang="zh">機台叢集與遠端執行</span>
+        </h3>
+        <p>
+          <span data-lang="en">
+            Today each benchpress is bound to one PC at one bench. The plan: a
+            lightweight broker lets one operator browse, drive, and observe benchpress
+            instances running on other PCs across the lab — start a sequence on Bench B
+            from Bench A's screen, watch its <code>execution.jsonl</code> stream live,
+            pull its <code>report.html</code> when it's done.
+          </span>
+          <span data-lang="zh">
+            現在每一台 benchpress 都綁在一張工作台的一台 PC 上。
+            計劃：架一個輕量 broker，讓單一操作員從一張螢幕瀏覽、操作、監看實驗室裡其他 PC
+            上的 benchpress，在 A 工作台啟動 B 工作台的 sequence、即時看著
+            <code>execution.jsonl</code> 串流、結束時直接抓 <code>report.html</code>。
+          </span>
+        </p>
+        <p>
+          <span data-lang="en">
+            A <strong>fleet view</strong> aggregates active runs and completed sessions
+            across all stations into a single dashboard, with per-bench filters.
+            No vendored daemon — runs still write to local <code>sessions/</code>
+            first, then sync.
+          </span>
+          <span data-lang="zh">
+            <strong>叢集視圖</strong>把所有工作台的進行中執行與完成 session
+            匯總在一個儀表板，可依工作台篩選。不引入專屬 daemon，
+            執行先寫進本地 <code>sessions/</code>，再同步出去。
+          </span>
+        </p>
+        <div class="extends">
+          <span data-lang="en">extends → <strong>runtime</strong> · <strong>sessions/</strong></span>
+          <span data-lang="zh">延伸自 → <strong>runtime</strong> · <strong>sessions/</strong></span>
+        </div>
+      </article>
+
+      <article class="next-item">
+        <span class="badge">
+          <span data-lang="en">Next · 03</span>
+          <span data-lang="zh">下一步 · 03</span>
+        </span>
+        <h3>
+          <span data-lang="en">Resource-aware scheduling</span>
+          <span data-lang="zh">資源感知排程</span>
+        </h3>
+        <p>
+          <span data-lang="en">
+            Today, <code>Block::Parallel</code> branches run in parallel only when they
+            happen to touch independent instruments on the same bench. The scheduler
+            can't see what's idle on the other benches in the fleet.
+          </span>
+          <span data-lang="zh">
+            目前 <code>Block::Parallel</code> 只在恰好打到同一工作台上不同儀器的分支才真的並行。
+            排程器看不到叢集裡其他工作台有哪些儀器正閒著。
+          </span>
+        </p>
+        <p>
+          <span data-lang="en">
+            The plan: tag each step with the instruments it claims, let the scheduler
+            see live availability across the fleet, and <em class="txt-amber">fan
+            independent steps onto idle benches</em> — shortening the wall-clock time
+            of a long sequence without changing what the sequence describes.
+          </span>
+          <span data-lang="zh">
+            計劃：每個步驟標出它要佔用的儀器，排程器看著整個叢集的即時可用性，
+            <em class="txt-amber">把彼此無關的步驟散到閒置的工作台上跑</em>，
+            在不改 sequence 邏輯的前提下壓縮一條長測試的牆鐘時間。
+          </span>
+        </p>
+        <div class="extends">
+          <span data-lang="en">extends → <strong>Block::Parallel</strong> · fleet broker</span>
+          <span data-lang="zh">延伸自 → <strong>Block::Parallel</strong> · 叢集 broker</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <!-- ── Footer / colofon ────────────────────────────────────────── -->
 <footer>
   <div class="wrap">
@@ -1583,6 +1810,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
         <li><a href="#tour"><span data-lang="en">Product tour</span><span data-lang="zh">介面導覽</span></a></li>
         <li><a href="#arch"><span data-lang="en">Architecture</span><span data-lang="zh">系統架構</span></a></li>
         <li><a href="#design"><span data-lang="en">Design highlights</span><span data-lang="zh">設計重點</span></a></li>
+        <li><a href="#next"><span data-lang="en">Roadmap</span><span data-lang="zh">下一步</span></a></li>
       </ul>
     </div>
   </div>
