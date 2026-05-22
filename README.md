@@ -6,7 +6,8 @@ Personal portfolio of Tom Huang — small, sharp tools for real engineering prob
 
 ## Projects
 
-- **[benchpress](./benchpress/)** — Windows desktop app (Rust + Dioxus) that controls bench instruments over GPIB / Ethernet and composes test sequences from drag-and-drop blocks. Built to retire a LabVIEW station.
+- **[benchpress](./benchpress/)** — Windows desktop app (Rust + Dioxus) that controls bench instruments over GPIB / Ethernet and composes test sequences from drag-and-drop blocks. Built to replace a LabVIEW station.
+- **[tujia pos](./pos/)** — Local-first, cross-platform POS for a family bakery (Rust + Dioxus on Android / iPad / Windows).
 
 ## Structure
 
