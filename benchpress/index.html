@@ -863,7 +863,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
       <span data-lang="zh">
         <strong>benchpress</strong> 是一個 Windows 桌面應用程式，透過 GPIB / Ethernet 控制儀器，
         讓工程師把測試流程拆成可拖拉的<em class="txt-phosphor">指令積木</em>，每次執行產出量測報告。
-        它取代的是一座既有的 LabVIEW 工作站——UI 跟儀器邏輯緊耦合、測試流程是寫死的 for-loop、
+        它取代的是一座既有的 LabVIEW 工作站，UI 跟儀器邏輯緊耦合、測試流程是寫死的 for-loop、
         設定檔放在版本控制看不到的地方。
       </span>
     </p>
@@ -904,7 +904,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
         </span>
         <span data-lang="zh">
           舊程式可以跑，工程師也能忍受。但每加一台儀器都是好幾天的接線工程，每個新測項都是一個新 VI，
-          跑一次測試所依賴的設定檔只存在那台工作站的 PC 裡。有三個具體的痛點推動了這次重寫——
+          跑一次測試所依賴的設定檔只存在那台工作站的 PC 裡。有三個具體的痛點推動了這次重寫，
           每一個都對應到一條明確的架構決策。
         </span>
       </p>
@@ -1025,7 +1025,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
           a typed in-memory registry, persist to plain TOML, and never duplicate logic.
         </span>
         <span data-lang="zh">
-          整套產品是一個執行檔，分成三個工作畫面——對應工程師日常裡三個不同的時刻。
+          整套產品是一個執行檔，分成三個工作畫面，對應工程師日常裡三個不同的時刻。
           它們共享一份型別嚴格的 in-memory registry、持久化成純 TOML、不重複任何邏輯。
         </span>
       </p>
@@ -1061,7 +1061,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
               <code>&lt;name&gt;_templates.toml</code> on disk.
             </span>
             <span data-lang="zh">
-              整個面板是 template-driven——沒有任何一台儀器有自己的 Rust 面板。
+              整個面板是 template-driven，沒有任何一台儀器有自己的 Rust 面板。
               動作樹上看到的所有內容，都來自磁碟上對應儀器的
               <code>&lt;name&gt;_templates.toml</code>。
             </span>
@@ -1189,7 +1189,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
               outside the app and survives <code>git diff</code> review like any other source.
             </span>
             <span data-lang="zh">
-              編目分頁。三個子表格——Instruments、Actions、Sequences——每個都由
+              編目分頁。三個子表格，Instruments、Actions、Sequences，每個都由
               <code>data_dir()</code> 下的一份 TOML 檔支撐。每一列都可以在 app 外面手動編輯，
               跟其他原始碼一樣可以被 <code>git diff</code> 審視。
             </span>
@@ -1202,7 +1202,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
               agree, and safety isn't a place to assume.
             </span>
             <span data-lang="zh">
-              每台儀器自己的 on-stop SCPI 也住在這裡——Chroma e-load 是 <code>LOAD OFF</code>、
+              每台儀器自己的 on-stop SCPI 也住在這裡，Chroma e-load 是 <code>LOAD OFF</code>、
               Keysight 是 <code>INP:STAT OFF</code>、ITECH 是 <code>INPut:STATe OFF</code>。
               所有權落在儀器層級，因為廠商之間沒有共識，而安全這件事不能用猜的。
             </span>
@@ -1318,7 +1318,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
           </span>
           <span data-lang="zh">
             <strong>不變式：</strong>UI 執行緒不會 await 任何一個 VISA 呼叫。
-            scope 截圖或 30 秒 timeout 都不會凍結面板——所有儀器 I/O 都先經過
+            scope 截圖或 30 秒 timeout 都不會凍結面板，所有儀器 I/O 都先經過
             <code style="color:var(--phosphor)">spawn_blocking</code>，
             執行器看到的才是 <code style="color:var(--phosphor)">async fn</code>。
           </span>
@@ -1617,7 +1617,7 @@ html[lang="zh"] .lb-hint{font-family:var(--sans-zh);letter-spacing:0.08em;text-t
       </h2>
       <p class="lede">
         <span data-lang="en">
-          The current build already retires the LabVIEW station. The next three
+          The current build already replaces the LabVIEW station. The next three
           increments take it from "one engineer's bench" to a fleet-aware,
           LLM-augmented station any team in the lab can drive.
         </span>
