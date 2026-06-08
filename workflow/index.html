@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-en="How I work with Claude Code — Tom Huang" data-zh="我的 Claude Code 工作流與知識管理方法 — Tom Huang">我的 Claude Code 工作流與知識管理方法 — Tom Huang</title>
+<meta name="description"
+      data-en="A method note: write the spec clearly before you start, so the AI builds to spec instead of guessing. Start with Git, produce SPEC / SDD / ROADMAP with the AI, keep CLAUDE.md lean, and build with on-demand Skills."
+      data-zh="一篇方法論筆記：開工前先把規格寫清楚，讓 AI 照規格做，而不是瞎猜測做。先建 Git、跟 AI 產出 SPEC / SDD / ROADMAP 三份文件、寫精簡的 CLAUDE.md、搭配 Skill 開發。"
+      content="一篇方法論筆記：開工前先把規格寫清楚，讓 AI 照規格做，而不是瞎猜測做。先建 Git、跟 AI 產出 SPEC / SDD / ROADMAP 三份文件、寫精簡的 CLAUDE.md、搭配 Skill 開發。" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset / base ────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* ── Tokens ──────────────────────────────────────────────────────── */
+:root{
+  --bg:        #0a0c12;
+  --bg-elev:   #11141d;
+  --bg-card:   #161a25;
+  --ink:       #ebe8df;
+  --ink-2:     #9a978c;
+  --ink-3:     #5a5c66;
+  --rule:      #232735;
+  --rule-soft: #1a1d28;
+  --phosphor:  #6fe3b8;
+  --phosphor-d:#2a8a6c;
+  --amber:     #f4c47a;
+  --amber-d:   #b88440;
+  --grat:      rgba(111,227,184,0.045);
+  --grat-mid:  rgba(111,227,184,0.10);
+  --serif:     "Instrument Serif", "EB Garamond", Georgia, serif;
+  --serif-zh:  "Noto Serif TC", "Instrument Serif", "PMingLiU", serif;
+  --mono:      "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --sans-zh:   "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+
+/* ── Globals ─────────────────────────────────────────────────────── */
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:15px;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+a{color:var(--phosphor);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+a:hover{border-bottom-color:var(--phosphor)}
+::selection{background:var(--phosphor);color:var(--bg)}
+code,.mono{font-family:var(--mono)}
+
+/* ── Bilingual visibility + fonts ────────────────────────────────── */
+html[lang="en"] [data-lang="zh"]{display:none}
+html[lang="zh"] [data-lang="en"]{display:none}
+html[lang="zh"] body{font-family:var(--sans-zh)}
+
+.h-display,.h-section,.thesis p,.col h3,.col blockquote,.col .quote{font-family:var(--serif)}
+html[lang="zh"] .h-display,
+html[lang="zh"] .h-section,
+html[lang="zh"] .thesis p,
+html[lang="zh"] .col h3,
+html[lang="zh"] .col blockquote,
+html[lang="zh"] .col .quote{font-family:var(--serif-zh)}
+
+/* ── Layout primitives ───────────────────────────────────────────── */
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* ── Typography ──────────────────────────────────────────────────── */
+.h-display{
+  font-weight:500;
+  font-size:clamp(40px,6.4vw,86px);
+  line-height:1.12;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+  margin:0;
+}
+.h-display em{font-style:normal;color:var(--phosphor)}
+.h-section{
+  font-weight:500;
+  font-size:clamp(30px,4.2vw,52px);
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  margin:0;
+}
+.h-section em{font-style:normal;color:var(--amber)}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--phosphor);
+}
+.eyebrow .dim{color:var(--ink-3)}
+.kicker{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.mono{font-family:var(--mono)}
+.txt-amber{color:var(--amber)}
+.txt-phosphor{color:var(--phosphor)}
+
+/* ── Top bar ─────────────────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,12,18,0.85);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.topbar .wrap{
+  display:flex;align-items:center;gap:24px;
+  padding-top:16px;padding-bottom:16px;
+  font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-2);
+}
+.brand{
+  font-family:var(--serif);
+  font-size:22px;letter-spacing:-0.01em;text-transform:none;
+  color:var(--ink);
+  display:flex;align-items:baseline;gap:10px;
+}
+.brand .dot{
+  display:inline-block;width:8px;height:8px;background:var(--phosphor);
+  border-radius:50%;
+  box-shadow:0 0 12px var(--phosphor);
+  animation:pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 12px var(--phosphor)}
+  50%{opacity:0.55;box-shadow:0 0 18px var(--phosphor)}
+}
+.topbar nav{margin-left:auto;display:flex;gap:24px;align-items:center}
+.topbar nav a{color:var(--ink-2);border:0;font-family:var(--mono)}
+.topbar nav a:hover{color:var(--ink)}
+.tag{color:var(--ink-3);font-family:var(--mono)}
+
+/* Language toggle button */
+.lang-toggle{
+  margin-left:6px;
+  display:inline-flex;align-items:center;gap:0;
+  background:transparent;
+  border:1px solid var(--rule);
+  color:var(--ink-3);
+  font-family:var(--mono);
+  font-size:11px;font-weight:500;letter-spacing:0.08em;
+  padding:5px 12px;
+  cursor:pointer;
+  transition:border-color .2s, color .2s;
+  text-transform:none;
+  user-select:none;
+}
+.lang-toggle:hover{border-color:var(--phosphor)}
+.lang-toggle:focus-visible{outline:1px solid var(--phosphor);outline-offset:2px}
+.lang-toggle .opt{color:var(--ink-3);transition:color .2s, text-shadow .2s;padding:0 2px}
+.lang-toggle .opt-sep{color:var(--ink-3);margin:0 6px;opacity:0.55}
+html[lang="en"] .lang-toggle .opt-en{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4)}
+html[lang="zh"] .lang-toggle .opt-zh{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4);font-family:var(--sans-zh)}
+
+/* ── Hero ────────────────────────────────────────────────────────── */
+.hero{
+  position:relative;
+  padding:108px 0 72px;
+  overflow:hidden;
+}
+.hero .graticule{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--grat) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grat) 1px, transparent 1px),
+    linear-gradient(var(--grat-mid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grat-mid) 1px, transparent 1px);
+  background-size:40px 40px, 40px 40px, 200px 200px, 200px 200px;
+  background-position:-1px -1px;
+  mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
+  pointer-events:none;
+}
+.hero .scanline{
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent, var(--phosphor) 30%, var(--phosphor) 70%, transparent);
+  opacity:0.18;
+  animation:scan 9s linear infinite;
+  pointer-events:none;
+}
+@keyframes scan{0%{top:0%}100%{top:100%}}
+
+.hero-inner{position:relative;z-index:2}
+.hero .preheading{
+  display:flex;gap:14px;align-items:center;margin-bottom:44px;
+  animation:fadeUp .8s .05s both;
+  flex-wrap:wrap;
+}
+.hero h1{
+  margin:0 0 32px;
+  max-width:20ch;
+  animation:fadeUp .9s .15s both;
+}
+html[lang="en"] .hero h1{max-width:16ch}
+.hero .lede{
+  font-size:16px;
+  line-height:1.9;
+  color:var(--ink-2);
+  max-width:60ch;
+  margin:0 0 24px;
+  animation:fadeUp .9s .25s both;
+}
+.hero .lede strong{color:var(--ink);font-weight:500}
+.hero .lede em{font-style:normal;color:var(--phosphor)}
+
+.stack{display:flex;flex-wrap:wrap;gap:8px;animation:fadeUp .9s .35s both;margin-top:36px}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;
+  border:1px solid var(--rule);
+  background:var(--bg-elev);
+  font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--ink-2);
+  border-radius:999px;
+}
+.chip .dot{
+  width:5px;height:5px;border-radius:50%;background:var(--phosphor);
+  box-shadow:0 0 6px var(--phosphor);
+}
+.chip.amber .dot{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px)}
+  to  {opacity:1;transform:translateY(0)}
+}
+
+/* ── Thesis band ─────────────────────────────────────────────────── */
+.thesis{
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:56px 0;
+}
+.thesis .wrap{max-width:900px}
+.thesis p{
+  margin:0;
+  font-weight:500;
+  font-size:clamp(20px,2.6vw,30px);
+  line-height:1.6;
+  letter-spacing:0.01em;
+  color:var(--ink);
+}
+.thesis p strong{color:var(--phosphor);font-weight:600}
+.thesis .src{
+  display:block;margin-top:22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+/* ── Section frame ───────────────────────────────────────────────── */
+section{padding:88px 0;position:relative}
+.thesis + section,section + section{border-top:1px solid var(--rule)}
+.section-head{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:48px;
+  margin:0 0 44px;
+  align-items:start;
+}
+.section-head .kicker{padding-top:14px}
+.section-head h2{margin:0}
+@media (max-width:820px){
+  .section-head{grid-template-columns:1fr;gap:14px}
+}
+
+/* ── Blog prose ──────────────────────────────────────────────────── */
+.prose{
+  display:grid;
+  grid-template-columns:200px minmax(0,1fr);
+  gap:48px;
+}
+.prose > .col{grid-column:2;max-width:68ch}
+@media (max-width:820px){
+  .prose{grid-template-columns:1fr}
+  .prose > .col{grid-column:1}
+}
+.col p{
+  margin:0 0 20px;
+  color:var(--ink-2);
+  font-size:15px;
+  line-height:1.92;
+}
+.col p:last-child{margin-bottom:0}
+.col p strong{color:var(--ink);font-weight:600}
+.col p em{font-style:normal;color:var(--phosphor);font-weight:500}
+.col code{
+  background:var(--bg-elev);padding:1px 6px;border:1px solid var(--rule);
+  color:var(--phosphor);font-size:12.5px;border-radius:3px;
+}
+.col h3{
+  font-weight:600;font-size:24px;line-height:1.3;
+  letter-spacing:-0.005em;margin:40px 0 16px;color:var(--ink);
+}
+.col h3:first-child{margin-top:0}
+.col ul{list-style:none;padding:0;margin:0 0 20px}
+.col ul li{
+  position:relative;padding-left:22px;margin:0 0 12px;
+  color:var(--ink-2);font-size:15px;line-height:1.85;
+}
+.col ul li::before{
+  content:"";position:absolute;left:2px;top:13px;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--phosphor);box-shadow:0 0 6px var(--phosphor);
+}
+.col ul li strong{color:var(--ink);font-weight:600}
+
+/* EARS / pull quote */
+.col blockquote,.col .quote{
+  border-left:2px solid var(--amber);
+  padding:10px 0 10px 20px;margin:24px 0;
+  color:var(--ink);font-weight:500;
+  font-size:18px;line-height:1.6;
+}
+.col blockquote strong,.col .quote strong{color:var(--amber);font-weight:600}
+
+/* Document spec cards (SPEC / SDD / ROADMAP) */
+.doc{
+  border:1px solid var(--rule);
+  background:var(--bg-elev);
+  padding:24px 26px;
+  margin:0 0 20px;
+}
+.doc-name{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.doc-name code{
+  font-family:var(--mono);font-size:13px;
+  background:var(--bg-card);border:1px solid var(--rule);
+  color:var(--phosphor);padding:3px 9px;border-radius:3px;
+}
+.doc-name .what{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+.doc p{margin:0 0 14px;color:var(--ink-2);font-size:14.5px;line-height:1.88}
+.doc p:last-child{margin-bottom:0}
+.doc .quote{margin:16px 0 0;font-size:17px}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+footer{
+  padding:64px 0 80px;
+  border-top:1px solid var(--rule);
+}
+footer .wrap{
+  display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;align-items:start;
+}
+footer .colofon{font-family:var(--mono);font-size:12px;color:var(--ink-3);line-height:1.9;letter-spacing:0.02em}
+footer .colofon .label{display:block;color:var(--ink-2);text-transform:uppercase;letter-spacing:0.18em;font-size:10px;margin-bottom:8px;font-family:var(--mono)}
+footer h4{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 14px;font-weight:500;
+}
+footer ul{list-style:none;padding:0;margin:0;font-family:var(--mono);font-size:12px}
+footer li{padding:4px 0}
+footer li a{color:var(--ink-2)}
+footer li a:hover{color:var(--ink)}
+.sigil{
+  font-family:var(--serif);font-size:48px;line-height:1;color:var(--ink);
+  margin-bottom:14px;
+}
+.sigil em{font-style:italic;color:var(--phosphor)}
+@media (max-width:780px){
+  footer .wrap{grid-template-columns:1fr;gap:32px}
+}
+
+/* ── Small screens ───────────────────────────────────────────────── */
+@media (max-width:680px){
+  .topbar nav{gap:14px}
+  .topbar nav a{display:none}
+  .topbar nav .lang-toggle{display:inline-flex}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Top bar ─────────────────────────────────────────────────── -->
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>workflow</div>
+    <span class="tag">
+      <span data-lang="en">// method note · 2026</span>
+      <span data-lang="zh">// 方法論筆記 · 2026</span>
+    </span>
+    <nav>
+      <a href="#start"><span data-lang="en">Start</span><span data-lang="zh">起手式</span></a>
+      <a href="#docs"><span data-lang="en">Docs</span><span data-lang="zh">三份文件</span></a>
+      <a href="#skills">Skill</a>
+      <a href="#why"><span data-lang="en">Why</span><span data-lang="zh">為什麼</span></a>
+      <button id="langToggle" class="lang-toggle" type="button" aria-label="Toggle language / 切換語言">
+        <span class="opt opt-en">EN</span>
+        <span class="opt-sep">/</span>
+        <span class="opt opt-zh">中</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Hero ────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="graticule"></div>
+  <div class="scanline"></div>
+
+  <div class="wrap hero-inner">
+    <div class="preheading">
+      <span class="eyebrow">
+        <span data-lang="en">Portfolio <span class="dim">/ How I work with Claude Code</span></span>
+        <span data-lang="zh">作品集 <span class="dim">/ 我的 Claude Code 工作流與知識管理方法</span></span>
+      </span>
+    </div>
+
+    <h1 class="h-display">
+      <span data-lang="en">Build to <em>spec</em>,<br />not to <em>guesswork</em>.</span>
+      <span data-lang="zh">讓 AI 照<em>規格</em>做，<br />而不是照<em>猜測</em>做。</span>
+    </h1>
+
+    <p class="lede">
+      <span data-lang="en">
+        Code with AI long enough and you hit the same thing. You toss out "build me a login
+        feature," it starts writing code immediately, and halfway through you realize the
+        database, error handling and edge cases it assumed are all wrong. Or it says
+        <strong>"bug fixed"</strong> — but it still breaks on run, and now there's a side
+        effect somewhere else too. Given a vague wish, an LLM can only fill the gaps with
+        whatever <em>looks plausible</em>.
+      </span>
+      <span data-lang="zh">
+        用 AI 寫程式久了，大概都遇過同一件事。丟一句「幫我做個登入功能」，它馬上開始寫 code，
+        寫到一半才發現它假設的資料庫、錯誤處理、邊界條件全都不是想要的。或者它說
+        <strong>「bug 修好了」</strong>，但一跑還是壞的，甚至某個地方又出現副作用。
+        一句模糊的願望，LLM 只能用<em>「看起來合理」</em>的東西填補空白。
+      </span>
+    </p>
+
+    <div class="stack">
+      <span class="chip"><span class="dot"></span>Claude Code</span>
+      <span class="chip"><span class="dot"></span>
+        <span data-lang="en">git init first</span><span data-lang="zh">git init 起手</span>
+      </span>
+      <span class="chip"><span class="dot"></span>SPEC · SDD · ROADMAP</span>
+      <span class="chip amber"><span class="dot"></span>
+        <span data-lang="en">lean CLAUDE.md</span><span data-lang="zh">精簡 CLAUDE.md</span>
+      </span>
+      <span class="chip amber"><span class="dot"></span>
+        <span data-lang="en">on-demand Skills</span><span data-lang="zh">按需載入的 Skill</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Thesis band ─────────────────────────────────────────────── -->
+<div class="thesis">
+  <div class="wrap">
+    <p>
+      <span data-lang="en">
+        My approach: <strong>write the spec clearly before you start, so the
+        AI builds to spec instead of guessing.</strong> Here's how I open every new project.
+      </span>
+      <span data-lang="zh">
+        我的作法是：<strong>開工前先把規格寫清楚，讓 AI 照規格做，而不是瞎猜測做。</strong>
+        下面是我每個新專案的起手式。
+      </span>
+    </p>
+  </div>
+</div>
+
+<!-- ── Step 1 · Git ────────────────────────────────────────────── -->
+<section id="start">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">
+        <span data-lang="en">§ 01 · Step one</span>
+        <span data-lang="zh">§ 01 · 第一步</span>
+      </span>
+      <h2 class="h-section">
+        <span data-lang="en">Start with <em>Git</em>.</span>
+        <span data-lang="zh">先<em>建 Git</em>。</span>
+      </h2>
+    </div>
+    <div class="prose">
+      <div class="col">
+        <p>
+          <span data-lang="en">The very first thing in a new folder is <code>git init</code>.</span>
+          <span data-lang="zh">開新資料夾第一件事就是 <code>git init</code>。</span>
+        </p>
+        <p>
+          <span data-lang="en">
+            Claude Code has its own
+            <a href="https://code.claude.com/docs/zh-TW/best-practices#使用檢查點倒帶" target="_blank" rel="noopener">rewind / checkpoint mechanism</a>
+            — it snapshots your files before each prompt, and a double-tap of <code>Esc</code>
+            rolls them back. Handy, but it only tracks Claude's edits (not what you ran by
+            hand), and it can't cross machines, branch, or support collaboration.
+            <strong>It's a tool for "undo within this session," not version control.</strong>
+          </span>
+          <span data-lang="zh">
+            Claude Code 自己有
+            <a href="https://code.claude.com/docs/zh-TW/best-practices#使用檢查點倒帶" target="_blank" rel="noopener">rewind / checkpoint 機制</a>，
+            每個 prompt 前會自動 snapshot 檔案，按兩下 <code>Esc</code> 就能倒回去。方便，但它只追蹤
+            Claude 的改動，不含你手動跑的東西，也不能跨機器、不能開分支、不能多人協作。
+            <strong>它是「這次 session 內反悔」的工具，不是版本控制。</strong>
+          </span>
+        </p>
+        <p>
+          <span data-lang="en">Git fills the gaps:</span>
+          <span data-lang="zh">Git 補足了：</span>
+        </p>
+        <ul>
+          <li>
+            <span data-lang="en"><strong>branch</strong> — one per feature / issue; botch it, delete it, start over, and the mainline stays clean.</span>
+            <span data-lang="zh"><strong>branch</strong>：每個 feature / issue 開一條，做壞了砍掉重來，主線永遠乾淨。</span>
+          </li>
+          <li>
+            <span data-lang="en"><strong>Full history</strong> — every commit ties to a ROADMAP step, so three months later you can still trace why it was written this way.</span>
+            <span data-lang="zh"><strong>完整歷史</strong>：每個 commit 連到一個 ROADMAP 步驟，三個月後還能追為什麼這樣寫。</span>
+          </li>
+          <li>
+            <span data-lang="en"><strong>Reviewable diffs</strong> — a reviewer (human or AI) sees only what changed, not the reasoning that produced it.</span>
+            <span data-lang="zh"><strong>可回溯的 diff</strong>：reviewer（人或 AI）只看改了什麼，不看產生改動的推理過程。</span>
+          </li>
+          <li>
+            <span data-lang="en"><strong>Across sessions / machines</strong> — close the terminal and checkpoints are gone; only git remains.</span>
+            <span data-lang="zh"><strong>跨 session / 跨機器</strong>：checkpoint 關掉終端就只剩 git。</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Step 2 · Three docs ─────────────────────────────────────── -->
+<section id="docs">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">
+        <span data-lang="en">§ 02 · Step two</span>
+        <span data-lang="zh">§ 02 · 第二步</span>
+      </span>
+      <h2 class="h-section">
+        <span data-lang="en">Talk it through with AI,<br /><em>produce three documents</em>.</span>
+        <span data-lang="zh">跟 AI 反覆討論，<br /><em>產出三份文件</em>。</span>
+      </h2>
+    </div>
+    <div class="prose">
+      <div class="col">
+        <p>
+          <span data-lang="en">Before starting, I go back and forth with the AI, aiming to produce three spec documents.</span>
+          <span data-lang="zh">開工前會跟 AI 來回討論，目標是產出三份規格文件。</span>
+        </p>
+
+        <div class="doc">
+          <div class="doc-name">
+            <code>SPEC.md</code>
+            <span class="what">
+              <span data-lang="en">requirements as unambiguous sentences</span>
+              <span data-lang="zh">把需求寫成沒有歧義的句子</span>
+            </span>
+          </div>
+          <p>
+            <span data-lang="en">
+              The biggest problem with requirements is "I thought I was clear." Use
+              <a href="https://alistairmavin.com/ears/" target="_blank" rel="noopener">EARS (Easy Approach to Requirements Syntax)</a>
+              to recast each requirement into a <code>WHEN</code> / <code>THEN</code> / <code>SHALL</code> structure:
+            </span>
+            <span data-lang="zh">
+              需求最大的問題是「我以為我講清楚了」。用
+              <a href="https://alistairmavin.com/ears/" target="_blank" rel="noopener">EARS（Easy Approach to Requirements Syntax）</a>
+              把每條需求轉成 <code>WHEN</code>、<code>THEN</code>、<code>SHALL</code> 的結構：
+            </span>
+          </p>
+          <div class="quote">
+            <span data-lang="en">
+              <strong>WHEN</strong> a user enters the wrong password 5 times in a row,
+              <strong>THEN</strong> the login system <strong>SHALL</strong> lock the account for 15 minutes.
+            </span>
+            <span data-lang="zh">
+              <strong>WHEN</strong> 使用者連續輸入錯誤密碼 5 次，<strong>THEN</strong>
+              登入系統 <strong>SHALL</strong> 鎖定帳號 15 分鐘。
+            </span>
+          </div>
+        </div>
+
+        <div class="doc">
+          <div class="doc-name">
+            <code>SDD.md</code>
+            <span class="what">
+              <span data-lang="en">how the system is built</span>
+              <span data-lang="zh">系統怎麼長</span>
+            </span>
+          </div>
+          <p>
+            <span data-lang="en">
+              SPEC says "what to build"; the SDD (Software Design Document) says "how." Here you
+              fix the system architecture, data structures, data flow, error handling, and the
+              automated tests and acceptance criteria.
+            </span>
+            <span data-lang="zh">
+              SPEC 講「要做什麼」，SDD（Software Design Document）講「怎麼做」。在這裡定下系統架構、
+              資料結構、資料流程、錯誤處理、以及自動測試與驗收標準。
+            </span>
+          </p>
+          <p>
+            <span data-lang="en">
+              The most valuable part of this document is <strong>error handling and acceptance</strong>.
+              AI is great at the happy path; what it most often misses is "what happens when it fails"
+              and "what counts as done." Write those two into the SDD before touching code, and they
+              won't turn into hard-to-trace bugs later.
+            </span>
+            <span data-lang="zh">
+              這份文件最值錢的地方是<strong>錯誤處理跟驗收</strong>。AI 很會寫 happy path，
+              最容易漏的就是「出錯時怎麼辦」和「怎麼算做完」。把這兩塊在動手前就寫進 SDD，
+              後面才不會變成難以追蹤的 bug。
+            </span>
+          </p>
+        </div>
+
+        <div class="doc">
+          <div class="doc-name">
+            <code>ROADMAP.md</code>
+            <span class="what">
+              <span data-lang="en">broken into trackable steps</span>
+              <span data-lang="zh">拆成可追蹤的步驟</span>
+            </span>
+          </div>
+          <p>
+            <span data-lang="en">
+              Break implementation into a numbered checklist of steps, each small enough to finish
+              and verify on its own, each linked to its git commit.
+            </span>
+            <span data-lang="zh">
+              把實作拆成編號步驟 checklist，每步小到可以獨立完成、獨立驗證，並且連到對應的 git commit。
+            </span>
+          </p>
+          <p>
+            <span data-lang="en">
+              The key is that the numbers stay <strong>permanently stable</strong>. Once it's in the
+              ROADMAP, <code>issue/12</code> is always Step 12; to split it, use <code>12a</code> /
+              <code>12b</code> — never renumber. For steps you won't do, leave a placeholder with one
+              line on why, instead of silently deleting them. Then half a year later, every commit in
+              git log still maps back to the original plan.
+            </span>
+            <span data-lang="zh">
+              關鍵是編號要<strong>永久穩定</strong>。一旦寫進 ROADMAP，<code>issue/12</code> 永遠是
+              Step 12，要拆分用 <code>12a</code> / <code>12b</code>，不重新流水號；不做的步驟留
+              placeholder 加一行說明為什麼不做，不要默默刪掉。這樣半年後翻 git log，
+              每個 commit 都還對得回當初的規劃。
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Step 3 · CLAUDE.md ──────────────────────────────────────── -->
+<section id="contract">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">
+        <span data-lang="en">§ 03 · Step three</span>
+        <span data-lang="zh">§ 03 · 第三步</span>
+      </span>
+      <h2 class="h-section">
+        <span data-lang="en">Write a project-level<br /><em>CLAUDE.md</em>.</span>
+        <span data-lang="zh">寫專案層級的<br /><em>CLAUDE.md</em>。</span>
+      </h2>
+    </div>
+    <div class="prose">
+      <div class="col">
+        <p>
+          <span data-lang="en">
+            <code>CLAUDE.md</code> is the contract the AI reads at the start of every session. Use it
+            to keep the three documents above <strong>always up to date</strong>: require the AI, on
+            finishing each ROADMAP step, to go back, tick the matching checkbox, and update the
+            "Currently working on" line at the top.
+          </span>
+          <span data-lang="zh">
+            <code>CLAUDE.md</code> 是 AI 每個 session 開頭都會讀的契約。用它來確保上面三份文件的狀態
+            <strong>永遠 up to date</strong>：規定 AI 每完成一個 ROADMAP 步驟，
+            就要回去把對應的 checkbox 打勾、把頂端的「Currently working on」更新。
+          </span>
+        </p>
+        <p>
+          <span data-lang="en">
+            Writing a CLAUDE.md has a counterintuitive rule: <strong>shorter is better</strong>. The
+            official guidance is under 200 lines; past 300, the AI starts dropping signals. The test
+            for each line is "if I removed this, would the AI make a mistake?" — if not, cut it. A
+            bloated CLAUDE.md isn't safer; it drowns the rules that actually matter in noise.
+          </span>
+          <span data-lang="zh">
+            寫 CLAUDE.md 有個反直覺的原則：<strong>越短越好</strong>。官方建議 200 行內，
+            超過 300 行 AI 開始遺漏信號。判斷標準是每一行都問自己「拿掉這行，AI 會犯錯嗎？」
+            不會就砍掉。膨脹的 CLAUDE.md 不是更安全，是讓真正重要的規則被雜訊淹沒。
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Step 4 · Skills ─────────────────────────────────────────── -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">
+        <span data-lang="en">§ 04 · Step four</span>
+        <span data-lang="zh">§ 04 · 第四步</span>
+      </span>
+      <h2 class="h-section">
+        <span data-lang="en">Build with <em>Skills</em>.</span>
+        <span data-lang="zh">搭配 <em>Skill</em> 開發。</span>
+      </h2>
+    </div>
+    <div class="prose">
+      <div class="col">
+        <p>
+          <span data-lang="en">
+            A Skill is an on-demand workflow; CLAUDE.md is an always-on rule. Putting skill-shaped
+            things into CLAUDE.md just wastes context. My regular set:
+          </span>
+          <span data-lang="zh">
+            Skill 是按需載入的工作流，CLAUDE.md 是永遠開著的規則。該放 skill 的東西放進 CLAUDE.md
+            只是白白佔 context。我固定搭這幾個：
+          </span>
+        </p>
+
+        <h3><code>AskUserQuestion</code></h3>
+        <p>
+          <span data-lang="en">
+            When producing the SDD, I let the AI interview me instead. I give a minimal description
+            and have it use this tool to ask — one at a time — about technical implementation, UI,
+            edge cases and trade-offs, drilling into points I hadn't even thought of, and only then
+            write the SDD.
+          </span>
+          <span data-lang="zh">
+            產 SDD 時讓 AI 反過來訪談我。我給最小的描述，叫它用這個工具一條一條問技術實作、UI、
+            邊界條件、取捨，問到我自己都沒想過的點，最後才寫成 SDD。
+          </span>
+        </p>
+
+        <h3><code>test-driven-development</code></h3>
+        <p>
+          <span data-lang="en">
+            From obra's
+            <a href="https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md" target="_blank" rel="noopener">superpowers</a>.
+            It enforces Red-Green-Refactor: write a failing test first, then write code to pass it, no
+            skipping steps. Before the test you ask "what <strong>should</strong> this do"; after, "what
+            does it <strong>actually</strong> do" — two different questions. With a test that
+            passes / fails, the AI can run its own verification loop.
+          </span>
+          <span data-lang="zh">
+            來自 obra 的
+            <a href="https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md" target="_blank" rel="noopener">superpowers</a>。
+            強制 Red-Green-Refactor：先寫會失敗的測試，再寫 code 讓它通過，不准跳步。測試前問的是
+            「這東西<strong>應該</strong>做什麼」，測試後問的是「這東西<strong>實際</strong>做了什麼」，
+            這是兩個不同的問題。有了會 pass / fail 的測試，AI 就能自己跑驗證迴圈。
+          </span>
+        </p>
+
+        <h3><code>karpathy-guidelines</code></h3>
+        <p>
+          <span data-lang="en">
+            <a href="https://github.com/multica-ai/andrej-karpathy-skills/tree/main" target="_blank" rel="noopener">Karpathy's</a>
+            four general principles: think before writing, simple first, surgical changes, goal-driven
+            execution. A cure for AI over-design, drive-by edits to unrelated code, and needless layers
+            of abstraction.
+          </span>
+          <span data-lang="zh">
+            <a href="https://github.com/multica-ai/andrej-karpathy-skills/tree/main" target="_blank" rel="noopener">Karpathy 整理</a>
+            的四條通用準則：先想再寫、簡單優先、外科手術式改動、目標驅動執行。專治 AI 過度設計、
+            順手改不相干的 code、加多餘的抽象層。
+          </span>
+        </p>
+
+        <h3><code>obsidian-vault</code></h3>
+        <p>
+          <span data-lang="en">
+            A note-taking skill I built so Claude understands my Obsidian folder structure (Inbox for
+            scratch, Notes for my own writing, Resource for external material, Index for topic indexes).
+            Pitfalls, decisions and research insights from development get filed and turned into notes
+            automatically. When the project's done, the knowledge settles with it — instead of getting
+            lost in chat logs you can't fish back out.
+          </span>
+          <span data-lang="zh">
+            自建的筆記 skill，讓 Claude 懂我的 Obsidian 資料夾結構（Inbox 暫存、Notes 自寫、
+            Resource 外部、Index 主題索引），開發過程中的踩坑、決策、研究心得都能自動歸位整理成筆記。
+            專案做完，知識也跟著沉澱下來，不會散在對話紀錄裡撈不回來。
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Why ─────────────────────────────────────────────────────── -->
+<section id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">
+        <span data-lang="en">§ 05 · The point</span>
+        <span data-lang="zh">§ 05 · 收束</span>
+      </span>
+      <h2 class="h-section">
+        <span data-lang="en">Why <em>bother</em> with all this.</span>
+        <span data-lang="zh">為什麼要<em>這麼麻煩</em>。</span>
+      </h2>
+    </div>
+    <div class="prose">
+      <div class="col">
+        <p>
+          <span data-lang="en">
+            Writing three documents, setting up skills, insisting on stable ROADMAP numbers — it looks
+            like it slows down the start. But the real value of this process isn't the "documents"
+            themselves; it's that it <strong>forces you to think a vague idea through</strong>.
+          </span>
+          <span data-lang="zh">
+            寫三份文件、設 skill、堅持 ROADMAP 編號，看起來像在拖慢開工。但這套流程真正的價值不在
+            「文件」本身，而在它<strong>逼你把模糊的想法想清楚</strong>。
+          </span>
+        </p>
+        <p>
+          <span data-lang="en">
+            AI amplifies discipline; it doesn't replace it. Give it a clear spec and it implements at
+            10×; give it a vague wish and it produces, at 10×, something that looks right and is
+            entirely wrong — and you spend even more time cleaning up.
+          </span>
+          <span data-lang="zh">
+            AI 放大的是紀律，不是取代紀律。你給它清楚的規格，它幫你十倍速實作；你給它模糊的願望，
+            它十倍速產出看起來對、實際全錯的東西，你還得花更多時間清理。
+          </span>
+        </p>
+        <blockquote>
+          <span data-lang="en">
+            For me, the most useful part of this opening ritual isn't the filenames — it's that it
+            turns "developing with AI" from "throw a request → get a blob of code → patch back and
+            forth" into "align on spec → AI runs to spec → I sign off."
+            <strong>The former is gambling; the latter is engineering.</strong>
+          </span>
+          <span data-lang="zh">
+            對我來說，這套起手式最有用的部分不是那幾個檔名，而是它讓「跟 AI 開發」從
+            「丟需求 → 收一坨 code → 來回修」變成「先對齊規格 → AI 照規格跑 → 我驗收」。
+            <strong>前者是賭運氣，後者是工程。</strong>
+          </span>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ──────────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="sigil">workflow<em>.</em></div>
+      <div class="colofon">
+        <span class="label">
+          <span data-lang="en">Colofon</span>
+          <span data-lang="zh">版本資訊</span>
+        </span>
+        <span data-lang="en">
+          Display in Instrument Serif / Noto Serif TC.<br />
+          Body and code in JetBrains Mono.<br />
+          A method note on working with Claude Code.<br />
+          Last updated 2026-06-08.
+        </span>
+        <span data-lang="zh">
+          標題：Noto Serif TC / Instrument Serif。<br />
+          內文與程式碼：JetBrains Mono。<br />
+          一篇關於 Claude Code 工作流的方法論筆記。<br />
+          最後更新 2026-06-08。
+        </span>
+      </div>
+    </div>
+    <div>
+      <h4>
+        <span data-lang="en">Evidence</span>
+        <span data-lang="zh">佐證</span>
+      </h4>
+      <ul>
+        <li><a href="../benchpress/"><span data-lang="en">benchpress case study</span><span data-lang="zh">benchpress 案例</span></a></li>
+        <li><a href="../pos/"><span data-lang="en">tujia pos case study</span><span data-lang="zh">tujia pos 案例</span></a></li>
+        <li><a href="https://github.com/COOMO" target="_blank" rel="noopener">github.com/COOMO</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>
+        <span data-lang="en">Sections</span>
+        <span data-lang="zh">段落</span>
+      </h4>
+      <ul>
+        <li><a href="#start"><span data-lang="en">Step 1 · Git</span><span data-lang="zh">第一步 · Git</span></a></li>
+        <li><a href="#docs"><span data-lang="en">Step 2 · Three docs</span><span data-lang="zh">第二步 · 三份文件</span></a></li>
+        <li><a href="#contract"><span data-lang="en">Step 3 · CLAUDE.md</span><span data-lang="zh">第三步 · CLAUDE.md</span></a></li>
+        <li><a href="#skills"><span data-lang="en">Step 4 · Skill</span><span data-lang="zh">第四步 · Skill</span></a></li>
+        <li><a href="../"><span data-lang="en">← back to portfolio</span><span data-lang="zh">← 回到作品集首頁</span></a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY = 'portfolio-lang';
+  function setLang(lang){
+    if (lang !== 'en' && lang !== 'zh') lang = 'en';
+    document.documentElement.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch(_){}
+    var t = document.querySelector('title');
+    if (t){
+      var tv = t.getAttribute('data-' + lang);
+      if (tv) t.textContent = tv;
+    }
+    var m = document.querySelector('meta[name="description"]');
+    if (m){
+      var mv = m.getAttribute('data-' + lang);
+      if (mv) m.setAttribute('content', mv);
+    }
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch(_){}
+  var initial = saved;
+  if (initial !== 'en' && initial !== 'zh'){
+    initial = (navigator.language || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+  }
+  setLang(initial);
+  var btn = document.getElementById('langToggle');
+  if (btn){
+    btn.addEventListener('click', function(){
+      setLang(document.documentElement.lang === 'en' ? 'zh' : 'en');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

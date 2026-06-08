@@ -245,11 +245,11 @@ html[lang="zh"] .hero h1{max-width:20ch}
 
 /* Placeholder card (future project slot) */
 .project.placeholder{
-  background:transparent;
+  background:var(--bg);
   border:1px dashed var(--rule);
   margin:-1px;
 }
-.project.placeholder:hover{background:transparent}
+.project.placeholder:hover{background:var(--bg)}
 .project.placeholder .h-card{color:var(--ink-3)}
 .project.placeholder .tagline{color:var(--ink-3)}
 
@@ -288,6 +288,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="brand"><span class="dot"></span><span>Tom</span></div>
     <nav>
       <a href="#work"><span data-lang="en">Work</span><span data-lang="zh">作品</span></a>
+      <a href="#notes"><span data-lang="en">Notes</span><span data-lang="zh">筆記</span></a>
       <a href="#contact"><span data-lang="en">Contact</span><span data-lang="zh">聯絡</span></a>
       <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">
         <span class="opt opt-en">EN</span><span class="opt-sep">/</span><span class="opt opt-zh">中</span>
@@ -364,6 +365,60 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <span data-lang="en">Open case study</span><span data-lang="zh">查看案例</span>
           <span class="arr">→</span>
         </span>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── NOTES ─────────────────── -->
+<section class="section" id="notes">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h-section">
+        <span data-lang="en">Notes</span>
+        <span data-lang="zh">筆記</span>
+      </h2>
+      <span class="count">001 / 001</span>
+    </div>
+
+    <div class="projects">
+
+      <article class="project">
+        <a class="cover" href="./workflow/" aria-label="Open AI workflow method note"></a>
+        <div class="meta">
+          <span class="status"><span data-lang="en">Living</span><span data-lang="zh">持續更新</span></span>
+          <span class="sep">·</span>
+          <span>2026</span>
+          <span class="sep">·</span>
+          <span><span data-lang="en">Method note</span><span data-lang="zh">方法論</span></span>
+        </div>
+        <h3 class="h-card">how i work with ai</h3>
+        <p class="tagline">
+          <span data-lang="en">How the two projects above actually got built — contracts before code, vertical slices, screenshot-driven iteration, verification gates. Quoting real prompts from the real development sessions.</span>
+          <span data-lang="zh">上面兩個專案實際被做出來的方式：契約先行、垂直切片、截圖驅動迭代、驗證閘門 — 引用的都是真實開發對話的原文。</span>
+        </p>
+        <div class="stack">
+          <span>Claude Code</span><span>CLAUDE.md</span><span>roadmap</span><span>skills</span><span>mock + HIL</span>
+        </div>
+        <span class="open">
+          <span data-lang="en">Read the note</span><span data-lang="zh">閱讀筆記</span>
+          <span class="arr">→</span>
+        </span>
+      </article>
+
+      <article class="project placeholder">
+        <div class="meta">
+          <span><span data-lang="en">Up next</span><span data-lang="zh">下一篇</span></span>
+        </div>
+        <h3 class="h-card">
+          <span data-lang="en">next topic</span>
+          <span data-lang="zh">下一個主題</span>
+        </h3>
+        <p class="tagline">
+          <span data-lang="en">More technical write-ups in the pipeline — deep dives into specific problems from the projects above.</span>
+          <span data-lang="zh">更多技術主題整理中 — 針對上面專案裡特定問題的深入拆解。</span>
+        </p>
       </article>
 
     </div>
