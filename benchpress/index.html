@@ -45,7 +45,6 @@
     <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
     <a href="#why"><span data-lang="en">Problem</span><span data-lang="zh">問題</span></a>
     <a href="#figures"><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></a>
-    <a href="#changes"><span data-lang="en">Changes</span><span data-lang="zh">變更</span></a>
     <a href="#features"><span data-lang="en">Features</span><span data-lang="zh">功能</span></a>
     <a href="#arch"><span data-lang="en">Architecture</span><span data-lang="zh">架構</span></a>
     <a href="#safety"><span data-lang="en">Safety</span><span data-lang="zh">安全</span></a>
@@ -206,52 +205,6 @@
       </div>
     </div>
 
-    <div class="cols" style="margin-top:36px">
-      <div class="c12">
-        <h3><span data-lang="en">Headless runs and the probe, from a terminal</span><span data-lang="zh">無頭執行與 probe，終端機輸出</span></h3>
-        <p class="muted"><span data-lang="en">Real output, 2026-10-01, no instrument connected. The mock run uses the same compiler, executor and report as the GUI.</span><span data-lang="zh">2026-10-01 的實際輸出，沒有接儀器。mock 執行用的是和 GUI 相同的編譯器、執行器和報告。</span></p>
-        <div class="code"><pre><span class="cm">$ benchpress.exe run test_parallel --mock</span>
-sequence "test_parallel": 5 steps, 1 blocks, instruments: (none)
-started
-&gt; 0
-&gt; 0.0.0
-  0.0.0 done in 977.3ms
-&gt; 0.0.1
-  0.0.1 done in 1.3s
-&gt; 0.0.2
-  0.0.2 done in 1.2s
-  0 done in 3.5s
-finished
-report …\sessions\test_parallel\20261001-172133\report.html
-
-<span class="cm">$ benchpress.exe probe RTB24 --timeout-ms 3000</span>
-key    RTB24 -&gt; TCPIP::169.254.12.131::INSTR
-probe  TCPIP::169.254.12.131::INSTR   (timeout 3000 ms)
-open   FAILED  9 ms   VISA error: viOpen(…): VI_ERROR_RSRC_NFOUND
-hint   VISA cannot see this address. GPIB: check the primary address on the
-       instrument's front panel, the cable, and that the card driver is installed.
-       LAN: ping the IP first, same subnet, VXI-11 / LXI enabled on the instrument.</pre></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec region" id="changes">
-    <div class="head">
-      <h2><span data-lang="en">Changes since the first screenshots</span><span data-lang="zh">第一批截圖之後的變更</span></h2>
-      <p class="muted mb-0"><span data-lang="en">From the git log. The portfolio first showed benchpress on 2026-05-21.</span><span data-lang="zh">取自 git log。作品集第一次放上 benchpress 是 2026-05-21。</span></p>
-    </div>
-    <table class="facts">
-      <caption class="sr"><span data-lang="en">Changelog</span><span data-lang="zh">變更紀錄</span></caption>
-      <tbody>
-        <tr><th scope="row">2026-09-10</th><td><span data-lang="en"><code>benchpress probe</code>: a field connection check for one VISA address, with a hint per error code. VISA reads honour END/EOI, so GPIB replies without a line feed no longer time out.</span><span data-lang="zh"><code>benchpress probe</code>：對一個 VISA 位址做現場連線檢查，每種錯誤碼附一句提示。VISA 讀取遵守 END/EOI，沒有換行的 GPIB 回覆不再逾時。</span></td></tr>
-        <tr><th scope="row">2026-09-06</th><td><span data-lang="en">Two-stage confirmation for dangerous Actions (<code>danger = true</code> in templates). Headless <code>benchpress run</code> with <code>--mock</code> or <code>--hardware</code>. The MCP server validates with the real compiler and can dry-run a sequence. The GUI watches the data folder; the Reload buttons are gone. Settings gains an MCP card.</span><span data-lang="zh">危險 Action 兩段確認（模板裡的 <code>danger = true</code>）。無頭 <code>benchpress run</code>，可選 <code>--mock</code> 或 <code>--hardware</code>。MCP server 用真正的編譯器驗證，並可 dry-run 序列。GUI 監看資料夾，Reload 按鈕移除。Settings 新增 MCP 區塊。</span></td></tr>
-        <tr><th scope="row">2026-09-05</th><td><span data-lang="en">MCP server first version: <code>benchpress-mcp.exe</code> reads, validates and writes the data folder. License seats are enforced through a signed machine list; the node lock keys off the Windows MachineGuid.</span><span data-lang="zh">MCP server 第一版：<code>benchpress-mcp.exe</code> 讀取、驗證、寫入資料夾。授權席次透過簽章的機器清單強制；機器鎖定改用 Windows MachineGuid。</span></td></tr>
-        <tr><th scope="row">2026-07-29</th><td><span data-lang="en">License pivot: the base app is free; a license unlocks premium feature flags.</span><span data-lang="zh">授權模式轉向：基礎功能免費，授權解鎖付費功能旗標。</span></td></tr>
-        <tr><th scope="row">2026-07-28</th><td><span data-lang="en">Roles and an audit trail. Offline licensing with a trial. Diagnostics bundle and daily-rotated logs. MSI signing hooks and a deployment guide. DUT serial, operator, sequence hash and calibration due dates in every run header. <code>PARALLEL</code> blocks with one lane per instrument. Shell steps in Bash and Python.</span><span data-lang="zh">角色與稽核紀錄。離線授權含試用期。診斷包與每日輪替的 log。MSI 簽章與部署指南。每次執行的表頭含 DUT 序號、操作者、序列雜湊、校正到期日。<code>PARALLEL</code> 積木，每台儀器一條車道。Shell 步驟支援 Bash 與 Python。</span></td></tr>
-        <tr><th scope="row">2026-05-19</th><td><span data-lang="en">Debugger: breakpoints, pause, step over, step into. Line numbers and a fixed gutter in the step list.</span><span data-lang="zh">除錯器：中斷點、暫停、逐步執行。步驟列表加行號和固定欄。</span></td></tr>
-        <tr><th scope="row">2026-05-15</th><td><span data-lang="en">Group blocks. Post-process editor with five methods. Native Python interpreter for shell steps. Variable and Print chips on the canvas.</span><span data-lang="zh">Group 積木。後處理編輯器，五種方法。Shell 步驟的原生 Python 直譯器。畫布上的 Variable 與 Print 標籤。</span></td></tr>
-      </tbody>
-    </table>
   </section>
 
   <section class="sec region" id="features">
@@ -319,8 +272,7 @@ hint   VISA cannot see this address. GPIB: check the primary address on the
           </tbody>
         </table>
         <ul class="list">
-          <li><span data-lang="en">The UI thread never awaits VISA. Every instrument call goes through <code>spawn_blocking</code>. A 30 s scope timeout cannot freeze Stop.</span><span data-lang="zh">UI 執行緒不 await VISA。每個儀器呼叫走 <code>spawn_blocking</code>。scope 30 秒 timeout 凍不住 Stop。</span></li>
-          <li><span data-lang="en">Phase 1 had one crate per instrument. After templates landed, 9 crates and 1,500 lines were deleted.</span><span data-lang="zh">第一階段一台儀器一個 crate。模板上線後刪掉 9 個 crate、1,500 行。</span></li>
+          <li><span data-lang="en">Instrument calls run on worker threads, not on the UI thread. The window stays responsive while an instrument is slow.</span><span data-lang="zh">儀器呼叫在工作執行緒上執行，不在 UI 執行緒。儀器回應慢時，視窗仍可操作。</span></li>
         </ul>
         <div class="code"><pre><span class="cm"># instruments.toml</span>
 <span class="k">schema_version</span> = <span class="n">1</span>
