@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T18:00:00+08:00",
+  "title": "Design System: Tom Huang · portfolio",
+  "extensions": {
+    "colorMeta": {
+      "mask": { "role": "neutral", "displayName": "Solder Mask, bare", "canonical": "#121314", "tonalRamp": ["#050505", "#0a0b0b", "#121314", "#1c1e1f", "#3a3a33", "#5c5848", "#a7a89f", "#f2f2ee"] },
+      "mask-cu": { "role": "neutral", "displayName": "Solder Mask over copper pour", "canonical": "#1c1e1f", "tonalRamp": ["#050505", "#0a0b0b", "#121314", "#1c1e1f", "#3a3a33", "#5c5848", "#a7a89f", "#f2f2ee"] },
+      "mask-deep": { "role": "neutral", "displayName": "Solder Mask, deep", "canonical": "#0a0b0b", "tonalRamp": ["#050505", "#0a0b0b", "#121314", "#1c1e1f", "#3a3a33", "#5c5848", "#a7a89f", "#f2f2ee"] },
+      "hole": { "role": "neutral", "displayName": "Drilled Hole", "canonical": "#050505", "tonalRamp": ["#050505", "#0a0b0b", "#121314", "#1c1e1f", "#3a3a33", "#5c5848", "#a7a89f", "#f2f2ee"] },
+      "silk": { "role": "neutral", "displayName": "Silkscreen", "canonical": "#f2f2ee", "tonalRamp": ["#1c1e1f", "#3a3a33", "#5c5848", "#7d7c70", "#a7a89f", "#cdcdc6", "#e3e3dc", "#f2f2ee"] },
+      "silk-2": { "role": "neutral", "displayName": "Silkscreen, second", "canonical": "#cdcdc6", "tonalRamp": ["#1c1e1f", "#3a3a33", "#5c5848", "#7d7c70", "#a7a89f", "#cdcdc6", "#e3e3dc", "#f2f2ee"] },
+      "silk-3": { "role": "neutral", "displayName": "Silkscreen, third", "canonical": "#a7a89f", "tonalRamp": ["#1c1e1f", "#3a3a33", "#5c5848", "#7d7c70", "#a7a89f", "#cdcdc6", "#e3e3dc", "#f2f2ee"] },
+      "trace": { "role": "secondary", "displayName": "Copper, under mask", "canonical": "#3a3a33", "tonalRamp": ["#0a0b0b", "#1c1e1f", "#2b2a24", "#3a3a33", "#5c5848", "#7d775f", "#a7a89f", "#cdcdc6"] },
+      "trace-2": { "role": "secondary", "displayName": "Copper, routed", "canonical": "#5c5848", "tonalRamp": ["#0a0b0b", "#1c1e1f", "#2b2a24", "#3a3a33", "#5c5848", "#7d775f", "#a7a89f", "#cdcdc6"] },
+      "gold": { "role": "primary", "displayName": "ENIG Gold", "canonical": "#d8b15a", "tonalRamp": ["#3a2c0c", "#5c4614", "#8a6a1c", "#b08f3c", "#d8b15a", "#e4c06a", "#efd99f", "#f8efd6"] },
+      "gold-lit": { "role": "primary", "displayName": "ENIG Gold, lit", "canonical": "#e4c06a", "tonalRamp": ["#3a2c0c", "#5c4614", "#8a6a1c", "#b08f3c", "#d8b15a", "#e4c06a", "#efd99f", "#f8efd6"] },
+      "gold-ink": { "role": "primary", "displayName": "Gold Ink", "canonical": "#15120c", "tonalRamp": ["#15120c", "#3a2c0c", "#5c4614", "#8a6a1c", "#b08f3c", "#d8b15a", "#e4c06a", "#f8efd6"] }
+    },
+    "printPalette": {
+      "mask": "#fff", "mask-cu": "#f3f3f1", "mask-deep": "#ececea", "silk": "#111", "silk-2": "#333", "silk-3": "#555", "trace": "#999", "trace-2": "#777", "gold": "#8a6a1c", "gold-ink": "#fff",
+      "removed": ["holes", "fiducials", "traces", "jumper"],
+      "boardOutline": "#999"
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The page name in the legend strip; one per page, uppercase; 40 px at <=600. Latin names keep this face on the Chinese sheet (h1.latin)." },
+      "headline": { "displayName": "Headline", "purpose": "Section heads on sheets and the method note's pin heads. Chinese: Noto Sans TC 600, line-height 1.2." },
+      "title": { "displayName": "Title", "purpose": "h3 in figure rows; BOM part links share the size (20 px on the landing). 19 px in decision rows." },
+      "one-liner": { "displayName": "One-liner", "purpose": "The single sentence beside a landing footprint (.show .one, 1.45) and the owner quote (.quote p, 1.5). Silk. Chinese 1.7." },
+      "body": { "displayName": "Body", "purpose": "Running copy, bullets, table cells; 66ch measure; 16 px at <=600." },
+      "kv": { "displayName": "KV value", "purpose": "Values in the landing's label/value lists; also block-diagram subtitles and task-loop cell text (1.35)." },
+      "label": { "displayName": "Label (silkscreen)", "purpose": "Designators, column heads, kv keys, status marks, figure numbers, DNP tags, pin numbers, the data line. Uppercase. Chinese: Noto Sans TC 500." },
+      "nav": { "displayName": "Nav / meta", "purpose": "Sheet navigation, jumper pins, the Open-sheet line; revision at .02em; figcaptions and attributions at 500, .03em, mixed case." },
+      "pad": { "displayName": "Pad", "purpose": "Gold pad labels and the J1 connector pin names. A pad's trailing value is Barlow 600 mixed case." },
+      "body-zh": { "displayName": "Body (zh-TW)", "purpose": "Replaces body under html[lang=zh]; same weights, line-height 1.75." },
+      "mono": { "displayName": "Mono", "purpose": "Code samples (.code pre, silk-2) and verbatim prompts (.prompt, silk, pre-wrap). Never for labels or UI. Chinese prompts fall back to Noto Sans TC 15 px / 1.75." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-trace-draw", "value": "cubic-bezier(.16,1,.3,1)", "purpose": "The single authored moment: copper traces draw once from BOM rows to footprints after document.fonts.ready (1500 ms fallback); 900 ms, 80 ms stagger, stroke-dashoffset from path length to 0. Redraws replay the draw until animationend (or a 1400 ms guard) and are static after. Reduced motion shows traces drawn." },
+      { "name": "duration-trace-draw", "value": "900ms", "purpose": "Length of the trace draw." },
+      { "name": "ease-state", "value": "cubic-bezier(.2,.8,.2,1)", "purpose": "Hover and state colour changes on pads, jumper pins, BOM rows, pin-1 dots." },
+      { "name": "duration-state", "value": "180ms", "purpose": "Duration for every hover and state transition (background, color, stroke, transform)." },
+      { "name": "pad-rise", "value": "translateY(-1px)", "purpose": "The only translation in the system: a gold pad on hover; active returns to rest." },
+      { "name": "continuity", "value": ".hot", "purpose": "mouseenter/focusin on a BOM row or its footprint toggles .hot on the row, path, vias and footprint: trace and vias stroke gold, REF gold, outline and pin-1 gold; on phones the stub and via go gold instead." }
+    ],
+    "focus": [
+      { "name": "focus-ring", "value": "outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px", "purpose": "Global :focus-visible; pads and zoomable footprints use a 4 px offset." }
+    ],
+    "browserSurfaces": {
+      "selection": "background var(--gold); color var(--gold-ink)",
+      "scrollbar": "thin; thumb var(--silk-3) with 2 px var(--mask-deep) border and 3 px radius; track var(--mask-deep)",
+      "caret": "var(--gold)",
+      "numerals": "font-feature-settings \"tnum\" 1, \"kern\" 1; tables font-variant-numeric tabular-nums",
+      "colorScheme": "dark"
+    },
+    "breakpoints": [
+      { "name": "deck", "value": "980px", "purpose": "Landing .show/.j1/.bg collapse to one column; routed traces hidden; BOM rows and footprints get static bronze stubs with vias." },
+      { "name": "cols", "value": "900px", "purpose": "12-column spans collapse; figure rows stack; region inset 28 px." },
+      { "name": "legend", "value": "760px", "purpose": "Legend stacks; jumper, pads and rev inline; decision rows stack." },
+      { "name": "table", "value": "640px", "purpose": "BOM thead hidden, rows become two-line grids with the year hidden; facts th/td stack; steps 48 px / pin number 30 px; task loop two-up." },
+      { "name": "phone", "value": "600px", "purpose": "Body 16 px, gutter 10 px, h1 40 px, holes 12 px, fiducials 10 px, footprint padding 12 px, portrait wells 420 px, stubs shorter and nearer." },
+      { "name": "trio", "value": "560px", "purpose": ".trio gap 6 px with no well padding; .conn two-up." }
+    ],
+    "adaptations": [
+      "Routed traces are hidden at <=980 px where the landing is a single column; each BOM row and footprint keeps a static bronze stub with a via instead.",
+      "Screenshots render at CSS width, not integer device scale, because the only assets are full-size captures.",
+      "The BOM thead hides at <=640 and each row collapses to a two-line grid (REF, part, status / description) with the year hidden.",
+      "Fiducials shrink to 10 px and holes to 12 px at <=600 so the board outline stays whole on phones.",
+      ".trio drops its 8 px well padding at <=560 so three portrait screens still fit side by side.",
+      "Print inverts the mask to white paper and removes holes, fiducials, traces and the jumper."
+    ],
+    "language": {
+      "mechanism": "Both languages are inline [data-lang=en|zh] spans; html[lang] hides the other; toggled by the JP1 jumper and stored in localStorage 'portfolio-lang'; defaults from navigator.language; title and meta description swap via data-en/data-zh; traces redraw after the swap.",
+      "zh": "Noto Sans TC with matched weights, line-height 1.75, labels at 500; Latin product and person names stay Barlow Condensed (h1.latin, BOM part links)."
+    },
+    "voice": "Minimal, list-like, numbers up front; nothing repeated between the landing and a sheet (PRODUCT.md).",
+    "imagery": "Real app screenshots only (benchpress/*.png, pos/*.png) with origin provenance embedded as PNG tEXt (impeccable:prompt). No illustration, icon sets or photography; the only drawn glyphs are board marks."
+  },
+  "components": [
+    {
+      "name": "Gold Pad",
+      "kind": "button",
+      "refersTo": "pad",
+      "description": "The only button. Gold ENIG plating on an actionable thing: email, GitHub.",
+      "html": "<a class=\"ds-pad\" href=\"mailto:cosccmo@gmail.com\">Email <span class=\"ds-pad-v\">cosccmo@gmail.com</span></a>",
+      "css": ".ds-pad{display:inline-flex;align-items:center;gap:12px;background:var(--gold,#d8b15a);color:var(--gold-ink,#15120c);font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-weight:600;font-size:16px;letter-spacing:.06em;text-transform:uppercase;padding:12px 18px;border-radius:2px;text-decoration:none;transition:transform .18s cubic-bezier(.2,.8,.2,1),background .18s}.ds-pad::before{content:\"\";width:6px;height:6px;border-radius:50%;background:var(--gold-ink,#15120c);opacity:.8}.ds-pad:hover{background:#e4c06a;transform:translateY(-1px)}.ds-pad:active{transform:none}.ds-pad:focus-visible{outline:2px solid var(--gold,#d8b15a);outline-offset:4px}.ds-pad-v{letter-spacing:.02em;text-transform:none;font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif;font-weight:600}"
+    },
+    {
+      "name": "Link",
+      "kind": "custom",
+      "refersTo": "pad",
+      "description": "Inline text link: gold with a half-strength underline that goes solid on hover.",
+      "html": "<p class=\"ds-copy\">Instruments are rows in <a class=\"ds-link\" href=\"#\">instruments.toml</a> plus one template file each.</p>",
+      "css": ".ds-copy{font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif;font-size:17px;line-height:1.55;color:var(--silk,#f2f2ee);margin:0}.ds-link{color:var(--gold,#d8b15a);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;text-decoration-color:color-mix(in srgb,var(--gold,#d8b15a) 55%,transparent)}.ds-link:hover{text-decoration-color:var(--gold,#d8b15a)}.ds-link:focus-visible{outline:2px solid var(--gold,#d8b15a);outline-offset:3px;border-radius:2px}"
+    },
+    {
+      "name": "JP1 Language Jumper",
+      "kind": "chip",
+      "refersTo": "jumper-pin",
+      "description": "Two-pin header; the gold bridge is the selected language.",
+      "html": "<button class=\"ds-jumper\" type=\"button\" aria-label=\"Language: English. Switch to Chinese\"><span class=\"ds-jref\">JP1 · LANG</span><span class=\"ds-pins\"><span class=\"ds-pin ds-pin-on\">EN</span><span class=\"ds-pin ds-pin-zh\">中</span></span></button>",
+      "css": ".ds-jumper{display:inline-flex;align-items:center;gap:10px;background:transparent;border:0;padding:0;cursor:pointer;color:var(--silk-2,#cdcdc6);font:inherit}.ds-jref{font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3,#a7a89f)}.ds-pins{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--silk,#f2f2ee);border-radius:3px;overflow:hidden}.ds-pin{padding:5px 12px;font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:14px;font-weight:600;letter-spacing:.08em;color:var(--silk-2,#cdcdc6);min-width:46px;text-align:center;transition:background .18s cubic-bezier(.2,.8,.2,1),color .18s}.ds-pin-zh{font-family:\"Noto Sans TC\",\"PingFang TC\",\"Microsoft JhengHei\",sans-serif;font-weight:500;letter-spacing:0}.ds-pin+.ds-pin{border-left:1px solid var(--silk,#f2f2ee)}.ds-pin-on{background:var(--gold,#d8b15a);color:var(--gold-ink,#15120c)}.ds-jumper:hover .ds-pins{border-color:var(--gold,#d8b15a)}.ds-jumper:focus-visible{outline:2px solid var(--gold,#d8b15a);outline-offset:3px;border-radius:2px}"
+    },
+    {
+      "name": "Footprint",
+      "kind": "card",
+      "refersTo": "footprint",
+      "description": "A work's footprint: silk outline on copper pour, designator breaking the outline, pin-1 dot, screenshot well, Fig. caption. Hover or focus turns outline and pin-1 gold.",
+      "html": "<figure class=\"ds-fp\" tabindex=\"0\"><span class=\"ds-fpref\">U1 <b>benchpress</b></span><span class=\"ds-pin1\" aria-hidden=\"true\"></span><div class=\"ds-shot\"><svg viewBox=\"0 0 320 200\" width=\"100%\" aria-hidden=\"true\"><rect width=\"320\" height=\"200\" fill=\"#0a0b0b\"/><rect x=\"16\" y=\"16\" width=\"80\" height=\"168\" fill=\"#1c1e1f\"/><rect x=\"112\" y=\"16\" width=\"192\" height=\"120\" fill=\"#1c1e1f\"/><rect x=\"112\" y=\"152\" width=\"192\" height=\"32\" fill=\"#1c1e1f\"/></svg></div><figcaption><span class=\"ds-fig\">Fig. 1</span><span>Sequence editor · Windows 11</span></figcaption></figure>",
+      "css": ".ds-fp{position:relative;border:1px solid var(--silk,#f2f2ee);border-radius:3px;padding:18px;background:var(--mask-cu,#1c1e1f);margin:12px 0 0;color:var(--silk,#f2f2ee);cursor:zoom-in;transition:border-color .18s}.ds-fpref{position:absolute;top:-10px;left:14px;padding:0 6px;background:var(--mask,#121314);font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk,#f2f2ee);line-height:18px}.ds-fpref b{color:var(--silk-3,#a7a89f);font-weight:600;margin-left:8px}.ds-pin1{position:absolute;top:8px;left:8px;width:7px;height:7px;border-radius:50%;background:var(--silk,#f2f2ee);transition:background .18s cubic-bezier(.2,.8,.2,1)}.ds-shot{border:1px solid var(--trace-2,#5c5848);border-radius:2px;background:var(--mask-deep,#0a0b0b);overflow:hidden}.ds-shot svg{display:block}.ds-fp figcaption{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:12px;font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:14px;font-weight:500;letter-spacing:.03em;color:var(--silk-3,#a7a89f)}.ds-fig{color:var(--silk,#f2f2ee);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:13px}.ds-fp:hover,.ds-fp:focus-visible{border-color:var(--gold,#d8b15a)}.ds-fp:hover .ds-pin1,.ds-fp:focus-visible .ds-pin1{background:var(--gold,#d8b15a)}.ds-fp:focus-visible{outline:2px solid var(--gold,#d8b15a);outline-offset:4px}"
+    },
+    {
+      "name": "Footprint, DNP",
+      "kind": "card",
+      "refersTo": "footprint-dnp",
+      "description": "Planned, unbuilt item: dashed outline, no fill, DNP tag, hollow pin-1.",
+      "html": "<div class=\"ds-fp ds-dnp\"><span class=\"ds-fpref\">U1.4 <b>LLM hooks</b></span><span class=\"ds-dnp-tag\">DNP</span><span class=\"ds-pin1\" aria-hidden=\"true\"></span><ul class=\"ds-list\"><li>Parse instrument PDF manuals into instruments.toml.</li><li>R&amp;S MXO4 template.</li></ul></div>",
+      "css": ".ds-fp{position:relative;border:1px solid var(--silk,#f2f2ee);border-radius:3px;padding:18px;background:var(--mask-cu,#1c1e1f);margin:12px 0 0;color:var(--silk,#f2f2ee)}.ds-dnp{border-style:dashed;background:transparent}.ds-fpref{position:absolute;top:-10px;left:14px;padding:0 6px;background:var(--mask,#121314);font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-2,#cdcdc6);line-height:18px}.ds-fpref b{color:var(--silk-3,#a7a89f);font-weight:600;margin-left:8px}.ds-dnp-tag{position:absolute;top:-10px;right:14px;padding:0 6px;background:var(--mask,#121314);font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;color:var(--silk-2,#cdcdc6);line-height:18px}.ds-pin1{position:absolute;top:8px;left:8px;width:7px;height:7px;border-radius:50%;background:transparent;border:1px solid var(--silk-2,#cdcdc6)}.ds-list{list-style:none;padding:0;margin:0;font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif;font-size:17px;line-height:1.55}.ds-list li{position:relative;padding-left:18px;margin:.35em 0}.ds-list li::before{content:\"\";position:absolute;left:0;top:.62em;width:7px;height:7px;border:1px solid var(--silk-2,#cdcdc6);border-radius:1px}"
+    },
+    {
+      "name": "Status Marks",
+      "kind": "chip",
+      "refersTo": "footprint",
+      "description": "A drawn mark plus a word, never colour alone: filled square shipped, filled circle living, dashed square DNP.",
+      "html": "<div class=\"ds-marks\"><span class=\"ds-mark ds-shipped\">Released</span><span class=\"ds-mark ds-living\">Living</span><span class=\"ds-mark ds-dnpm\">DNP</span></div>",
+      "css": ".ds-marks{display:flex;gap:24px;flex-wrap:wrap}.ds-mark{display:inline-flex;align-items:center;gap:8px;font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-2,#cdcdc6);white-space:nowrap}.ds-mark::before{content:\"\";width:9px;height:9px;border:1px solid var(--silk-2,#cdcdc6);border-radius:1px;flex:none}.ds-shipped::before{background:var(--silk-2,#cdcdc6)}.ds-living::before{border-radius:50%;background:var(--silk-2,#cdcdc6)}.ds-dnpm::before{border-style:dashed}"
+    },
+    {
+      "name": "BOM Row",
+      "kind": "nav",
+      "refersTo": "bom-row-hot",
+      "description": "Bill-of-materials index row: REF, part link, description, year, status. Hover steps the row to copper pour and turns REF gold.",
+      "html": "<table class=\"ds-bom\"><thead><tr><th>Ref</th><th>Part</th><th>Description</th><th>Year</th><th>Status</th></tr></thead><tbody><tr><td class=\"ds-ref\">U1</td><td class=\"ds-part\"><a href=\"#\">benchpress</a></td><td class=\"ds-desc\">Instrument control and test sequencing for a lab bench. Windows, Rust.</td><td class=\"ds-year\">2026</td><td><span class=\"ds-mark ds-shipped\">Released</span></td></tr><tr><td class=\"ds-ref\">J1</td><td class=\"ds-part\"><a href=\"#\">how i work with ai</a></td><td class=\"ds-desc\">The method behind U1 and U2. Git, three documents, gates.</td><td class=\"ds-year\">2026</td><td><span class=\"ds-mark ds-living\">Living</span></td></tr></tbody></table>",
+      "css": ".ds-bom{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif;font-size:17px;line-height:1.55;color:var(--silk,#f2f2ee)}.ds-bom th,.ds-bom td{text-align:left;vertical-align:top;padding:11px 12px;border-top:1px solid var(--trace,#3a3a33)}.ds-bom thead th{font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3,#a7a89f);border-top:0;padding-bottom:6px}.ds-bom td:first-child,.ds-bom th:first-child{padding-left:0;width:56px}.ds-bom tbody tr:last-child td{border-bottom:1px solid var(--trace,#3a3a33)}.ds-bom tbody tr{transition:background .18s cubic-bezier(.2,.8,.2,1)}.ds-bom tbody tr:hover{background:var(--mask-cu,#1c1e1f)}.ds-ref{font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-weight:600;letter-spacing:.06em}.ds-bom tbody tr:hover .ds-ref{color:var(--gold,#d8b15a)}.ds-part a{color:var(--silk,#f2f2ee);text-decoration:none;font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-weight:600;font-size:20px;letter-spacing:.01em;line-height:1.1}.ds-part a:focus-visible{outline:2px solid var(--gold,#d8b15a);outline-offset:3px;border-radius:2px}.ds-desc{color:var(--silk-2,#cdcdc6)}.ds-year{color:var(--silk-3,#a7a89f);font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-weight:600;letter-spacing:.06em;white-space:nowrap}.ds-mark{display:inline-flex;align-items:center;gap:8px;font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-2,#cdcdc6);white-space:nowrap}.ds-mark::before{content:\"\";width:9px;height:9px;border:1px solid var(--silk-2,#cdcdc6);border-radius:1px;flex:none}.ds-shipped::before{background:var(--silk-2,#cdcdc6)}.ds-living::before{border-radius:50%;background:var(--silk-2,#cdcdc6)}"
+    },
+    {
+      "name": "KV List",
+      "kind": "custom",
+      "refersTo": "kv-row",
+      "description": "Landing label/value list beside a footprint's screenshot: label-voice keys, 15 px values, numbers in bold silk, copper rules.",
+      "html": "<ul class=\"ds-kv\"><li><span class=\"ds-k\">Instruments</span><span class=\"ds-v\"><b>7</b> models, <b>167</b> SCPI templates</span></li><li><span class=\"ds-k\">Blocks</span><span class=\"ds-v\"><b>9</b> types. Parallel lanes per instrument</span></li><li><span class=\"ds-k\">Build</span><span class=\"ds-v\">Rust · Dioxus · <b>286</b> commits, May–Sep 2026, solo</span></li></ul>",
+      "css": ".ds-kv{list-style:none;margin:0;padding:0;border-top:1px solid var(--trace,#3a3a33);font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif;font-feature-settings:\"tnum\" 1}.ds-kv li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px solid var(--trace,#3a3a33);font-size:15px;line-height:1.4}.ds-k{font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3,#a7a89f);padding-top:2px}.ds-v{color:var(--silk-2,#cdcdc6)}.ds-v b{color:var(--silk,#f2f2ee);font-weight:600}"
+    },
+    {
+      "name": "Sheet Navigation",
+      "kind": "nav",
+      "refersTo": "sheetnav-link",
+      "description": "Section links on a case-study sheet; silk-2 at rest, silk with a gold underline on hover.",
+      "html": "<nav class=\"ds-sheetnav\"><a href=\"#\">Board</a><a href=\"#\">Why</a><a href=\"#\">Screens</a><a href=\"#\">Features</a><a href=\"#\">Architecture</a><a href=\"#\">Safety</a><a href=\"#\">Not populated</a></nav>",
+      "css": ".ds-sheetnav{display:flex;flex-wrap:wrap;gap:0 26px;padding:12px 0;border-bottom:1px solid var(--trace,#3a3a33);font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.ds-sheetnav a{color:var(--silk-2,#cdcdc6);text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}.ds-sheetnav a:hover{color:var(--silk,#f2f2ee);border-bottom-color:var(--gold,#d8b15a)}.ds-sheetnav a:focus-visible{outline:2px solid var(--gold,#d8b15a);outline-offset:3px;border-radius:2px}"
+    },
+    {
+      "name": "Block Diagram",
+      "kind": "card",
+      "refersTo": "block",
+      "description": "Architecture blocks joined by a 2 px copper wire ending in a via; dashed wire variant for external parts.",
+      "html": "<div class=\"ds-blocks\"><div class=\"ds-blk\"><div class=\"ds-n\">UI · Dioxus 0.7.9</div><div class=\"ds-s\">Test Panel · Sequence Editor · Manage</div></div><div class=\"ds-link\"></div><div class=\"ds-blk\"><div class=\"ds-n\">Block executor · tokio</div><div class=\"ds-s\">Write · Query · Wait · For · If · Parallel · Shell</div></div><div class=\"ds-link\"></div><div class=\"ds-blk ds-wire\"><div class=\"ds-n\">visa-rs → visa64.dll</div><div class=\"ds-s\">R&amp;S VISA · NI-VISA</div></div></div>",
+      "css": ".ds-blocks{display:grid;gap:0;max-width:560px}.ds-blk{border:1px solid var(--silk,#f2f2ee);border-radius:3px;padding:12px 14px;background:var(--mask-cu,#1c1e1f);position:relative}.ds-n{font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-weight:600;font-size:17px;letter-spacing:.03em;text-transform:uppercase;color:var(--silk,#f2f2ee)}.ds-s{font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif;color:var(--silk-2,#cdcdc6);font-size:15px;margin-top:2px}.ds-wire{border-style:dashed;background:transparent}.ds-link{height:22px;width:2px;margin-left:30px;background:var(--trace-2,#5c5848);position:relative}.ds-link::after{content:\"\";position:absolute;left:-5px;bottom:-4px;width:8px;height:8px;border-radius:50%;background:var(--mask,#121314);border:2px solid var(--trace-2,#5c5848)}"
+    },
+    {
+      "name": "Prompt and Quote",
+      "kind": "custom",
+      "refersTo": "prompt",
+      "description": "Silk-2 outlined boxes for verbatim words: a prompt in 14 px mono with a source line, an owner quote at 18 px with an attribution.",
+      "html": "<div class=\"ds-stack\"><div class=\"ds-prompt\">The old flow is hard-coded. I want the new flow to be built by dragging, like blocks.<span class=\"ds-src\">Brief, 2026-05 · became the block model and parallel lanes</span></div><div class=\"ds-quote\"><p>\"I would rather keep writing by hand than use something I can't read.\"</p><span class=\"ds-src\">The owner, to every POS salesperson</span></div></div>",
+      "css": ".ds-stack{display:grid;gap:16px}.ds-prompt,.ds-quote{border:1px solid var(--silk-2,#cdcdc6);border-radius:3px;padding:14px 16px;max-width:66ch;color:var(--silk,#f2f2ee)}.ds-prompt{font-family:ui-monospace,\"Cascadia Mono\",Consolas,\"SF Mono\",Menlo,monospace;font-size:14px;line-height:1.6;white-space:pre-wrap}.ds-quote p{margin:0;font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif;font-size:18px;line-height:1.5}.ds-src{display:block;margin-top:8px;font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:14px;font-weight:500;letter-spacing:.03em;color:var(--silk-3,#a7a89f)}"
+    },
+    {
+      "name": "Task Loop",
+      "kind": "custom",
+      "refersTo": "flow-cell",
+      "description": "Four-up grid of numbered steps with copper outlines; gate steps are dashed silk-2.",
+      "html": "<div class=\"ds-flow\"><div class=\"ds-st\"><span class=\"ds-n\">1</span><span class=\"ds-t\">Open an issue</span></div><div class=\"ds-st\"><span class=\"ds-n\">2</span><span class=\"ds-t\">Plan in plan mode, approve</span></div><div class=\"ds-st\"><span class=\"ds-n\">3</span><span class=\"ds-t\">Branch issue/N, build</span></div><div class=\"ds-st ds-gate\"><span class=\"ds-n\">4</span><span class=\"ds-t\">cargo check · fmt · clippy · test</span></div></div>",
+      "css": ".ds-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;font-family:\"Barlow\",\"Helvetica Neue\",Arial,sans-serif}.ds-st{border:1px solid var(--trace-2,#5c5848);border-radius:2px;padding:10px 12px;min-height:84px}.ds-st .ds-n{font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;color:var(--silk-3,#a7a89f)}.ds-st .ds-t{display:block;margin-top:4px;color:var(--silk,#f2f2ee);font-size:15px;line-height:1.35}.ds-gate{border-color:var(--silk-2,#cdcdc6);border-style:dashed}"
+    },
+    {
+      "name": "Code Block",
+      "kind": "custom",
+      "refersTo": "code-block",
+      "description": "Deep-mask recess with a routed-copper outline; tokens coloured only with the three silks.",
+      "html": "<div class=\"ds-code\"><pre><span class=\"ds-cm\"># instruments.toml</span>\n<span class=\"ds-k\">[dmm]</span>\n<span class=\"ds-nm\">resource</span> = <span class=\"ds-st\">\"TCPIP0::192.168.1.20::inst0::INSTR\"</span>\n<span class=\"ds-nm\">template</span> = <span class=\"ds-st\">\"keysight_34465a\"</span></pre></div>",
+      "css": ".ds-code{border:1px solid var(--trace-2,#5c5848);border-radius:3px;background:var(--mask-deep,#0a0b0b);padding:16px 18px}.ds-code pre{font-family:ui-monospace,\"Cascadia Mono\",Consolas,\"SF Mono\",Menlo,monospace;font-size:14px;line-height:1.6;margin:0;color:var(--silk-2,#cdcdc6);white-space:pre;overflow:auto;tab-size:2}.ds-k,.ds-st{color:var(--silk,#f2f2ee)}.ds-cm{color:var(--silk-3,#a7a89f)}.ds-nm{color:var(--silk-2,#cdcdc6)}"
+    },
+    {
+      "name": "Data Line",
+      "kind": "nav",
+      "refersTo": "board",
+      "description": "Fixed-format identity line along the bottom board edge of every page; copper dot separators drawn as ::after.",
+      "html": "<footer class=\"ds-dataline\"><div class=\"ds-id\"><span>Tom Huang</span><span>Software engineer</span><span>Taipei, TW</span><span>REV 2026-10</span></div><div class=\"ds-links\"><a href=\"#\">U1 benchpress</a><a href=\"#\">U2 tujia pos</a><a href=\"#\">J1 method note</a></div></footer>",
+      "css": ".ds-dataline{display:flex;flex-wrap:wrap;gap:8px 0;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--silk,#f2f2ee);font-family:\"Barlow Condensed\",\"Arial Narrow\",sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--silk-3,#a7a89f)}.ds-id{display:flex;flex-wrap:wrap;gap:4px 10px}.ds-id span:not(:last-child)::after{content:\"·\";margin-left:10px;color:var(--trace-2,#5c5848)}.ds-links{display:flex;flex-wrap:wrap;gap:0 18px}.ds-dataline a{color:var(--silk-2,#cdcdc6);text-decoration:none}.ds-dataline a:hover{color:var(--gold,#d8b15a)}.ds-dataline a:focus-visible{outline:2px solid var(--gold,#d8b15a);outline-offset:3px;border-radius:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Fabricated Board",
+    "overview": "The site is one printed circuit board under a matte black solder mask. Everything written on it is white silkscreen in a condensed grotesk; the works are footprints with reference designators (U1, U2, J1); the landing's compact bill of materials is the index; copper traces route from each BOM row to its footprint; and the only gold on the board is ENIG plating on things you can press. Depth is never faked: a region reads a step lighter where copper pour sits under the mask, darker in a recess, and every edge is a 1 px line.\n\nDensity is that of a fabrication drawing, not a brochure. Labels are small, uppercase and tracked; running copy is short, list-like, numbers first, set at one body size with a 66ch measure; numerals are tabular. The landing leads with the work: the first footprint shows a full-width screenshot with a one-liner and a six-row label/value list beside it. Both languages live in the same DOM and the JP1 jumper selects which one is populated, so the Chinese sheet is the same board, not a translation layer. The board stays one object on every viewport: on phones the outline, holes and fiducials shrink, the routed traces give way to short bronze stubs, but nothing leaves.\n\nConfirmed rejections, carried from the direction contract and visible in the build: no glow, scanlines, graticule or phosphor; no green mask (the dark scheme is matte black); no hero sentence over a grid of same-size cards; no cool gray (secondary silk carries the mask's warm cast); no shadows, blur or gradients anywhere.",
+    "keyCharacteristics": [
+      "Two mask tones and one 1 px line carry all depth.",
+      "Gold appears only on actionable things: pads, links, the jumper's selected pin, hot traces, vias and pin-1, plated mounting holes.",
+      "One condensed label voice (Barlow Condensed 600, 13 px, .1em, uppercase) for every designator, column head, figure number, key and data-line field.",
+      "Drawn marks carry state (filled square, filled circle, dashed square; solid vs dashed outline; pin-1 dot), always with a word beside them.",
+      "One authored motion: copper traces draw once on the landing, after fonts settle.",
+      "Imagery is real app screenshots only, recessed inside footprints."
+    ],
+    "rules": [
+      { "name": "The Gold-Means-Press Rule", "body": "Gold is plating on something that responds: a link, a pad, the selected jumper pin, a plated hole, a trace under the pointer. A static element is never gold; if it is not actionable it is silkscreen, copper or mask.", "section": "colors" },
+      { "name": "The Warm Silk Rule", "body": "Every secondary tone is the silkscreen dimmed toward the mask's warm cast ({colors.silk-2}, {colors.silk-3}). No cool gray, no opacity fade on text.", "section": "colors" },
+      { "name": "The Two-Tone Depth Rule", "body": "A region with content sits on copper pour ({colors.mask-cu}); the bare board and recesses are the two darker masks. That tonal step plus the 1 px line is all the depth the board has.", "section": "colors" },
+      { "name": "The Print Rule", "body": "Under @media print the same tokens invert: white paper, near-black silk, mid-gray copper, dark ochre gold; holes, fiducials, traces and the jumper are removed. A new colour token must carry a print value.", "section": "colors" },
+      { "name": "The One Label Voice Rule", "body": "Everything that names, numbers or indexes is Barlow Condensed 600, 13 px, .1em, uppercase. Do not invent a second label style; vary colour (silk / silk-2 / silk-3) only.", "section": "typography" },
+      { "name": "The One Body Size Rule", "body": "Running copy is 17 px (16 px on phones) at a 66ch measure. Rank is shown by span and position, not by shrinking the body; the only other running sizes are the 15 px kv value and the 18 px one-liner, each tied to a component.", "section": "typography" },
+      { "name": "The Latin Name Rule", "body": "Product and person names set in Latin keep Barlow Condensed on the Chinese sheet; every other role switches to Noto Sans TC with matched weight.", "section": "typography" },
+      { "name": "The Flat Board Rule", "body": "Nothing lifts. Hover and focus change colour (to gold) or step a region to the copper-pour tone; the one translation is the pad's 1 px rise. If a new surface needs to look nearer, give it the lighter mask and a silk outline, not a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do put every content region on the copper-pour mask ({colors.mask-cu}) with a 1 px silk outline and 3 px radius; recess screenshots and code to {colors.mask-deep}.",
+      "Do use gold only on something that responds: links, pads, the jumper's selected pin, hot traces, plated holes, the focus ring.",
+      "Do set every designator, column head, key, figure number and data-line field in the one label voice (Barlow Condensed 600, 13 px, .1em, uppercase).",
+      "Do mark status with a drawn mark and a word (filled square / filled circle / dashed square) and planned items with a dashed outline plus a DNP tag.",
+      "Do write both languages inline as [data-lang] spans, keep Latin product names in Barlow Condensed, and give Chinese copy line-height 1.75.",
+      "Do separate rows and sections with 1 px copper ({colors.trace}) rules and page-level edges with 1 px silk.",
+      "Do keep the board whole on phones: shrink holes and fiducials, stack the grids, swap routed traces for stubs.",
+      "Do show real app screenshots only, recessed in a footprint with a Fig. n caption.",
+      "Do give any new colour token a @media print value."
+    ],
+    "donts": [
+      "Don't add shadows, glow, blur, gradients or backdrop filters; depth is the two mask tones and the 1 px line.",
+      "Don't use cool gray or opacity-faded text; secondary tones are {colors.silk-2} and {colors.silk-3}.",
+      "Don't use gold as a static fill or on text that is not a link, pad or link affordance.",
+      "Don't convey state by colour alone; pair every state colour with a mark or a word.",
+      "Don't introduce a second body size or a second label style; rank by span and position.",
+      "Don't use monospace outside code samples and verbatim prompts.",
+      "Don't add illustration, icon sets, photography or decorative motion; the only drawn glyphs are board marks (fiducials, holes, vias, pin-1, status marks) and the traces' single draw is the only authored movement.",
+      "Don't revive the green mask or the earlier terminal look: no phosphor glow, scanlines or graticule."
+    ]
+  }
+}

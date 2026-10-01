@@ -1,0 +1,349 @@
+/* ──────────────────────────────────────────────────────────────
+   Tom Huang · portfolio
+   World: a fabricated printed circuit board. Solder-mask ground,
+   white silkscreen, copper traces, gold pads only where you can press.
+   ────────────────────────────────────────────────────────────── */
+
+:root{
+  /* matte black solder mask: bare board vs copper pour under mask */
+  --mask:      #121314;
+  --mask-cu:   #1c1e1f;
+  --mask-deep: #0a0b0b;
+  /* silkscreen: white, with the warm cast of the mask in the quieter tones */
+  --silk:      #f2f2ee;
+  --silk-2:    #cdcdc6;
+  --silk-3:    #a7a89f;
+  /* copper and plating: bronze lines under black mask, ENIG gold on pads */
+  --trace:     #3a3a33;
+  --trace-2:   #5c5848;
+  --gold:      #d8b15a;
+  --gold-ink:  #15120c;
+  --hole:      #050505;
+  /* type */
+  --cond: "Barlow Condensed","Arial Narrow",sans-serif;
+  --sans: "Barlow","Helvetica Neue",Arial,sans-serif;
+  --zh:   "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono: ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  /* scale */
+  --body: 17px;
+  --lh:   1.55;
+  --label: 13px;
+  --r: 3px;             /* milled board corner */
+  --line: 1px;          /* silkscreen stroke */
+  --pad: 20px;
+  --gutter: 24px;
+  --measure: 66ch;
+  color-scheme: dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html,body{margin:0;padding:0;background:var(--mask)}
+body{
+  color:var(--silk);
+  font-family:var(--sans);
+  font-size:var(--body);
+  line-height:var(--lh);
+  font-feature-settings:"tnum" 1,"kern" 1;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  min-height:100vh;
+}
+html[lang="zh"] body{font-family:var(--zh);line-height:1.75}
+html[lang="zh"] .ref,html[lang="zh"] .ref *{font-family:var(--cond);letter-spacing:.06em}
+
+/* language switch: only one language is in the DOM at a time */
+html[lang="en"] [data-lang="zh"]{display:none !important}
+html[lang="zh"] [data-lang="en"]{display:none !important}
+
+/* browser surfaces belong to the board too */
+::selection{background:var(--gold);color:var(--gold-ink)}
+*{scrollbar-color:var(--silk-3) var(--mask-deep);scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--mask-deep)}
+::-webkit-scrollbar-thumb{background:var(--silk-3);border:2px solid var(--mask-deep);border-radius:3px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+input,textarea{caret-color:var(--gold)}
+
+a{color:var(--gold);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;text-decoration-color:color-mix(in srgb,var(--gold) 55%,transparent)}
+a:hover{text-decoration-color:var(--gold)}
+strong{font-weight:600;color:var(--silk)}
+code{font-family:var(--mono);font-size:.92em;color:var(--silk);background:var(--mask-deep);padding:.05em .35em;border-radius:2px}
+pre{font-family:var(--mono);font-size:14px;line-height:1.6;margin:0;color:var(--silk-2);white-space:pre;overflow:auto;tab-size:2}
+pre .k{color:var(--silk)} pre .s{color:var(--silk)} pre .cm{color:var(--silk-3)} pre .n{color:var(--silk-2)}
+img{display:block;max-width:100%;height:auto}
+ul,ol{margin:0;padding-left:1.25em}
+li{margin:.25em 0}
+p{margin:0 0 .9em;max-width:var(--measure)}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-top:var(--line) solid var(--trace)}
+thead th{font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3);border-top:0;padding-bottom:6px}
+html[lang="zh"] thead th{font-family:var(--zh);letter-spacing:.08em}
+tbody tr:last-child td{border-bottom:var(--line) solid var(--trace)}
+hr{border:0;border-top:var(--line) solid var(--silk);margin:0}
+
+/* ── silkscreen type roles ───────────────────────────────────── */
+.label{font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3);line-height:1.2}
+html[lang="zh"] .label{font-family:var(--zh);letter-spacing:.1em;font-weight:500}
+.ref{font-family:var(--cond);font-weight:600;letter-spacing:.06em;color:var(--silk)}
+.muted{color:var(--silk-2)}
+.dim{color:var(--silk-3)}
+h1,h2,h3,h4{margin:0;font-family:var(--cond);font-weight:600;line-height:1.02;letter-spacing:-.005em;color:var(--silk);text-wrap:balance}
+html[lang="zh"] h1,html[lang="zh"] h2,html[lang="zh"] h3,html[lang="zh"] h4{font-family:var(--zh);font-weight:600;letter-spacing:.01em;line-height:1.2}
+h1{font-size:clamp(44px,6vw,84px);text-transform:uppercase}
+html[lang="zh"] h1{text-transform:none}
+html[lang="zh"] h1.latin{font-family:var(--cond);text-transform:uppercase;letter-spacing:-.005em;line-height:1.02}
+h2{font-size:clamp(28px,3.2vw,40px)}
+h3{font-size:22px}
+.list{list-style:none;padding:0;margin:0}
+.list li{position:relative;padding-left:18px;margin:.35em 0;max-width:var(--measure)}
+.list li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border:var(--line) solid var(--silk-2);border-radius:1px}
+html[lang="zh"] .list li::before{top:.7em}
+.list--filled li::before{background:var(--silk-2)}
+
+/* ── the board ───────────────────────────────────────────────── */
+.board{
+  position:relative;
+  max-width:1392px;
+  margin:var(--gutter) auto;
+  border:var(--line) solid var(--silk);
+  border-radius:var(--r);
+  background:var(--mask);
+  padding:0 0 0 0;
+  isolation:isolate;
+}
+/* plated mounting holes in the four corners */
+.hole{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--hole);border:3px solid var(--gold);z-index:3;pointer-events:none}
+.hole.tl{top:10px;left:10px}.hole.tr{top:10px;right:10px}.hole.bl{bottom:10px;left:10px}.hole.br{bottom:10px;right:10px}
+/* fiducials */
+.fid{position:absolute;width:14px;height:14px;z-index:3;pointer-events:none;color:var(--silk-2)}
+.fid.a{top:38px;left:38px}.fid.b{top:38px;right:38px}.fid.c{bottom:38px;left:38px}
+.fid svg{display:block;width:14px;height:14px}
+
+/* inner regions sit inside the board with a consistent inset */
+.region{padding:var(--pad) 48px}
+@media (max-width:900px){.region{padding:var(--pad) 28px}}
+@media (max-width:600px){.region{padding:16px 16px}}
+
+/* copper pour: a region with content reads slightly lighter */
+.pour{background:var(--mask-cu)}
+
+/* ── legend strip (page header) ──────────────────────────────── */
+.legend{
+  display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px;
+  padding-top:56px;padding-bottom:22px;
+  border-bottom:var(--line) solid var(--silk);
+}
+.legend .name{display:flex;flex-direction:column;gap:10px}
+.legend .title{font-size:var(--body);color:var(--silk-2);max-width:60ch}
+.legend .right{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+.legend .rev{font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:.02em;color:var(--silk-3)}
+@media (max-width:760px){
+  .legend{grid-template-columns:1fr;align-items:start;padding-top:48px}
+  .legend .right{align-items:flex-start;flex-direction:row;align-items:center;gap:18px;flex-wrap:wrap}
+}
+
+/* JP1: language jumper. The gold bridge is the selected position. */
+.jumper{display:inline-flex;align-items:center;gap:10px;background:transparent;border:0;padding:0;cursor:pointer;color:var(--silk-2);font:inherit}
+.jumper .jref{font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3)}
+.jumper .pins{display:inline-grid;grid-template-columns:1fr 1fr;border:var(--line) solid var(--silk);border-radius:var(--r);overflow:hidden}
+.jumper .pin{padding:5px 12px;font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:.08em;color:var(--silk-2);min-width:46px;text-align:center;transition:background .18s cubic-bezier(.2,.8,.2,1),color .18s}
+.jumper .pin.zh{font-family:var(--zh);font-weight:500;letter-spacing:0}
+.jumper .pin + .pin{border-left:var(--line) solid var(--silk)}
+html[lang="en"] .jumper .pin.en,html[lang="zh"] .jumper .pin.zh{background:var(--gold);color:var(--gold-ink)}
+.jumper:hover .pins{border-color:var(--gold)}
+
+/* ── nav on sheet pages ──────────────────────────────────────── */
+.sheetnav{display:flex;flex-wrap:wrap;gap:0 26px;padding-top:12px;padding-bottom:12px;border-bottom:var(--line) solid var(--trace);font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+html[lang="zh"] .sheetnav{font-family:var(--zh);letter-spacing:.08em;font-weight:500}
+.sheetnav a{color:var(--silk-2);text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
+.sheetnav a:hover{color:var(--silk);border-bottom-color:var(--gold)}
+.sheetnav .tp{color:var(--silk-3);margin-right:6px;font-family:var(--cond)}
+
+/* ── footprints ──────────────────────────────────────────────── */
+.fp{position:relative;border:var(--line) solid var(--silk);border-radius:var(--r);padding:18px;background:var(--mask-cu)}
+.fp .fpref{position:absolute;top:-10px;left:14px;padding:0 6px;background:var(--mask);font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk);line-height:18px}
+.fp .fpref b{color:var(--silk-3);font-weight:600;margin-left:8px}
+html[lang="zh"] .fp .fpref b{font-family:var(--zh);letter-spacing:.08em;font-weight:500}
+.fp .pin1{position:absolute;top:8px;left:8px;width:7px;height:7px;border-radius:50%;background:var(--silk);transition:background .18s cubic-bezier(.2,.8,.2,1)}
+.fp.hot{border-color:var(--gold)}
+.fp.hot .pin1{background:var(--gold)}
+.fp .shot{border:var(--line) solid var(--trace-2);border-radius:2px;background:var(--mask-deep);overflow:hidden}
+.fp .shot img{width:100%;height:auto}
+.fp .shot.portrait{display:flex;justify-content:center;padding:14px}
+.fp .shot.portrait img{width:auto;max-height:520px}
+.fp figcaption{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:12px;font-family:var(--cond);font-size:14px;font-weight:500;letter-spacing:.03em;color:var(--silk-3)}
+html[lang="zh"] .fp figcaption{font-family:var(--zh);letter-spacing:.02em;font-weight:400}
+.fp figcaption .fig{color:var(--silk);font-family:var(--cond);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:var(--label);white-space:nowrap}
+.fp[data-zoom]{cursor:zoom-in}
+.fp[data-zoom]:hover{border-color:var(--gold)}
+.fp[data-zoom]:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+/* DNP: not populated. Dashed outline, nothing inside is built. */
+.fp.dnp{border-style:dashed;background:transparent}
+.fp.dnp .fpref{color:var(--silk-2)}
+.fp.dnp .dnp-tag{position:absolute;top:-10px;right:14px;padding:0 6px;background:var(--mask);font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.12em;color:var(--silk-2);line-height:18px}
+.fp.dnp .pin1{background:transparent;border:var(--line) solid var(--silk-2)}
+
+/* status marks: a drawn mark plus a word, never color alone */
+.mark{display:inline-flex;align-items:center;gap:8px;font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-2);white-space:nowrap}
+html[lang="zh"] .mark{font-family:var(--zh);letter-spacing:.08em;font-weight:500}
+.mark::before{content:"";width:9px;height:9px;border:var(--line) solid var(--silk-2);border-radius:1px;flex:none}
+.mark.shipped::before{background:var(--silk-2)}
+.mark.living::before{border-radius:50%;background:var(--silk-2)}
+.mark.dnp::before{border-style:dashed;border-color:var(--silk-2)}
+
+/* ── gold pads: the only things you can press ────────────────── */
+.pad{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--gold);color:var(--gold-ink);
+  font-family:var(--cond);font-weight:600;font-size:16px;letter-spacing:.06em;text-transform:uppercase;
+  padding:12px 18px;border-radius:2px;text-decoration:none;
+  position:relative;
+  transition:transform .18s cubic-bezier(.2,.8,.2,1),background .18s;
+}
+.pad::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold-ink);opacity:.8}
+.pad:hover{background:#e4c06a;color:#15120c;transform:translateY(-1px)}
+.pad:active{transform:none}
+.pad:focus-visible{outline-offset:4px}
+.pad .v{letter-spacing:.02em;text-transform:none;font-family:var(--sans);font-weight:600}
+.pads{display:flex;flex-wrap:wrap;gap:12px 14px;align-items:center}
+
+/* ── BOM table (landing index) ───────────────────────────────── */
+.bom tbody tr{position:relative;transition:background .18s cubic-bezier(.2,.8,.2,1)}
+.bom tbody tr:hover,.bom tbody tr.hot{background:var(--mask-cu)}
+.bom tbody tr:hover .ref,.bom tbody tr.hot .ref{color:var(--gold)}
+.bom td{padding:14px 12px}
+.bom td:first-child,.bom th:first-child{padding-left:0;width:56px}
+.bom td:last-child,.bom th:last-child{padding-right:0}
+.bom .part a{color:var(--silk);text-decoration:none;font-family:var(--cond);font-weight:600;font-size:22px;letter-spacing:.01em;line-height:1.1}
+html[lang="zh"] .bom .part a{font-family:var(--cond)}
+.bom .part a::after{content:"";position:absolute;inset:0}
+.bom .desc{color:var(--silk-2)}
+.bom .year{color:var(--silk-3);font-family:var(--cond);font-weight:600;letter-spacing:.06em;white-space:nowrap}
+@media (max-width:640px){
+  .bom thead{display:none}
+  .bom,.bom tbody{display:block;width:auto}
+  .bom tr{display:grid;grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"ref part status" "desc desc desc";column-gap:10px;row-gap:4px;align-items:baseline;padding:12px 0;border-top:var(--line) solid var(--trace)}
+  .bom tr:last-child{border-bottom:var(--line) solid var(--trace)}
+  .bom td{padding:0;border:0;width:auto}
+  .bom td:nth-child(1){grid-area:ref}.bom td:nth-child(2){grid-area:part}.bom td:nth-child(3){grid-area:desc}.bom td:nth-child(5){grid-area:status}
+  .bom td:nth-child(4){display:none}
+  .bom tbody tr:last-child td{border-bottom:0}
+}
+
+/* ── copper traces (landing) ─────────────────────────────────── */
+.traces{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.traces path{fill:none;stroke:var(--trace-2);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;transition:stroke .18s}
+.traces path.hot{stroke:var(--gold)}
+.traces circle{fill:var(--mask);stroke:var(--trace-2);stroke-width:2;transition:stroke .18s}
+.traces circle.hot{stroke:var(--gold)}
+@media (prefers-reduced-motion:no-preference){
+  .traces path.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw .9s cubic-bezier(.16,1,.3,1) forwards}
+  .traces path.draw.d2{animation-delay:.08s}.traces path.draw.d3{animation-delay:.16s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+}
+@media (max-width:980px){.traces{display:none}}
+
+/* ── sheet sections ──────────────────────────────────────────── */
+.sheet{display:block}
+.sec{padding-top:44px;padding-bottom:44px;border-top:var(--line) solid var(--trace)}
+.sec:first-of-type{border-top:0}
+.sec .head{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-bottom:26px}
+.cols{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:28px 32px;align-items:start}
+.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}
+@media (max-width:900px){.c4,.c5,.c6,.c7,.c8{grid-column:span 12}}
+.facts th{width:160px;color:var(--silk-3);font-family:var(--cond);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:var(--label);padding-top:12px}
+html[lang="zh"] .facts th{font-family:var(--zh);letter-spacing:.08em;font-weight:500}
+.facts td{color:var(--silk)}
+.facts tbody tr:first-child th,.facts tbody tr:first-child td{border-top:var(--line) solid var(--silk)}
+@media (max-width:640px){.facts th,.facts td{display:block;width:auto}.facts th{padding:12px 0 2px}.facts td{border-top:0;padding:0 0 12px}.facts tbody tr:first-child td{border-top:0}.facts tbody tr:last-child td{border-bottom:var(--line) solid var(--trace)}}
+
+/* figures on sheets alternate sides */
+.figrow{display:grid;grid-template-columns:7fr 5fr;gap:32px;align-items:start;padding:28px 0;border-top:var(--line) solid var(--trace)}
+.figrow:first-of-type{border-top:0;padding-top:0}
+.figrow.flip{grid-template-columns:5fr 7fr}
+.figrow.flip .fp{order:2}
+.figrow .text h3{margin-bottom:12px}
+.figrow .text .fig{display:block;font-family:var(--cond);font-size:var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--silk-3);margin-bottom:10px}
+@media (max-width:900px){.figrow,.figrow.flip{grid-template-columns:1fr}.figrow.flip .fp{order:0}}
+
+/* block diagram (architecture) */
+.blocks{display:grid;gap:0;max-width:560px}
+.blk{border:var(--line) solid var(--silk);border-radius:var(--r);padding:12px 14px;background:var(--mask-cu);position:relative}
+.blk .n{font-family:var(--cond);font-weight:600;font-size:17px;letter-spacing:.03em;text-transform:uppercase;color:var(--silk)}
+html[lang="zh"] .blk .n{font-family:var(--zh);text-transform:none}
+.blk .s{color:var(--silk-2);font-size:15px;margin-top:2px}
+.blk.wire{border-style:dashed;background:transparent}
+.link{height:22px;width:2px;margin-left:30px;background:var(--trace-2);position:relative}
+.link::after{content:"";position:absolute;left:-5px;bottom:-4px;width:8px;height:8px;border-radius:50%;background:var(--mask);border:2px solid var(--trace-2)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.note{border:var(--line) solid var(--silk-2);border-radius:var(--r);padding:14px 16px;color:var(--silk);max-width:var(--measure);background:transparent}
+.note .label{color:var(--silk-2);margin-bottom:6px}
+
+/* decisions list */
+.dec{display:grid;grid-template-columns:200px 1fr;gap:12px 28px;padding:18px 0;border-top:var(--line) solid var(--trace)}
+.dec:last-child{border-bottom:var(--line) solid var(--trace)}
+.dec h3{font-size:19px;line-height:1.15}
+html[lang="zh"] .dec h3{font-size:18px}
+@media (max-width:760px){.dec{grid-template-columns:1fr;gap:8px}}
+
+/* code sample on a sheet */
+.code{border:var(--line) solid var(--trace-2);border-radius:var(--r);background:var(--mask-deep);padding:16px 18px;margin-top:20px}
+
+/* ── data line along the bottom board edge ──────────────────── */
+.dataline{
+  display:flex;flex-wrap:wrap;gap:8px 0;justify-content:space-between;align-items:center;
+  padding-top:16px;padding-bottom:64px;border-top:var(--line) solid var(--silk);
+  font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--silk-3);
+}
+.dataline .id{display:flex;flex-wrap:wrap;gap:4px 10px}
+.dataline .id span:not(:last-child)::after{content:"·";margin-left:10px;color:var(--trace-2)}
+.dataline a{color:var(--silk-2);text-decoration:none}
+.dataline a:hover{color:var(--gold)}
+.dataline .links{display:flex;flex-wrap:wrap;gap:0 18px}
+
+/* ── lightbox ─────────────────────────────────────────────────── */
+dialog.lightbox{border:var(--line) solid var(--silk);border-radius:var(--r);background:var(--mask);padding:0;max-width:min(96vw,1600px);max-height:94vh;color:var(--silk)}
+dialog.lightbox::backdrop{background:rgba(10,11,11,.88)}
+dialog.lightbox img{max-width:min(94vw,1560px);max-height:84vh;width:auto;height:auto;display:block;margin:0 auto}
+dialog.lightbox .lb-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 14px;border-bottom:var(--line) solid var(--trace);font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3)}
+html[lang="zh"] dialog.lightbox .lb-bar{font-family:var(--zh);letter-spacing:.06em;text-transform:none}
+dialog.lightbox button{background:transparent;border:var(--line) solid var(--silk-2);color:var(--silk);font:inherit;padding:4px 10px;border-radius:2px;cursor:pointer}
+dialog.lightbox button:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── utilities ───────────────────────────────────────────────── */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.stack-24>*+*{margin-top:24px}
+.mt-0{margin-top:0}.mb-0{margin-bottom:0}
+@media (max-width:600px){
+  :root{--body:16px;--gutter:10px}
+  h1{font-size:40px}
+  .fp{padding:12px}
+  .fp .shot.portrait img{max-height:420px}
+  .hole{width:12px;height:12px;border-width:2px}
+  .hole.tl{top:6px;left:6px}.hole.tr{top:6px;right:6px}.hole.bl{bottom:6px;left:6px}.hole.br{bottom:6px;right:6px}
+  .fid{width:10px;height:10px}.fid svg{width:10px;height:10px}.fid.a{top:26px;left:26px}.fid.b{top:26px;right:26px}.fid.c{bottom:26px;left:26px}
+}
+@media print{
+  :root{--mask:#fff;--mask-cu:#f3f3f1;--mask-deep:#ececea;--silk:#111;--silk-2:#333;--silk-3:#555;--trace:#999;--trace-2:#777;--gold:#8a6a1c;--gold-ink:#fff}
+  .hole,.fid,.traces,.jumper{display:none}
+  .board{border-color:#999}
+}
+
+/* ── copper on phones: routed traces are hidden ≤980, so each index row and
+      footprint keeps a short bronze stub with a via, pointing at its pin 1 ── */
+@media (max-width:980px){
+  .bom tbody tr{position:relative}
+  .bom tbody tr::before{content:"";position:absolute;left:-26px;top:50%;width:18px;height:2px;background:var(--trace-2);transform:translateY(-50%)}
+  .bom tbody tr::after{content:"";position:absolute;left:-32px;top:50%;width:6px;height:6px;border-radius:50%;background:var(--mask);border:2px solid var(--trace-2);transform:translateY(-50%)}
+  .bom tbody tr.hot::before,.bom tbody tr:hover::before{background:var(--gold)}
+  .bom tbody tr.hot::after,.bom tbody tr:hover::after{border-color:var(--gold)}
+  .deck .fp::before{content:"";position:absolute;left:-20px;top:11px;width:18px;height:2px;background:var(--trace-2)}
+  .deck .fp.hot::before{background:var(--gold)}
+}
+@media (max-width:600px){
+  .bom tbody tr::before{left:-16px;width:10px}
+  .bom tbody tr::after{left:-20px}
+  .deck .fp::before{left:-16px;width:14px}
+}

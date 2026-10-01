@@ -1,36 +1,46 @@
 # portfolio
 
-Personal portfolio of Tom Huang — small, sharp tools for real engineering problems, built with Rust / web stacks and AI-assisted development (Claude Code, Cursor).
+Personal portfolio of Tom Huang. Two shipped Rust products and one method note, in English and Traditional Chinese.
 
 **Live:** https://coomo.github.io/portfolio/
 
-## Projects
+## Pages
 
-- **[benchpress](./benchpress/)** — Windows desktop app (Rust + Dioxus) that controls bench instruments over GPIB / Ethernet and composes test sequences from drag-and-drop blocks. Built to replace a LabVIEW station.
-- **[tujia pos](./pos/)** — Local-first, cross-platform POS for a family bakery (Rust + Dioxus on Android / iPad / Windows).
-
-## Notes
-
-Technical write-ups, separate from the project case studies:
-
-- **[how i work with ai](./workflow/)** — method note: how the projects above were built with AI tooling (contracts before code, vertical slices, screenshot-driven iteration, verification gates), quoting real prompts from the development sessions.
+- `index.html` — the board. Bill of materials (the three works), then each work as a footprint with screenshots and a fact list. Name and contact sit in the data line at the bottom.
+- `benchpress/` (U1) — Windows desktop app for bench instruments. Rust + Dioxus, GPIB / Ethernet, drag-and-drop test sequences, MCP server, headless CLI.
+- `pos/` (U2) — Local-first POS for a family bakery. Rust + Dioxus on Android / iPad / Windows.
+- `workflow/` (J1) — Method note: git first, three documents, a lean CLAUDE.md, skills on demand.
 
 ## Structure
 
 ```
 .
-├── index.html          # landing page
-├── benchpress/         # one folder per project
+├── index.html            # landing (sheet 1)
+├── assets/
+│   ├── site.css          # shared visual system
+│   └── site.js           # language jumper, lightbox, copper traces
+├── benchpress/           # one folder per work
 │   ├── index.html
-│   └── *.png
-└── <next-project>/
-    └── index.html
+│   └── *.png             # real app screenshots
+├── pos/
+├── workflow/
+├── PRODUCT.md            # product truth (audience, content, voice)
+└── DESIGN.md             # visual system record
 ```
 
-Each project lives in its own subfolder with a self-contained `index.html`. The landing page links into them.
+No build step. Commit and push; GitHub Pages serves the files as they are. Fonts load from Google Fonts (Barlow, Barlow Condensed, Noto Sans TC).
 
-## Adding a project
+## Language
 
-1. Create `./<slug>/` with `index.html` (+ assets).
-2. In root `index.html`, duplicate one `<article class="project">` block and edit the cover link, title, tagline, stack chips.
-3. Commit & push — GitHub Pages rebuilds automatically.
+Every page carries both languages inline as `<span data-lang="en">` / `<span data-lang="zh">`. The JP1 jumper in the header switches `html[lang]`; the choice is stored in `localStorage` under `portfolio-lang` and defaults from the browser language. `<title>` and the meta description swap through `data-en` / `data-zh`.
+
+## Adding a work
+
+1. Create `./<slug>/index.html` by copying one of the sheets, plus its screenshots.
+2. In `index.html`, add a row to the BOM table (`REF · PART · DESCRIPTION · YEAR · STATUS`) with `id="row-<ref>"` and `data-trace-to="fp-<ref>"`, and a footprint `<a class="fp" id="fp-<ref>">` with the screenshot.
+3. Update the sheet counts in the `rev` lines and the links in each page's data line.
+4. Commit and push.
+
+## Voice
+
+Short lines. Bullets over paragraphs. Facts over adjectives. Both languages written natively, not translated word for word. See `PRODUCT.md`.

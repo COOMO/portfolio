@@ -1,947 +1,233 @@
 <!doctype html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title data-en="How I work with Claude Code — Tom Huang" data-zh="我的 Claude Code 工作流與知識管理方法 — Tom Huang">我的 Claude Code 工作流與知識管理方法 — Tom Huang</title>
+<title data-en="how i work with ai · Tom Huang" data-zh="我怎麼跟 AI 一起開發 · Tom Huang">how i work with ai · Tom Huang</title>
 <meta name="description"
-      data-en="A method note: write the spec clearly before you start, so the AI builds to spec instead of guessing. Start with Git, produce SPEC / SDD / ROADMAP with the AI, keep CLAUDE.md lean, and build with on-demand Skills."
-      data-zh="一篇方法論筆記：開工前先把規格寫清楚，讓 AI 照規格做，而不是瞎猜測做。先建 Git、跟 AI 產出 SPEC / SDD / ROADMAP 三份文件、寫精簡的 CLAUDE.md、搭配 Skill 開發。"
-      content="一篇方法論筆記：開工前先把規格寫清楚，讓 AI 照規格做，而不是瞎猜測做。先建 Git、跟 AI 產出 SPEC / SDD / ROADMAP 三份文件、寫精簡的 CLAUDE.md、搭配 Skill 開發。" />
-
+      data-en="How benchpress and tujia pos were built with Claude Code: git first, three documents, a lean CLAUDE.md, cargo gates, hardware checks the model cannot fake."
+      data-zh="benchpress 和 tujia pos 怎麼用 Claude Code 做出來：先建 Git、三份文件、精簡 CLAUDE.md、cargo 關卡、模型造不了假的實機檢查。"
+      content="How benchpress and tujia pos were built with Claude Code: git first, three documents, a lean CLAUDE.md, cargo gates, hardware checks the model cannot fake." />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#121314" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
 <style>
-/* ── Reset / base ────────────────────────────────────────────────── */
-*,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;padding:0}
-html{scroll-behavior:smooth}
-
-/* ── Tokens ──────────────────────────────────────────────────────── */
-:root{
-  --bg:        #0a0c12;
-  --bg-elev:   #11141d;
-  --bg-card:   #161a25;
-  --ink:       #ebe8df;
-  --ink-2:     #9a978c;
-  --ink-3:     #5a5c66;
-  --rule:      #232735;
-  --rule-soft: #1a1d28;
-  --phosphor:  #6fe3b8;
-  --phosphor-d:#2a8a6c;
-  --amber:     #f4c47a;
-  --amber-d:   #b88440;
-  --grat:      rgba(111,227,184,0.045);
-  --grat-mid:  rgba(111,227,184,0.10);
-  --serif:     "Instrument Serif", "EB Garamond", Georgia, serif;
-  --serif-zh:  "Noto Serif TC", "Instrument Serif", "PMingLiU", serif;
-  --mono:      "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --sans-zh:   "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-}
-
-/* ── Globals ─────────────────────────────────────────────────────── */
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--mono);
-  font-size:15px;
-  line-height:1.85;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-  overflow-x:hidden;
-}
-a{color:var(--phosphor);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
-a:hover{border-bottom-color:var(--phosphor)}
-::selection{background:var(--phosphor);color:var(--bg)}
-code,.mono{font-family:var(--mono)}
-
-/* ── Bilingual visibility + fonts ────────────────────────────────── */
-html[lang="en"] [data-lang="zh"]{display:none}
-html[lang="zh"] [data-lang="en"]{display:none}
-html[lang="zh"] body{font-family:var(--sans-zh)}
-
-.h-display,.h-section,.thesis p,.col h3,.col blockquote,.col .quote{font-family:var(--serif)}
-html[lang="zh"] .h-display,
-html[lang="zh"] .h-section,
-html[lang="zh"] .thesis p,
-html[lang="zh"] .col h3,
-html[lang="zh"] .col blockquote,
-html[lang="zh"] .col .quote{font-family:var(--serif-zh)}
-
-/* ── Layout primitives ───────────────────────────────────────────── */
-.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
-
-/* ── Typography ──────────────────────────────────────────────────── */
-.h-display{
-  font-weight:500;
-  font-size:clamp(40px,6.4vw,86px);
-  line-height:1.12;
-  letter-spacing:-0.01em;
-  color:var(--ink);
-  margin:0;
-}
-.h-display em{font-style:normal;color:var(--phosphor)}
-.h-section{
-  font-weight:500;
-  font-size:clamp(30px,4.2vw,52px);
-  line-height:1.15;
-  letter-spacing:-0.01em;
-  margin:0;
-}
-.h-section em{font-style:normal;color:var(--amber)}
-.eyebrow{
-  font-family:var(--mono);
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  color:var(--phosphor);
-}
-.eyebrow .dim{color:var(--ink-3)}
-.kicker{
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:0.22em;
-  text-transform:uppercase;
-  color:var(--ink-3);
-}
-.mono{font-family:var(--mono)}
-.txt-amber{color:var(--amber)}
-.txt-phosphor{color:var(--phosphor)}
-
-/* ── Top bar ─────────────────────────────────────────────────────── */
-.topbar{
-  position:sticky;top:0;z-index:50;
-  background:rgba(10,12,18,0.85);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--rule);
-}
-.topbar .wrap{
-  display:flex;align-items:center;gap:24px;
-  padding-top:16px;padding-bottom:16px;
-  font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-2);
-}
-.brand{
-  font-family:var(--serif);
-  font-size:22px;letter-spacing:-0.01em;text-transform:none;
-  color:var(--ink);
-  display:flex;align-items:baseline;gap:10px;
-}
-.brand .dot{
-  display:inline-block;width:8px;height:8px;background:var(--phosphor);
-  border-radius:50%;
-  box-shadow:0 0 12px var(--phosphor);
-  animation:pulse 2.2s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;box-shadow:0 0 12px var(--phosphor)}
-  50%{opacity:0.55;box-shadow:0 0 18px var(--phosphor)}
-}
-.topbar nav{margin-left:auto;display:flex;gap:24px;align-items:center}
-.topbar nav a{color:var(--ink-2);border:0;font-family:var(--mono)}
-.topbar nav a:hover{color:var(--ink)}
-.tag{color:var(--ink-3);font-family:var(--mono)}
-
-/* Language toggle button */
-.lang-toggle{
-  margin-left:6px;
-  display:inline-flex;align-items:center;gap:0;
-  background:transparent;
-  border:1px solid var(--rule);
-  color:var(--ink-3);
-  font-family:var(--mono);
-  font-size:11px;font-weight:500;letter-spacing:0.08em;
-  padding:5px 12px;
-  cursor:pointer;
-  transition:border-color .2s, color .2s;
-  text-transform:none;
-  user-select:none;
-}
-.lang-toggle:hover{border-color:var(--phosphor)}
-.lang-toggle:focus-visible{outline:1px solid var(--phosphor);outline-offset:2px}
-.lang-toggle .opt{color:var(--ink-3);transition:color .2s, text-shadow .2s;padding:0 2px}
-.lang-toggle .opt-sep{color:var(--ink-3);margin:0 6px;opacity:0.55}
-html[lang="en"] .lang-toggle .opt-en{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4)}
-html[lang="zh"] .lang-toggle .opt-zh{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4);font-family:var(--sans-zh)}
-
-/* ── Hero ────────────────────────────────────────────────────────── */
-.hero{
-  position:relative;
-  padding:108px 0 72px;
-  overflow:hidden;
-}
-.hero .graticule{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(var(--grat) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grat) 1px, transparent 1px),
-    linear-gradient(var(--grat-mid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grat-mid) 1px, transparent 1px);
-  background-size:40px 40px, 40px 40px, 200px 200px, 200px 200px;
-  background-position:-1px -1px;
-  mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
-  -webkit-mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
-  pointer-events:none;
-}
-.hero .scanline{
-  position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg, transparent, var(--phosphor) 30%, var(--phosphor) 70%, transparent);
-  opacity:0.18;
-  animation:scan 9s linear infinite;
-  pointer-events:none;
-}
-@keyframes scan{0%{top:0%}100%{top:100%}}
-
-.hero-inner{position:relative;z-index:2}
-.hero .preheading{
-  display:flex;gap:14px;align-items:center;margin-bottom:44px;
-  animation:fadeUp .8s .05s both;
-  flex-wrap:wrap;
-}
-.hero h1{
-  margin:0 0 32px;
-  max-width:20ch;
-  animation:fadeUp .9s .15s both;
-}
-html[lang="en"] .hero h1{max-width:16ch}
-.hero .lede{
-  font-size:16px;
-  line-height:1.9;
-  color:var(--ink-2);
-  max-width:60ch;
-  margin:0 0 24px;
-  animation:fadeUp .9s .25s both;
-}
-.hero .lede strong{color:var(--ink);font-weight:500}
-.hero .lede em{font-style:normal;color:var(--phosphor)}
-
-.stack{display:flex;flex-wrap:wrap;gap:8px;animation:fadeUp .9s .35s both;margin-top:36px}
-.chip{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 12px;
-  border:1px solid var(--rule);
-  background:var(--bg-elev);
-  font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--ink-2);
-  border-radius:999px;
-}
-.chip .dot{
-  width:5px;height:5px;border-radius:50%;background:var(--phosphor);
-  box-shadow:0 0 6px var(--phosphor);
-}
-.chip.amber .dot{background:var(--amber);box-shadow:0 0 6px var(--amber)}
-
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(14px)}
-  to  {opacity:1;transform:translateY(0)}
-}
-
-/* ── Thesis band ─────────────────────────────────────────────────── */
-.thesis{
-  border-top:1px solid var(--rule);
-  border-bottom:1px solid var(--rule);
-  padding:56px 0;
-}
-.thesis .wrap{max-width:900px}
-.thesis p{
-  margin:0;
-  font-weight:500;
-  font-size:clamp(20px,2.6vw,30px);
-  line-height:1.6;
-  letter-spacing:0.01em;
-  color:var(--ink);
-}
-.thesis p strong{color:var(--phosphor);font-weight:600}
-.thesis .src{
-  display:block;margin-top:22px;
-  font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
-  color:var(--ink-3);
-}
-
-/* ── Section frame ───────────────────────────────────────────────── */
-section{padding:88px 0;position:relative}
-.thesis + section,section + section{border-top:1px solid var(--rule)}
-.section-head{
-  display:grid;
-  grid-template-columns:200px 1fr;
-  gap:48px;
-  margin:0 0 44px;
-  align-items:start;
-}
-.section-head .kicker{padding-top:14px}
-.section-head h2{margin:0}
-@media (max-width:820px){
-  .section-head{grid-template-columns:1fr;gap:14px}
-}
-
-/* ── Blog prose ──────────────────────────────────────────────────── */
-.prose{
-  display:grid;
-  grid-template-columns:200px minmax(0,1fr);
-  gap:48px;
-}
-.prose > .col{grid-column:2;max-width:68ch}
-@media (max-width:820px){
-  .prose{grid-template-columns:1fr}
-  .prose > .col{grid-column:1}
-}
-.col p{
-  margin:0 0 20px;
-  color:var(--ink-2);
-  font-size:15px;
-  line-height:1.92;
-}
-.col p:last-child{margin-bottom:0}
-.col p strong{color:var(--ink);font-weight:600}
-.col p em{font-style:normal;color:var(--phosphor);font-weight:500}
-.col code{
-  background:var(--bg-elev);padding:1px 6px;border:1px solid var(--rule);
-  color:var(--phosphor);font-size:12.5px;border-radius:3px;
-}
-.col h3{
-  font-weight:600;font-size:24px;line-height:1.3;
-  letter-spacing:-0.005em;margin:40px 0 16px;color:var(--ink);
-}
-.col h3:first-child{margin-top:0}
-.col ul{list-style:none;padding:0;margin:0 0 20px}
-.col ul li{
-  position:relative;padding-left:22px;margin:0 0 12px;
-  color:var(--ink-2);font-size:15px;line-height:1.85;
-}
-.col ul li::before{
-  content:"";position:absolute;left:2px;top:13px;
-  width:6px;height:6px;border-radius:50%;
-  background:var(--phosphor);box-shadow:0 0 6px var(--phosphor);
-}
-.col ul li strong{color:var(--ink);font-weight:600}
-
-/* EARS / pull quote */
-.col blockquote,.col .quote{
-  border-left:2px solid var(--amber);
-  padding:10px 0 10px 20px;margin:24px 0;
-  color:var(--ink);font-weight:500;
-  font-size:18px;line-height:1.6;
-}
-.col blockquote strong,.col .quote strong{color:var(--amber);font-weight:600}
-
-/* Document spec cards (SPEC / SDD / ROADMAP) */
-.doc{
-  border:1px solid var(--rule);
-  background:var(--bg-elev);
-  padding:24px 26px;
-  margin:0 0 20px;
-}
-.doc-name{
-  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
-  margin-bottom:14px;
-}
-.doc-name code{
-  font-family:var(--mono);font-size:13px;
-  background:var(--bg-card);border:1px solid var(--rule);
-  color:var(--phosphor);padding:3px 9px;border-radius:3px;
-}
-.doc-name .what{
-  font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
-  color:var(--ink-3);
-}
-.doc p{margin:0 0 14px;color:var(--ink-2);font-size:14.5px;line-height:1.88}
-.doc p:last-child{margin-bottom:0}
-.doc .quote{margin:16px 0 0;font-size:17px}
-
-/* ── Footer ──────────────────────────────────────────────────────── */
-footer{
-  padding:64px 0 80px;
-  border-top:1px solid var(--rule);
-}
-footer .wrap{
-  display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;align-items:start;
-}
-footer .colofon{font-family:var(--mono);font-size:12px;color:var(--ink-3);line-height:1.9;letter-spacing:0.02em}
-footer .colofon .label{display:block;color:var(--ink-2);text-transform:uppercase;letter-spacing:0.18em;font-size:10px;margin-bottom:8px;font-family:var(--mono)}
-footer h4{
-  font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
-  color:var(--ink-3);margin:0 0 14px;font-weight:500;
-}
-footer ul{list-style:none;padding:0;margin:0;font-family:var(--mono);font-size:12px}
-footer li{padding:4px 0}
-footer li a{color:var(--ink-2)}
-footer li a:hover{color:var(--ink)}
-.sigil{
-  font-family:var(--serif);font-size:48px;line-height:1;color:var(--ink);
-  margin-bottom:14px;
-}
-.sigil em{font-style:italic;color:var(--phosphor)}
-@media (max-width:780px){
-  footer .wrap{grid-template-columns:1fr;gap:32px}
-}
-
-/* ── Small screens ───────────────────────────────────────────────── */
-@media (max-width:680px){
-  .topbar nav{gap:14px}
-  .topbar nav a{display:none}
-  .topbar nav .lang-toggle{display:inline-flex}
-}
+  .step{display:grid;grid-template-columns:72px minmax(0,1fr);gap:16px 28px;align-items:start}
+  .step .pinno{font-family:var(--cond);font-weight:600;font-size:40px;line-height:1;color:var(--silk-3);letter-spacing:.02em;padding-top:4px}
+  .step .pinno small{display:block;font-size:var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--silk-3);margin-bottom:4px}
+  .step h2{margin-bottom:14px}
+  .skills th{width:220px}
+  .prompt{border:var(--line) solid var(--silk-2);border-radius:var(--r);padding:14px 16px;max-width:var(--measure);font-family:var(--mono);font-size:14px;line-height:1.6;color:var(--silk);white-space:pre-wrap}
+  html[lang="zh"] .prompt{font-family:var(--zh);font-size:15px;line-height:1.75}
+  .prompt .src{display:block;margin-top:8px;font-family:var(--cond);font-size:14px;font-weight:500;letter-spacing:.03em;color:var(--silk-3)}
+  html[lang="zh"] .prompt .src{font-family:var(--zh);letter-spacing:.08em;font-weight:500}
+  .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .flow .st{border:var(--line) solid var(--trace-2);border-radius:2px;padding:10px 12px;min-height:84px}
+  .flow .st .n{font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;color:var(--silk-3)}
+  .flow .st .t{display:block;margin-top:4px;color:var(--silk);font-size:15px;line-height:1.35}
+  .flow .st.gate{border-color:var(--silk-2);border-style:dashed}
+  @media (max-width:640px){.step{grid-template-columns:48px minmax(0,1fr);gap:12px 14px}.step .pinno{font-size:30px}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
 
-<!-- ── Top bar ─────────────────────────────────────────────────── -->
-<header class="topbar">
-  <div class="wrap">
-    <div class="brand"><span class="dot"></span>workflow</div>
-    <span class="tag">
-      <span data-lang="en">// method note · 2026</span>
-      <span data-lang="zh">// 方法論筆記 · 2026</span>
-    </span>
-    <nav>
-      <a href="#start"><span data-lang="en">Start</span><span data-lang="zh">起手式</span></a>
-      <a href="#docs"><span data-lang="en">Docs</span><span data-lang="zh">三份文件</span></a>
-      <a href="#skills">Skill</a>
-      <a href="#why"><span data-lang="en">Why</span><span data-lang="zh">為什麼</span></a>
-      <button id="langToggle" class="lang-toggle" type="button" aria-label="Toggle language / 切換語言">
-        <span class="opt opt-en">EN</span>
-        <span class="opt-sep">/</span>
-        <span class="opt opt-zh">中</span>
+<main class="board sheet">
+  <span class="hole tl" aria-hidden="true"></span><span class="hole tr" aria-hidden="true"></span>
+  <span class="hole bl" aria-hidden="true"></span><span class="hole br" aria-hidden="true"></span>
+  <span class="fid a" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid b" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid c" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+
+  <header class="legend region">
+    <div class="name">
+      <h1><span data-lang="en">how i work with ai</span><span data-lang="zh">我怎麼跟 AI 一起開發</span></h1>
+      <p class="title">
+        <span data-lang="en">How U1 and U2 were built with Claude Code. Four steps, then the gates that keep the model honest.</span>
+        <span data-lang="zh">U1 和 U2 怎麼用 Claude Code 做出來。四個步驟，加上讓模型不能唬弄的關卡。</span>
+      </p>
+    </div>
+    <div class="right">
+      <button class="jumper" id="jp1" type="button" aria-label="Language: English. Switch to Chinese">
+        <span class="jref">JP1 · LANG</span>
+        <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
       </button>
-    </nav>
-  </div>
-</header>
-
-<!-- ── Hero ────────────────────────────────────────────────────── -->
-<section class="hero">
-  <div class="graticule"></div>
-  <div class="scanline"></div>
-
-  <div class="wrap hero-inner">
-    <div class="preheading">
-      <span class="eyebrow">
-        <span data-lang="en">Portfolio <span class="dim">/ How I work with Claude Code</span></span>
-        <span data-lang="zh">作品集 <span class="dim">/ 我的 Claude Code 工作流與知識管理方法</span></span>
-      </span>
+      <span class="rev">J1 · <span data-lang="en">living</span><span data-lang="zh">持續更新</span> · REV 2026-10 · <span data-lang="en">Sheet 4 / 4</span><span data-lang="zh">第 4 / 4 頁</span></span>
     </div>
+  </header>
 
-    <h1 class="h-display">
-      <span data-lang="en">Build to <em>spec</em>,<br />not to <em>guesswork</em>.</span>
-      <span data-lang="zh">讓 AI 照<em>規格</em>做，<br />而不是照<em>猜測</em>做。</span>
-    </h1>
+  <nav class="sheetnav region" aria-label="Sections">
+    <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+    <a href="#git">1 · Git</a>
+    <a href="#docs">2 · <span data-lang="en">Three documents</span><span data-lang="zh">三份文件</span></a>
+    <a href="#claude">3 · CLAUDE.md</a>
+    <a href="#gates">4 · <span data-lang="en">Gates</span><span data-lang="zh">關卡</span></a>
+    <a href="#prompts"><span data-lang="en">Real prompts</span><span data-lang="zh">真實的 prompt</span></a>
+  </nav>
 
-    <p class="lede">
-      <span data-lang="en">
-        Code with AI long enough and you hit the same thing. You toss out "build me a login
-        feature," it starts writing code immediately, and halfway through you realize the
-        database, error handling and edge cases it assumed are all wrong. Or it says
-        <strong>"bug fixed"</strong> — but it still breaks on run, and now there's a side
-        effect somewhere else too. Given a vague wish, an LLM can only fill the gaps with
-        whatever <em>looks plausible</em>.
-      </span>
-      <span data-lang="zh">
-        用 AI 寫程式久了，大概都遇過同一件事。丟一句「幫我做個登入功能」，它馬上開始寫 code，
-        寫到一半才發現它假設的資料庫、錯誤處理、邊界條件全都不是想要的。或者它說
-        <strong>「bug 修好了」</strong>，但一跑還是壞的，甚至某個地方又出現副作用。
-        一句模糊的願望，LLM 只能用<em>「看起來合理」</em>的東西填補空白。
-      </span>
-    </p>
-
-    <div class="stack">
-      <span class="chip"><span class="dot"></span>Claude Code</span>
-      <span class="chip"><span class="dot"></span>
-        <span data-lang="en">git init first</span><span data-lang="zh">git init 起手</span>
-      </span>
-      <span class="chip"><span class="dot"></span>SPEC · SDD · ROADMAP</span>
-      <span class="chip amber"><span class="dot"></span>
-        <span data-lang="en">lean CLAUDE.md</span><span data-lang="zh">精簡 CLAUDE.md</span>
-      </span>
-      <span class="chip amber"><span class="dot"></span>
-        <span data-lang="en">on-demand Skills</span><span data-lang="zh">按需載入的 Skill</span>
-      </span>
+  <section class="sec region" id="problem">
+    <div class="cols">
+      <div class="c7">
+        <h2><span data-lang="en">The problem</span><span data-lang="zh">問題</span></h2>
+        <ul class="list" style="margin-top:14px">
+          <li><span data-lang="en">A vague request gets code immediately, with the wrong assumptions baked in.</span><span data-lang="zh">模糊的要求會馬上得到程式碼，錯誤的假設也一起進來。</span></li>
+          <li><span data-lang="en">"Fixed" often means it still breaks, plus a new side effect.</span><span data-lang="zh">「修好了」常常是一跑還是壞，還多一個副作用。</span></li>
+          <li><span data-lang="en">A green test suite is not a working feature. Instruments and tablets do not read test output.</span><span data-lang="zh">測試全綠不等於功能可用。儀器和平板不看測試結果。</span></li>
+        </ul>
+      </div>
+      <div class="c5">
+        <div class="note">
+          <div class="label"><span data-lang="en">Evidence</span><span data-lang="zh">佐證</span></div>
+          <ul class="list">
+            <li><a href="../benchpress/">U1 benchpress</a> <span class="dim">· 286 commits, 235 with a model co-author line</span></li>
+            <li><a href="../pos/">U2 tujia pos</a> <span class="dim">· 23 commits, at a counter since April</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Thesis band ─────────────────────────────────────────────── -->
-<div class="thesis">
-  <div class="wrap">
-    <p>
-      <span data-lang="en">
-        My approach: <strong>write the spec clearly before you start, so the
-        AI builds to spec instead of guessing.</strong> Here's how I open every new project.
-      </span>
-      <span data-lang="zh">
-        我的作法是：<strong>開工前先把規格寫清楚，讓 AI 照規格做，而不是瞎猜測做。</strong>
-        下面是我每個新專案的起手式。
-      </span>
-    </p>
-  </div>
-</div>
-
-<!-- ── Step 1 · Git ────────────────────────────────────────────── -->
-<section id="start">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">
-        <span data-lang="en">§ 01 · Step one</span>
-        <span data-lang="zh">§ 01 · 第一步</span>
-      </span>
-      <h2 class="h-section">
-        <span data-lang="en">Start with <em>Git</em>.</span>
-        <span data-lang="zh">先<em>建 Git</em>。</span>
-      </h2>
-    </div>
-    <div class="prose">
-      <div class="col">
-        <p>
-          <span data-lang="en">The very first thing in a new folder is <code>git init</code>.</span>
-          <span data-lang="zh">開新資料夾第一件事就是 <code>git init</code>。</span>
-        </p>
-        <p>
-          <span data-lang="en">
-            Claude Code has its own
-            <a href="https://code.claude.com/docs/zh-TW/best-practices#使用檢查點倒帶" target="_blank" rel="noopener">rewind / checkpoint mechanism</a>
-            — it snapshots your files before each prompt, and a double-tap of <code>Esc</code>
-            rolls them back. Handy, but it only tracks Claude's edits (not what you ran by
-            hand), and it can't cross machines, branch, or support collaboration.
-            <strong>It's a tool for "undo within this session," not version control.</strong>
-          </span>
-          <span data-lang="zh">
-            Claude Code 自己有
-            <a href="https://code.claude.com/docs/zh-TW/best-practices#使用檢查點倒帶" target="_blank" rel="noopener">rewind / checkpoint 機制</a>，
-            每個 prompt 前會自動 snapshot 檔案，按兩下 <code>Esc</code> 就能倒回去。方便，但它只追蹤
-            Claude 的改動，不含你手動跑的東西，也不能跨機器、不能開分支、不能多人協作。
-            <strong>它是「這次 session 內反悔」的工具，不是版本控制。</strong>
-          </span>
-        </p>
-        <p>
-          <span data-lang="en">Git fills the gaps:</span>
-          <span data-lang="zh">Git 補足了：</span>
-        </p>
-        <ul>
-          <li>
-            <span data-lang="en"><strong>branch</strong> — one per feature / issue; botch it, delete it, start over, and the mainline stays clean.</span>
-            <span data-lang="zh"><strong>branch</strong>：每個 feature / issue 開一條，做壞了砍掉重來，主線永遠乾淨。</span>
-          </li>
-          <li>
-            <span data-lang="en"><strong>Full history</strong> — every commit ties to a ROADMAP step, so three months later you can still trace why it was written this way.</span>
-            <span data-lang="zh"><strong>完整歷史</strong>：每個 commit 連到一個 ROADMAP 步驟，三個月後還能追為什麼這樣寫。</span>
-          </li>
-          <li>
-            <span data-lang="en"><strong>Reviewable diffs</strong> — a reviewer (human or AI) sees only what changed, not the reasoning that produced it.</span>
-            <span data-lang="zh"><strong>可回溯的 diff</strong>：reviewer（人或 AI）只看改了什麼，不看產生改動的推理過程。</span>
-          </li>
-          <li>
-            <span data-lang="en"><strong>Across sessions / machines</strong> — close the terminal and checkpoints are gone; only git remains.</span>
-            <span data-lang="zh"><strong>跨 session / 跨機器</strong>：checkpoint 關掉終端就只剩 git。</span>
-          </li>
+  <section class="sec region" id="git">
+    <div class="step">
+      <div class="pinno"><small>Pin</small>1</div>
+      <div>
+        <h2><span data-lang="en">Git first</span><span data-lang="zh">先建 Git</span></h2>
+        <ul class="list">
+          <li><span data-lang="en">First command in a new folder: <code>git init</code>.</span><span data-lang="zh">新資料夾第一個指令：<code>git init</code>。</span></li>
+          <li><span data-lang="en">Claude Code's checkpoint undoes its own edits inside one session. Not what you ran by hand, not across machines, no branches, no review.</span><span data-lang="zh">Claude Code 的 checkpoint 只在同一個 session 內倒回它自己的改動。不含你手動跑的、不跨機器、沒分支、不能 review。</span></li>
+          <li><span data-lang="en">One branch per issue. Each commit maps to a ROADMAP step. Diffs are what gets reviewed.</span><span data-lang="zh">每個 issue 一條分支。每個 commit 對應一個 ROADMAP 步驟。review 的對象是 diff。</span></li>
         </ul>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Step 2 · Three docs ─────────────────────────────────────── -->
-<section id="docs">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">
-        <span data-lang="en">§ 02 · Step two</span>
-        <span data-lang="zh">§ 02 · 第二步</span>
-      </span>
-      <h2 class="h-section">
-        <span data-lang="en">Talk it through with AI,<br /><em>produce three documents</em>.</span>
-        <span data-lang="zh">跟 AI 反覆討論，<br /><em>產出三份文件</em>。</span>
-      </h2>
+  <section class="sec region" id="docs">
+    <div class="step">
+      <div class="pinno"><small>Pin</small>2</div>
+      <div class="stack-24">
+        <h2 class="mb-0"><span data-lang="en">Three documents before code</span><span data-lang="zh">寫程式前的三份文件</span></h2>
+        <table class="facts">
+          <caption class="sr"><span data-lang="en">The three documents</span><span data-lang="zh">三份文件</span></caption>
+          <tbody>
+            <tr>
+              <th scope="row">SPEC.md</th>
+              <td>
+                <ul class="list">
+                  <li><span data-lang="en">Requirements in <a href="https://alistairmavin.com/ears/" target="_blank" rel="noopener">EARS</a> form: WHEN, THEN, SHALL. No sentence a model can read two ways.</span><span data-lang="zh">需求用 <a href="https://alistairmavin.com/ears/" target="_blank" rel="noopener">EARS</a> 格式：WHEN、THEN、SHALL。沒有一句模型能讀出兩種意思。</span></li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">SDD.md</th>
+              <td>
+                <ul class="list">
+                  <li><span data-lang="en">Architecture, data, error handling, acceptance. The model writes the happy path on its own; the other two sections are the point.</span><span data-lang="zh">架構、資料、錯誤處理、驗收。happy path 模型自己會寫；後兩項才是重點。</span></li>
+                  <li><span data-lang="en">Written by interview: the model asks me one question at a time until it reaches what I had not thought of.</span><span data-lang="zh">用訪談寫：模型一次問我一題，問到我沒想過的地方。</span></li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">ROADMAP.md</th>
+              <td>
+                <ul class="list">
+                  <li><span data-lang="en">Numbered steps, each small enough to finish and verify alone. Numbers never change: 12 splits into 12a and 12b. Dropped steps keep a placeholder and one line why.</span><span data-lang="zh">編號步驟，每步小到能獨立完成與驗證。編號永不改：12 要拆就是 12a、12b。不做的步驟留 placeholder 和一行原因。</span></li>
+                  <li><span data-lang="en">benchpress today: 1,388 lines, 169 done, 102 open.</span><span data-lang="zh">benchpress 目前：1,388 行，169 項完成，102 項未做。</span></li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="prose">
-      <div class="col">
-        <p>
-          <span data-lang="en">Before starting, I go back and forth with the AI, aiming to produce three spec documents.</span>
-          <span data-lang="zh">開工前會跟 AI 來回討論，目標是產出三份規格文件。</span>
-        </p>
+  </section>
 
-        <div class="doc">
-          <div class="doc-name">
-            <code>SPEC.md</code>
-            <span class="what">
-              <span data-lang="en">requirements as unambiguous sentences</span>
-              <span data-lang="zh">把需求寫成沒有歧義的句子</span>
-            </span>
-          </div>
-          <p>
-            <span data-lang="en">
-              The biggest problem with requirements is "I thought I was clear." Use
-              <a href="https://alistairmavin.com/ears/" target="_blank" rel="noopener">EARS (Easy Approach to Requirements Syntax)</a>
-              to recast each requirement into a <code>WHEN</code> / <code>THEN</code> / <code>SHALL</code> structure:
-            </span>
-            <span data-lang="zh">
-              需求最大的問題是「我以為我講清楚了」。用
-              <a href="https://alistairmavin.com/ears/" target="_blank" rel="noopener">EARS（Easy Approach to Requirements Syntax）</a>
-              把每條需求轉成 <code>WHEN</code>、<code>THEN</code>、<code>SHALL</code> 的結構：
-            </span>
-          </p>
-          <div class="quote">
-            <span data-lang="en">
-              <strong>WHEN</strong> a user enters the wrong password 5 times in a row,
-              <strong>THEN</strong> the login system <strong>SHALL</strong> lock the account for 15 minutes.
-            </span>
-            <span data-lang="zh">
-              <strong>WHEN</strong> 使用者連續輸入錯誤密碼 5 次，<strong>THEN</strong>
-              登入系統 <strong>SHALL</strong> 鎖定帳號 15 分鐘。
-            </span>
-          </div>
+  <section class="sec region" id="claude">
+    <div class="step">
+      <div class="pinno"><small>Pin</small>3</div>
+      <div>
+        <h2><span data-lang="en">A short CLAUDE.md</span><span data-lang="zh">一份精簡的 CLAUDE.md</span></h2>
+        <ul class="list">
+          <li><span data-lang="en">Read at the start of every session. It tells the model to tick the ROADMAP box and update "Currently working on" after each step.</span><span data-lang="zh">每個 session 開頭都會讀。規定模型每完成一步就打勾 ROADMAP、更新「Currently working on」。</span></li>
+          <li><span data-lang="en">Under 200 lines. Test per line: if this line were gone, would the model make a mistake? If not, delete it.</span><span data-lang="zh">200 行以內。每一行問：拿掉這行模型會犯錯嗎？不會就刪。</span></li>
+          <li><span data-lang="en">Rules that earned a line in U1: every code path has a MockVisa story; outputs never auto-enable; watch CI to the end after every push.</span><span data-lang="zh">在 U1 裡值得一行的規則：每條程式路徑都有 MockVisa 版本；輸出絕不自動開啟；每次 push 盯 CI 到結束。</span></li>
+          <li><span data-lang="en">Rules in U2: write an <code>operation_logs</code> row for every mutation, no exceptions; never hardcode the shop name or a flavor.</span><span data-lang="zh">U2 的規則：每個變更都寫一列 <code>operation_logs</code>，沒有例外；店名和口味絕不寫死。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="gates">
+    <div class="step">
+      <div class="pinno"><small>Pin</small>4</div>
+      <div class="stack-24">
+        <h2 class="mb-0"><span data-lang="en">Gates the model cannot talk its way past</span><span data-lang="zh">模型說不過去的關卡</span></h2>
+        <p class="muted mb-0"><span data-lang="en">The task loop used on U1. Dashed boxes are the gates.</span><span data-lang="zh">U1 使用的任務流程。虛線框是關卡。</span></p>
+        <div class="flow" aria-label="Task loop">
+          <div class="st"><span class="n">1</span><span class="t"><span data-lang="en">Open an issue</span><span data-lang="zh">開 issue</span></span></div>
+          <div class="st"><span class="n">2</span><span class="t"><span data-lang="en">Plan in plan mode, approve</span><span data-lang="zh">plan mode 規劃，核可</span></span></div>
+          <div class="st"><span class="n">3</span><span class="t"><span data-lang="en">Branch <code>issue/N</code>, build</span><span data-lang="zh">開 <code>issue/N</code> 分支，實作</span></span></div>
+          <div class="st gate"><span class="n">4</span><span class="t">cargo check · fmt · clippy -D warnings · test</span></div>
+          <div class="st"><span class="n">5</span><span class="t"><span data-lang="en">Pull request with a lab-safety checklist</span><span data-lang="zh">PR 附實驗室安全檢查表</span></span></div>
+          <div class="st gate"><span class="n">6</span><span class="t"><span data-lang="en">Second-model review, gating</span><span data-lang="zh">第二個模型 review，有否決權</span></span></div>
+          <div class="st gate"><span class="n">7</span><span class="t"><span data-lang="en">Apply comments, stop. Run hardware by hand.</span><span data-lang="zh">套用意見後停下。手動跑實機。</span></span></div>
+          <div class="st"><span class="n">8</span><span class="t"><span data-lang="en">Squash merge, watch CI to the end</span><span data-lang="zh">squash 合併，盯 CI 到結束</span></span></div>
         </div>
-
-        <div class="doc">
-          <div class="doc-name">
-            <code>SDD.md</code>
-            <span class="what">
-              <span data-lang="en">how the system is built</span>
-              <span data-lang="zh">系統怎麼長</span>
-            </span>
-          </div>
-          <p>
-            <span data-lang="en">
-              SPEC says "what to build"; the SDD (Software Design Document) says "how." Here you
-              fix the system architecture, data structures, data flow, error handling, and the
-              automated tests and acceptance criteria.
-            </span>
-            <span data-lang="zh">
-              SPEC 講「要做什麼」，SDD（Software Design Document）講「怎麼做」。在這裡定下系統架構、
-              資料結構、資料流程、錯誤處理、以及自動測試與驗收標準。
-            </span>
-          </p>
-          <p>
-            <span data-lang="en">
-              The most valuable part of this document is <strong>error handling and acceptance</strong>.
-              AI is great at the happy path; what it most often misses is "what happens when it fails"
-              and "what counts as done." Write those two into the SDD before touching code, and they
-              won't turn into hard-to-trace bugs later.
-            </span>
-            <span data-lang="zh">
-              這份文件最值錢的地方是<strong>錯誤處理跟驗收</strong>。AI 很會寫 happy path，
-              最容易漏的就是「出錯時怎麼辦」和「怎麼算做完」。把這兩塊在動手前就寫進 SDD，
-              後面才不會變成難以追蹤的 bug。
-            </span>
-          </p>
-        </div>
-
-        <div class="doc">
-          <div class="doc-name">
-            <code>ROADMAP.md</code>
-            <span class="what">
-              <span data-lang="en">broken into trackable steps</span>
-              <span data-lang="zh">拆成可追蹤的步驟</span>
-            </span>
-          </div>
-          <p>
-            <span data-lang="en">
-              Break implementation into a numbered checklist of steps, each small enough to finish
-              and verify on its own, each linked to its git commit.
-            </span>
-            <span data-lang="zh">
-              把實作拆成編號步驟 checklist，每步小到可以獨立完成、獨立驗證，並且連到對應的 git commit。
-            </span>
-          </p>
-          <p>
-            <span data-lang="en">
-              The key is that the numbers stay <strong>permanently stable</strong>. Once it's in the
-              ROADMAP, <code>issue/12</code> is always Step 12; to split it, use <code>12a</code> /
-              <code>12b</code> — never renumber. For steps you won't do, leave a placeholder with one
-              line on why, instead of silently deleting them. Then half a year later, every commit in
-              git log still maps back to the original plan.
-            </span>
-            <span data-lang="zh">
-              關鍵是編號要<strong>永久穩定</strong>。一旦寫進 ROADMAP，<code>issue/12</code> 永遠是
-              Step 12，要拆分用 <code>12a</code> / <code>12b</code>，不重新流水號；不做的步驟留
-              placeholder 加一行說明為什麼不做，不要默默刪掉。這樣半年後翻 git log，
-              每個 commit 都還對得回當初的規劃。
-            </span>
-          </p>
-        </div>
+        <ul class="list">
+          <li><span data-lang="en">The pause at step 7 is deliberate. Mock tests green is not the feature working. The instrument decides.</span><span data-lang="zh">第 7 步的停頓是故意的。mock 測試綠不等於功能可用。儀器說了算。</span></li>
+          <li><span data-lang="en">Hardware tests are <code>#[ignore]</code> and need <code>BENCHPRESS_HW=1</code>. Acceptance per instrument is logged with firmware and commit.</span><span data-lang="zh">實機測試標 <code>#[ignore]</code>，要 <code>BENCHPRESS_HW=1</code>。每台儀器的驗收記韌體與 commit。</span></li>
+          <li><span data-lang="en">For U2 the gate was the counter: feedback came as phone photos of the tablet, and the next commit answered them.</span><span data-lang="zh">U2 的關卡是櫃台：回饋是平板的手機照片，下一個 commit 回答它們。</span></li>
+        </ul>
+        <table class="facts skills">
+          <caption class="sr"><span data-lang="en">Skills in regular use</span><span data-lang="zh">固定使用的 Skill</span></caption>
+          <tbody>
+            <tr><th scope="row">AskUserQuestion</th><td><span data-lang="en">The model interviews me before the SDD.</span><span data-lang="zh">寫 SDD 前讓模型訪談我。</span></td></tr>
+            <tr><th scope="row"><a href="https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md" target="_blank" rel="noopener">test-driven-development</a></th><td><span data-lang="en">Red, green, refactor. A failing test gives the model its own loop.</span><span data-lang="zh">紅、綠、重構。會失敗的測試給模型自己的迴圈。</span></td></tr>
+            <tr><th scope="row"><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener">karpathy-guidelines</a></th><td><span data-lang="en">Simple first, surgical changes. Cut PDF export, bus bucketing, snippet parameters from U1's early plan.</span><span data-lang="zh">先簡單、外科手術式改動。U1 早期砍掉 PDF 輸出、bus 分桶、snippet 參數。</span></td></tr>
+            <tr><th scope="row">obsidian-vault</th><td><span data-lang="en">My own. Decisions and pitfalls get filed into my notes while the work happens.</span><span data-lang="zh">自己寫的。決策和踩坑在做的當下就歸檔進筆記。</span></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Step 3 · CLAUDE.md ──────────────────────────────────────── -->
-<section id="contract">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">
-        <span data-lang="en">§ 03 · Step three</span>
-        <span data-lang="zh">§ 03 · 第三步</span>
-      </span>
-      <h2 class="h-section">
-        <span data-lang="en">Write a project-level<br /><em>CLAUDE.md</em>.</span>
-        <span data-lang="zh">寫專案層級的<br /><em>CLAUDE.md</em>。</span>
-      </h2>
-    </div>
-    <div class="prose">
-      <div class="col">
-        <p>
-          <span data-lang="en">
-            <code>CLAUDE.md</code> is the contract the AI reads at the start of every session. Use it
-            to keep the three documents above <strong>always up to date</strong>: require the AI, on
-            finishing each ROADMAP step, to go back, tick the matching checkbox, and update the
-            "Currently working on" line at the top.
-          </span>
-          <span data-lang="zh">
-            <code>CLAUDE.md</code> 是 AI 每個 session 開頭都會讀的契約。用它來確保上面三份文件的狀態
-            <strong>永遠 up to date</strong>：規定 AI 每完成一個 ROADMAP 步驟，
-            就要回去把對應的 checkbox 打勾、把頂端的「Currently working on」更新。
-          </span>
-        </p>
-        <p>
-          <span data-lang="en">
-            Writing a CLAUDE.md has a counterintuitive rule: <strong>shorter is better</strong>. The
-            official guidance is under 200 lines; past 300, the AI starts dropping signals. The test
-            for each line is "if I removed this, would the AI make a mistake?" — if not, cut it. A
-            bloated CLAUDE.md isn't safer; it drowns the rules that actually matter in noise.
-          </span>
-          <span data-lang="zh">
-            寫 CLAUDE.md 有個反直覺的原則：<strong>越短越好</strong>。官方建議 200 行內，
-            超過 300 行 AI 開始遺漏信號。判斷標準是每一行都問自己「拿掉這行，AI 會犯錯嗎？」
-            不會就砍掉。膨脹的 CLAUDE.md 不是更安全，是讓真正重要的規則被雜訊淹沒。
-          </span>
-        </p>
+  <section class="sec region" id="prompts">
+    <div class="cols">
+      <div class="c7 stack-24">
+        <h2 class="mb-0"><span data-lang="en">Real prompts</span><span data-lang="zh">真實的 prompt</span></h2>
+        <p class="muted mb-0"><span data-lang="en">From the U1 project notes, unedited. Chinese as written; English alongside.</span><span data-lang="zh">取自 U1 的專案筆記，未修改。</span></p>
+        <div class="prompt"><span data-lang="en">The old flow is hard-coded. I want the new flow to be built by dragging, like blocks: combine commands from different instruments into a full test item, with waits and the like. Also allow for several GPIB or Ethernet interfaces sending commands and handling replies at the same time.</span><span data-lang="zh">舊的操作流程是寫死的, 希望新的操作流程可以藉由拖拉的方式, 像積木一樣組合不同儀器的 command 拼湊出完整的側項, 也可以設定等待時間之類的操作, 另外也要考慮若有多條 GPIB 或 ethernet 介面, 同時發送指令和處理的可能性</span><span class="src"><span data-lang="en">Brief, 2026-05 · became the block model and parallel lanes</span><span data-lang="zh">需求，2026-05 · 成了積木模型與平行車道</span></span></div>
+        <div class="prompt"><span data-lang="en">Plan an Error Handler flow. It is a special state entered whenever an error occurs. It must filter errors and, by severity, either let them pass or handle them.</span><span data-lang="zh">請規劃新增一個 Error Handler 流程 這是當任何時候有錯誤發生時會進入的特殊狀態, 要可以過濾錯誤, 視不同等級的錯誤放行或錯誤處理</span><span class="src"><span data-lang="en">Change request · became per-step Halt / Continue / Retry with severity</span><span data-lang="zh">修改需求 · 成了每步的 Halt / Continue / Retry 與錯誤分級</span></span></div>
+        <div class="prompt"><span data-lang="en">Code cleanliness matters.</span><span data-lang="zh">code cleanliness 很重要</span><span class="src"><span data-lang="en">ROADMAP M9 · led to deleting 9 crates and 1,500 lines once templates replaced them</span><span data-lang="zh">ROADMAP M9 · 模板上線後據此刪掉 9 個 crate、1,500 行</span></span></div>
+      </div>
+      <div class="c5">
+        <h2><span data-lang="en">Why it matters</span><span data-lang="zh">為什麼重要</span></h2>
+        <ul class="list" style="margin-top:14px">
+          <li><span data-lang="en">The documents are not the value. Being forced to think the idea through before any code is.</span><span data-lang="zh">文件本身不是價值。被迫在寫程式前把想法想清楚才是。</span></li>
+          <li><span data-lang="en">A clear spec is implemented fast. A vague one produces something that looks right and is wrong, just as fast.</span><span data-lang="zh">規格清楚，實作很快。規格模糊，一樣快做出看起來對其實錯的東西。</span></li>
+          <li><span data-lang="en">The model does the typing. The gates, the hardware and the counter decide what ships.</span><span data-lang="zh">打字的是模型。決定什麼能出貨的是關卡、儀器和櫃台。</span></li>
+        </ul>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Step 4 · Skills ─────────────────────────────────────────── -->
-<section id="skills">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">
-        <span data-lang="en">§ 04 · Step four</span>
-        <span data-lang="zh">§ 04 · 第四步</span>
-      </span>
-      <h2 class="h-section">
-        <span data-lang="en">Build with <em>Skills</em>.</span>
-        <span data-lang="zh">搭配 <em>Skill</em> 開發。</span>
-      </h2>
+  <footer class="dataline region">
+    <div class="id">
+      <span>Tom Huang</span>
+      <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
+      <span>Taipei, TW</span>
+      <span>J1 · REV 2026-10</span>
     </div>
-    <div class="prose">
-      <div class="col">
-        <p>
-          <span data-lang="en">
-            A Skill is an on-demand workflow; CLAUDE.md is an always-on rule. Putting skill-shaped
-            things into CLAUDE.md just wastes context. My regular set:
-          </span>
-          <span data-lang="zh">
-            Skill 是按需載入的工作流，CLAUDE.md 是永遠開著的規則。該放 skill 的東西放進 CLAUDE.md
-            只是白白佔 context。我固定搭這幾個：
-          </span>
-        </p>
-
-        <h3><code>AskUserQuestion</code></h3>
-        <p>
-          <span data-lang="en">
-            When producing the SDD, I let the AI interview me instead. I give a minimal description
-            and have it use this tool to ask — one at a time — about technical implementation, UI,
-            edge cases and trade-offs, drilling into points I hadn't even thought of, and only then
-            write the SDD.
-          </span>
-          <span data-lang="zh">
-            產 SDD 時讓 AI 反過來訪談我。我給最小的描述，叫它用這個工具一條一條問技術實作、UI、
-            邊界條件、取捨，問到我自己都沒想過的點，最後才寫成 SDD。
-          </span>
-        </p>
-
-        <h3><code>test-driven-development</code></h3>
-        <p>
-          <span data-lang="en">
-            From obra's
-            <a href="https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md" target="_blank" rel="noopener">superpowers</a>.
-            It enforces Red-Green-Refactor: write a failing test first, then write code to pass it, no
-            skipping steps. Before the test you ask "what <strong>should</strong> this do"; after, "what
-            does it <strong>actually</strong> do" — two different questions. With a test that
-            passes / fails, the AI can run its own verification loop.
-          </span>
-          <span data-lang="zh">
-            來自 obra 的
-            <a href="https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md" target="_blank" rel="noopener">superpowers</a>。
-            強制 Red-Green-Refactor：先寫會失敗的測試，再寫 code 讓它通過，不准跳步。測試前問的是
-            「這東西<strong>應該</strong>做什麼」，測試後問的是「這東西<strong>實際</strong>做了什麼」，
-            這是兩個不同的問題。有了會 pass / fail 的測試，AI 就能自己跑驗證迴圈。
-          </span>
-        </p>
-
-        <h3><code>karpathy-guidelines</code></h3>
-        <p>
-          <span data-lang="en">
-            <a href="https://github.com/multica-ai/andrej-karpathy-skills/tree/main" target="_blank" rel="noopener">Karpathy's</a>
-            four general principles: think before writing, simple first, surgical changes, goal-driven
-            execution. A cure for AI over-design, drive-by edits to unrelated code, and needless layers
-            of abstraction.
-          </span>
-          <span data-lang="zh">
-            <a href="https://github.com/multica-ai/andrej-karpathy-skills/tree/main" target="_blank" rel="noopener">Karpathy 整理</a>
-            的四條通用準則：先想再寫、簡單優先、外科手術式改動、目標驅動執行。專治 AI 過度設計、
-            順手改不相干的 code、加多餘的抽象層。
-          </span>
-        </p>
-
-        <h3><code>obsidian-vault</code></h3>
-        <p>
-          <span data-lang="en">
-            A note-taking skill I built so Claude understands my Obsidian folder structure (Inbox for
-            scratch, Notes for my own writing, Resource for external material, Index for topic indexes).
-            Pitfalls, decisions and research insights from development get filed and turned into notes
-            automatically. When the project's done, the knowledge settles with it — instead of getting
-            lost in chat logs you can't fish back out.
-          </span>
-          <span data-lang="zh">
-            自建的筆記 skill，讓 Claude 懂我的 Obsidian 資料夾結構（Inbox 暫存、Notes 自寫、
-            Resource 外部、Index 主題索引），開發過程中的踩坑、決策、研究心得都能自動歸位整理成筆記。
-            專案做完，知識也跟著沉澱下來，不會散在對話紀錄裡撈不回來。
-          </span>
-        </p>
-      </div>
+    <div class="links">
+      <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+      <a href="../benchpress/">U1 benchpress</a>
+      <a href="../pos/">U2 tujia pos</a>
+      <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
     </div>
-  </div>
-</section>
+  </footer>
+</main>
 
-<!-- ── Why ─────────────────────────────────────────────────────── -->
-<section id="why">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">
-        <span data-lang="en">§ 05 · The point</span>
-        <span data-lang="zh">§ 05 · 收束</span>
-      </span>
-      <h2 class="h-section">
-        <span data-lang="en">Why <em>bother</em> with all this.</span>
-        <span data-lang="zh">為什麼要<em>這麼麻煩</em>。</span>
-      </h2>
-    </div>
-    <div class="prose">
-      <div class="col">
-        <p>
-          <span data-lang="en">
-            Writing three documents, setting up skills, insisting on stable ROADMAP numbers — it looks
-            like it slows down the start. But the real value of this process isn't the "documents"
-            themselves; it's that it <strong>forces you to think a vague idea through</strong>.
-          </span>
-          <span data-lang="zh">
-            寫三份文件、設 skill、堅持 ROADMAP 編號，看起來像在拖慢開工。但這套流程真正的價值不在
-            「文件」本身，而在它<strong>逼你把模糊的想法想清楚</strong>。
-          </span>
-        </p>
-        <p>
-          <span data-lang="en">
-            AI amplifies discipline; it doesn't replace it. Give it a clear spec and it implements at
-            10×; give it a vague wish and it produces, at 10×, something that looks right and is
-            entirely wrong — and you spend even more time cleaning up.
-          </span>
-          <span data-lang="zh">
-            AI 放大的是紀律，不是取代紀律。你給它清楚的規格，它幫你十倍速實作；你給它模糊的願望，
-            它十倍速產出看起來對、實際全錯的東西，你還得花更多時間清理。
-          </span>
-        </p>
-        <blockquote>
-          <span data-lang="en">
-            For me, the most useful part of this opening ritual isn't the filenames — it's that it
-            turns "developing with AI" from "throw a request → get a blob of code → patch back and
-            forth" into "align on spec → AI runs to spec → I sign off."
-            <strong>The former is gambling; the latter is engineering.</strong>
-          </span>
-          <span data-lang="zh">
-            對我來說，這套起手式最有用的部分不是那幾個檔名，而是它讓「跟 AI 開發」從
-            「丟需求 → 收一坨 code → 來回修」變成「先對齊規格 → AI 照規格跑 → 我驗收」。
-            <strong>前者是賭運氣，後者是工程。</strong>
-          </span>
-        </blockquote>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Footer ──────────────────────────────────────────────────── -->
-<footer>
-  <div class="wrap">
-    <div>
-      <div class="sigil">workflow<em>.</em></div>
-      <div class="colofon">
-        <span class="label">
-          <span data-lang="en">Colofon</span>
-          <span data-lang="zh">版本資訊</span>
-        </span>
-        <span data-lang="en">
-          Display in Instrument Serif / Noto Serif TC.<br />
-          Body and code in JetBrains Mono.<br />
-          A method note on working with Claude Code.<br />
-          Last updated 2026-06-08.
-        </span>
-        <span data-lang="zh">
-          標題：Noto Serif TC / Instrument Serif。<br />
-          內文與程式碼：JetBrains Mono。<br />
-          一篇關於 Claude Code 工作流的方法論筆記。<br />
-          最後更新 2026-06-08。
-        </span>
-      </div>
-    </div>
-    <div>
-      <h4>
-        <span data-lang="en">Evidence</span>
-        <span data-lang="zh">佐證</span>
-      </h4>
-      <ul>
-        <li><a href="../benchpress/"><span data-lang="en">benchpress case study</span><span data-lang="zh">benchpress 案例</span></a></li>
-        <li><a href="../pos/"><span data-lang="en">tujia pos case study</span><span data-lang="zh">tujia pos 案例</span></a></li>
-        <li><a href="https://github.com/COOMO" target="_blank" rel="noopener">github.com/COOMO</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>
-        <span data-lang="en">Sections</span>
-        <span data-lang="zh">段落</span>
-      </h4>
-      <ul>
-        <li><a href="#start"><span data-lang="en">Step 1 · Git</span><span data-lang="zh">第一步 · Git</span></a></li>
-        <li><a href="#docs"><span data-lang="en">Step 2 · Three docs</span><span data-lang="zh">第二步 · 三份文件</span></a></li>
-        <li><a href="#contract"><span data-lang="en">Step 3 · CLAUDE.md</span><span data-lang="zh">第三步 · CLAUDE.md</span></a></li>
-        <li><a href="#skills"><span data-lang="en">Step 4 · Skill</span><span data-lang="zh">第四步 · Skill</span></a></li>
-        <li><a href="../"><span data-lang="en">← back to portfolio</span><span data-lang="zh">← 回到作品集首頁</span></a></li>
-      </ul>
-    </div>
-  </div>
-</footer>
-
-<script>
-(function(){
-  var KEY = 'portfolio-lang';
-  function setLang(lang){
-    if (lang !== 'en' && lang !== 'zh') lang = 'en';
-    document.documentElement.lang = lang;
-    try { localStorage.setItem(KEY, lang); } catch(_){}
-    var t = document.querySelector('title');
-    if (t){
-      var tv = t.getAttribute('data-' + lang);
-      if (tv) t.textContent = tv;
-    }
-    var m = document.querySelector('meta[name="description"]');
-    if (m){
-      var mv = m.getAttribute('data-' + lang);
-      if (mv) m.setAttribute('content', mv);
-    }
-  }
-  var saved = null;
-  try { saved = localStorage.getItem(KEY); } catch(_){}
-  var initial = saved;
-  if (initial !== 'en' && initial !== 'zh'){
-    initial = (navigator.language || 'en').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
-  }
-  setLang(initial);
-  var btn = document.getElementById('langToggle');
-  if (btn){
-    btn.addEventListener('click', function(){
-      setLang(document.documentElement.lang === 'en' ? 'zh' : 'en');
-    });
-  }
-})();
-</script>
-
+<script src="../assets/site.js" defer></script>
 </body>
 </html>

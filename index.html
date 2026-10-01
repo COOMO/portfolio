@@ -3,482 +3,205 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title data-en="Tom Huang — portfolio" data-zh="Tom Huang — 作品集">Tom Huang — portfolio</title>
+<title data-en="Tom Huang · portfolio" data-zh="Tom Huang · 作品集">Tom Huang · portfolio</title>
 <meta name="description"
-      data-en="Shipping small, sharp tools for real engineering problems — built with Rust, web, and a heavy lean on AI-assisted development."
-      data-zh="把真實的工程問題拆成小而銳利的工具，以 Rust、Web 為主，並大量使用 AI 輔助開發。"
-      content="Shipping small, sharp tools for real engineering problems — built with Rust, web, and a heavy lean on AI-assisted development." />
-
+      data-en="Tom Huang, software engineer in Taipei. Two shipped Rust products: an instrument-control app for a lab bench and an order book for a bakery."
+      data-zh="Tom Huang，台北的軟體工程師。兩個已出貨的 Rust 產品：實驗室儀器控制軟體，和麵包店的訂單系統。"
+      content="Tom Huang, software engineer in Taipei. Two shipped Rust products: an instrument-control app for a lab bench and an order book for a bakery." />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#121314" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/site.css">
 <style>
-*,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;padding:0}
-html{scroll-behavior:smooth}
-
-:root{
-  --bg:        #0a0c12;
-  --bg-elev:   #11141d;
-  --bg-card:   #161a25;
-  --ink:       #ebe8df;
-  --ink-2:     #9a978c;
-  --ink-3:     #5a5c66;
-  --rule:      #232735;
-  --rule-soft: #1a1d28;
-  --phosphor:  #6fe3b8;
-  --amber:     #f4c47a;
-  --grat:      rgba(111,227,184,0.045);
-  --grat-mid:  rgba(111,227,184,0.10);
-  --serif:     "Instrument Serif","EB Garamond",Georgia,serif;
-  --serif-zh:  "Noto Serif TC","Instrument Serif","PMingLiU",serif;
-  --mono:      "JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
-  --sans-zh:   "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
-}
-
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--mono);
-  font-size:14px;
-  line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-  overflow-x:hidden;
-}
-a{color:var(--phosphor);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
-a:hover{border-bottom-color:var(--phosphor)}
-::selection{background:var(--phosphor);color:var(--bg)}
-
-html[lang="en"] [data-lang="zh"]{display:none}
-html[lang="zh"] [data-lang="en"]{display:none}
-html[lang="zh"] [data-lang="zh"]{font-family:var(--sans-zh)}
-html[lang="zh"] .serif [data-lang="zh"],
-html[lang="zh"] .h-section [data-lang="zh"],
-html[lang="zh"] .h-card [data-lang="zh"]{font-family:var(--serif-zh);letter-spacing:0}
-[data-lang="zh"] code,[data-lang="zh"] .mono{font-family:var(--mono)}
-
-.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
-
-/* ── Typography ─────────────────────────────────────────── */
-.h-section{
-  font-family:var(--serif);font-weight:400;
-  font-size:clamp(32px,4.5vw,52px);line-height:1.0;
-  letter-spacing:-0.015em;margin:0;
-}
-.h-card{
-  font-family:var(--mono);font-weight:500;
-  font-size:24px;line-height:1.2;letter-spacing:0;
-  margin:0 0 8px;color:var(--ink);
-}
-.eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:500;
-  letter-spacing:0.18em;text-transform:uppercase;color:var(--phosphor);
-}
-.eyebrow .dim{color:var(--ink-3)}
-.kicker{
-  font-family:var(--mono);font-size:10px;letter-spacing:0.22em;
-  text-transform:uppercase;color:var(--ink-3);
-}
-
-/* ── Topbar ─────────────────────────────────────────────── */
-.topbar{
-  position:sticky;top:0;z-index:50;
-  background:rgba(10,12,18,0.85);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--rule);
-}
-.topbar .wrap{
-  display:flex;align-items:center;gap:24px;
-  padding-top:16px;padding-bottom:16px;
-  font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-2);
-}
-.brand{
-  font-family:var(--serif);font-size:22px;letter-spacing:-0.01em;
-  text-transform:none;color:var(--ink);
-  display:flex;align-items:baseline;gap:10px;
-}
-.brand .dot{
-  display:inline-block;width:8px;height:8px;background:var(--phosphor);
-  border-radius:50%;box-shadow:0 0 12px var(--phosphor);
-  animation:pulse 2.2s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;box-shadow:0 0 12px var(--phosphor)}
-  50%{opacity:0.55;box-shadow:0 0 18px var(--phosphor)}
-}
-.topbar nav{margin-left:auto;display:flex;gap:24px;align-items:center}
-.topbar nav a{color:var(--ink-2);border:0}
-.topbar nav a:hover{color:var(--ink)}
-
-.lang-toggle{
-  margin-left:6px;background:transparent;
-  border:1px solid var(--rule);color:var(--ink-3);
-  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.08em;
-  padding:5px 12px;cursor:pointer;
-  transition:border-color .2s, color .2s;
-  text-transform:none;user-select:none;
-}
-.lang-toggle:hover{border-color:var(--phosphor)}
-.lang-toggle:focus-visible{outline:1px solid var(--phosphor);outline-offset:2px}
-.lang-toggle .opt{color:var(--ink-3);transition:color .2s, text-shadow .2s;padding:0 2px}
-.lang-toggle .opt-sep{color:var(--ink-3);margin:0 6px;opacity:0.55}
-html[lang="en"] .lang-toggle .opt-en{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4)}
-html[lang="zh"] .lang-toggle .opt-zh{color:var(--phosphor);text-shadow:0 0 8px rgba(111,227,184,0.4);font-family:var(--sans-zh)}
-
-/* ── Hero ───────────────────────────────────────────────── */
-.hero{position:relative;padding:96px 0 64px;overflow:hidden}
-.hero .graticule{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(var(--grat) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grat) 1px, transparent 1px),
-    linear-gradient(var(--grat-mid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grat-mid) 1px, transparent 1px);
-  background-size:40px 40px, 40px 40px, 200px 200px, 200px 200px;
-  background-position:-1px -1px;
-  mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
-  -webkit-mask-image:radial-gradient(ellipse at 30% 40%, #000 0%, transparent 80%);
-  pointer-events:none;
-}
-.hero .scanline{
-  position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg, transparent, var(--phosphor) 30%, var(--phosphor) 70%, transparent);
-  opacity:0.18;animation:scan 9s linear infinite;pointer-events:none;
-}
-@keyframes scan{0%{top:0%}100%{top:100%}}
-.hero-inner{position:relative;z-index:2}
-.hero .preheading{display:flex;gap:14px;align-items:center;margin-bottom:36px;flex-wrap:wrap}
-.hero .preheading .sep{color:var(--ink-3)}
-.hero h1{margin:0 0 28px;max-width:16ch;animation:fadeUp .9s .1s both}
-html[lang="zh"] .hero h1{max-width:20ch}
-.hero .lede{
-  font-family:var(--mono);font-size:16px;line-height:1.75;
-  color:var(--ink-2);max-width:62ch;margin:0 0 32px;
-  animation:fadeUp .9s .2s both;
-}
-.hero .lede strong{color:var(--ink);font-weight:500}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-
-/* ── Section ────────────────────────────────────────────── */
-.section{padding:80px 0;border-top:1px solid var(--rule)}
-.section--first{
-  position:relative;
-  padding:120px 0 80px;
-  border-top:0;
-  overflow:hidden;
-}
-.section--first .graticule{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(var(--grat) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grat) 1px, transparent 1px),
-    linear-gradient(var(--grat-mid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grat-mid) 1px, transparent 1px);
-  background-size:40px 40px, 40px 40px, 200px 200px, 200px 200px;
-  background-position:-1px -1px;
-  mask-image:radial-gradient(ellipse at 20% 30%, #000 0%, transparent 75%);
-  -webkit-mask-image:radial-gradient(ellipse at 20% 30%, #000 0%, transparent 75%);
-  pointer-events:none;
-}
-.section--first .scanline{
-  position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg, transparent, var(--phosphor) 30%, var(--phosphor) 70%, transparent);
-  opacity:0.18;animation:scan 9s linear infinite;pointer-events:none;
-}
-@keyframes scan{0%{top:0%}100%{top:100%}}
-.section--first .wrap{position:relative;z-index:2}
-.section-head{
-  display:flex;align-items:baseline;justify-content:space-between;gap:24px;
-  margin-bottom:48px;flex-wrap:wrap;
-}
-.section-head .count{color:var(--ink-3);font-family:var(--mono);font-size:12px;letter-spacing:0.18em}
-.section-head .eyebrow{align-self:center}
-
-/* ── Project cards ──────────────────────────────────────── */
-.projects{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
-@media (min-width:780px){.projects{grid-template-columns:1fr 1fr}}
-
-.project{
-  position:relative;background:var(--bg);
-  padding:36px 32px 32px;
-  transition:background .25s ease;
-  display:flex;flex-direction:column;min-height:340px;
-}
-.project a.cover{
-  position:absolute;inset:0;z-index:1;border:0;
-}
-.project:hover{background:var(--bg-elev)}
-.project:hover .h-card{color:var(--phosphor)}
-.project .meta{
-  display:flex;align-items:center;gap:10px;
-  font-family:var(--mono);font-size:10px;letter-spacing:0.18em;
-  text-transform:uppercase;color:var(--ink-3);margin-bottom:20px;
-}
-.project .meta .status{
-  display:inline-flex;align-items:center;gap:6px;color:var(--phosphor);
-}
-.project .meta .status::before{
-  content:"";width:6px;height:6px;border-radius:50%;
-  background:var(--phosphor);box-shadow:0 0 8px var(--phosphor);
-}
-.project .meta .status.wip{color:var(--amber)}
-.project .meta .status.wip::before{background:var(--amber);box-shadow:0 0 8px var(--amber)}
-.project .meta .sep{color:var(--ink-3);opacity:0.5}
-.project .h-card{transition:color .25s ease}
-.project .tagline{color:var(--ink-2);font-size:14px;line-height:1.6;margin:0 0 18px;flex:1}
-.project .stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-.project .stack span{
-  font-family:var(--mono);font-size:10px;letter-spacing:0.06em;
-  color:var(--ink-2);border:1px solid var(--rule);
-  padding:3px 8px;border-radius:2px;
-}
-.project .open{
-  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
-  text-transform:uppercase;color:var(--phosphor);
-  display:inline-flex;align-items:center;gap:8px;
-  position:relative;z-index:2;width:max-content;
-}
-.project .open .arr{transition:transform .2s ease;display:inline-block}
-.project:hover .open .arr{transform:translateX(4px)}
-
-/* Placeholder card (future project slot) */
-.project.placeholder{
-  background:var(--bg);
-  border:1px dashed var(--rule);
-  margin:-1px;
-}
-.project.placeholder:hover{background:var(--bg)}
-.project.placeholder .h-card{color:var(--ink-3)}
-.project.placeholder .tagline{color:var(--ink-3)}
-
-/* ── About / Contact ────────────────────────────────────── */
-/* ── Contact list ───────────────────────────────────────── */
-.contact-list{
-  list-style:none;padding:0;margin:0;
-  font-family:var(--mono);font-size:13px;
-  max-width:720px;
-}
-.contact-list li{
-  padding:18px 0;border-top:1px solid var(--rule-soft);
-  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
-}
-.contact-list li:first-child{border-top:0}
-.contact-list li:last-child{border-bottom:1px solid var(--rule-soft)}
-.contact-list .label{
-  color:var(--ink-3);text-transform:uppercase;
-  letter-spacing:0.14em;font-size:10px;
-}
-
-/* ── Footer ─────────────────────────────────────────────── */
-footer{
-  border-top:1px solid var(--rule);padding:32px 0;
-  font-family:var(--mono);font-size:11px;color:var(--ink-3);
-  letter-spacing:0.08em;
-}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  /* landing-only layout: the work leads */
+  .legend{grid-template-columns:1fr;justify-items:end;padding-top:62px;padding-bottom:14px}
+  .legend .right{align-items:flex-end}
+  .index{padding-top:22px;padding-bottom:10px}
+  .bom td{padding:11px 12px}
+  .bom .part a{font-size:20px}
+  .deck{display:grid;gap:28px;padding-top:28px;padding-bottom:40px}
+  a.fp{display:block;color:inherit;text-decoration:none}
+  .show{display:grid;grid-template-columns:8fr 4fr;gap:22px 28px;align-items:start}
+  .show .side{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .show .side .one{font-size:18px;line-height:1.45;color:var(--silk);max-width:none}
+  .trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .trio .shot{aspect-ratio:3/5;padding:8px;background:var(--mask-deep)}
+  .trio .shot img{width:100%;height:100%;object-fit:contain;object-position:top center}
+  .kv{list-style:none;margin:0;padding:0;border-top:var(--line) solid var(--trace)}
+  .kv li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:var(--line) solid var(--trace);font-size:15px;line-height:1.4}
+  .kv .k{font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--silk-3);padding-top:2px}
+  html[lang="zh"] .kv .k{font-family:var(--zh);letter-spacing:.08em;font-weight:500}
+  .kv .v{color:var(--silk-2)}
+  .kv .v b{color:var(--silk);font-weight:600}
+  .open{font-family:var(--cond);font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+  html[lang="zh"] .open{font-family:var(--zh);letter-spacing:.06em;font-weight:500}
+  .conn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .conn .pin{border:var(--line) solid var(--silk-2);border-radius:2px;padding:9px 8px 7px;text-align:center}
+  .conn .pin .pn{display:block;font-family:var(--cond);font-size:var(--label);font-weight:600;letter-spacing:.1em;color:var(--silk-3)}
+  .conn .pin .pl{display:block;font-family:var(--cond);font-size:16px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--silk);margin-top:2px}
+  html[lang="zh"] .conn .pin .pl{font-family:var(--zh);text-transform:none;font-size:15px;font-weight:500}
+  .j1{display:grid;grid-template-columns:8fr 4fr;gap:22px 28px;align-items:center}
+  .bg{display:grid;grid-template-columns:8fr 4fr;gap:22px 28px;align-items:start;padding-top:8px;padding-bottom:44px}
+  .bg .label{margin-bottom:10px}
+  @media (max-width:980px){.show,.j1,.bg{grid-template-columns:1fr}}
+  @media (max-width:560px){.trio{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.trio .shot{padding:0}.conn{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
-
 <body>
 
-<header class="topbar">
-  <div class="wrap">
-    <div class="brand"><span class="dot"></span><span>Tom</span></div>
-    <nav>
-      <a href="#work"><span data-lang="en">Work</span><span data-lang="zh">作品</span></a>
-      <a href="#notes"><span data-lang="en">Notes</span><span data-lang="zh">筆記</span></a>
-      <a href="#contact"><span data-lang="en">Contact</span><span data-lang="zh">聯絡</span></a>
-      <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">
-        <span class="opt opt-en">EN</span><span class="opt-sep">/</span><span class="opt opt-zh">中</span>
+<main class="board" id="top">
+  <span class="hole tl" aria-hidden="true"></span><span class="hole tr" aria-hidden="true"></span>
+  <span class="hole bl" aria-hidden="true"></span><span class="hole br" aria-hidden="true"></span>
+  <span class="fid a" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid b" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid c" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <svg class="traces" id="traces" aria-hidden="true"></svg>
+
+  <header class="legend region">
+    <div class="right">
+      <button class="jumper" id="jp1" type="button" aria-label="Language: English. Switch to Chinese">
+        <span class="jref">JP1 · LANG</span>
+        <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
       </button>
-    </nav>
-  </div>
-</header>
-
-<!-- ─────────────────── WORK ─────────────────── -->
-<section class="section section--first" id="work">
-  <div class="graticule"></div>
-  <div class="scanline"></div>
-  <div class="wrap">
-    <div class="section-head">
-      <h2 class="h-section">
-        <span data-lang="en">Work</span>
-        <span data-lang="zh">作品</span>
-      </h2>
-      <span class="count">002 / 002</span>
     </div>
+  </header>
 
-    <div class="projects">
+  <section class="index region" aria-label="Index">
+    <table class="bom">
+      <caption class="sr"><span data-lang="en">Bill of materials: the works on this board</span><span data-lang="zh">零件表：板上的作品</span></caption>
+      <thead>
+        <tr>
+          <th scope="col">Ref</th>
+          <th scope="col"><span data-lang="en">Part</span><span data-lang="zh">零件</span></th>
+          <th scope="col"><span data-lang="en">Description</span><span data-lang="zh">說明</span></th>
+          <th scope="col"><span data-lang="en">Year</span><span data-lang="zh">年份</span></th>
+          <th scope="col"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="row-u1" data-trace-to="fp-u1">
+          <td class="ref">U1</td>
+          <td class="part"><a href="./benchpress/">benchpress</a></td>
+          <td class="desc"><span data-lang="en">Instrument control and test sequencing for a lab bench. Windows, Rust.</span><span data-lang="zh">實驗室儀器控制與測試排程。Windows，Rust。</span></td>
+          <td class="year">2026</td>
+          <td><span class="mark shipped"><span data-lang="en">Released</span><span data-lang="zh">已出貨</span></span></td>
+        </tr>
+        <tr id="row-u2" data-trace-to="fp-u2">
+          <td class="ref">U2</td>
+          <td class="part"><a href="./pos/">tujia pos</a></td>
+          <td class="desc"><span data-lang="en">Order book for a bakery counter. Android, iPad, Windows, Rust.</span><span data-lang="zh">麵包店櫃台的訂單系統。Android、iPad、Windows，Rust。</span></td>
+          <td class="year">2026</td>
+          <td><span class="mark shipped"><span data-lang="en">In use</span><span data-lang="zh">使用中</span></span></td>
+        </tr>
+        <tr id="row-j1" data-trace-to="fp-j1">
+          <td class="ref">J1</td>
+          <td class="part"><a href="./workflow/">how i work with ai</a></td>
+          <td class="desc"><span data-lang="en">How I built U1 and U2. Git, three documents, gates.</span><span data-lang="zh">我怎麼做出 U1 和 U2。Git、三份文件、關卡。</span></td>
+          <td class="year">2026</td>
+          <td><span class="mark living"><span data-lang="en">Living</span><span data-lang="zh">持續更新</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-      <!--
-        ─── PROJECT CARD TEMPLATE ───
-        To add a new project:
-        1. Create folder ./your-project-slug/ with its own index.html (+ assets).
-        2. Copy one <article class="project"> block below.
-        3. Update: cover href, status (shipped|wip), year, title, tagline, stack chips.
-        4. Bump the "001 / NNN" counter above.
-      -->
+  <section class="deck region" aria-label="Works">
 
-      <article class="project">
-        <a class="cover" href="./benchpress/" aria-label="Open benchpress case study"></a>
-        <div class="meta">
-          <span class="status"><span data-lang="en">Shipped</span><span data-lang="zh">已上線</span></span>
-          <span class="sep">·</span>
-          <span>2026</span>
-          <span class="sep">·</span>
-          <span><span data-lang="en">Desktop / Instrumentation</span><span data-lang="zh">桌面 / 儀器</span></span>
+    <a class="fp" id="fp-u1" href="./benchpress/">
+      <span class="fpref">U1 <b>benchpress</b></span>
+      <span class="pin1" aria-hidden="true"></span>
+      <div class="show">
+        <figure style="margin:0">
+          <div class="shot"><img src="./benchpress/02-sequence-editor.png" width="1805" height="1333" alt="benchpress sequence editor: action palette on the left, numbered step list in the centre, parameter inspector on the right, event log below." loading="eager" decoding="async" /></div>
+          <figcaption><span class="fig">Fig. 1</span><span><span data-lang="en">Sequence editor · Windows 11</span><span data-lang="zh">序列編輯器 · Windows 11</span></span></figcaption>
+        </figure>
+        <div class="side">
+          <p class="one">
+            <span data-lang="en">benchpress controls bench instruments through GPIB and Ethernet. The user builds a test sequence from blocks. No code is necessary.</span>
+            <span data-lang="zh">benchpress 透過 GPIB 與 Ethernet 控制儀器。使用者用積木組出測試序列。不需要寫程式。</span>
+          </p>
+          <ul class="kv">
+            <li><span class="k"><span data-lang="en">For</span><span data-lang="zh">對象</span></span><span class="v"><span data-lang="en">An R&amp;D lab. It replaces the lab's LabVIEW station.</span><span data-lang="zh">一間研發實驗室。取代該實驗室的 LabVIEW 工作站。</span></span></li>
+            <li><span class="k"><span data-lang="en">Instruments</span><span data-lang="zh">儀器</span></span><span class="v"><b>7</b> <span data-lang="en">models, <b>167</b> SCPI templates</span><span data-lang="zh">款，<b>167</b> 條 SCPI 模板</span></span></li>
+            <li><span class="k"><span data-lang="en">Blocks</span><span data-lang="zh">積木</span></span><span class="v"><b>9</b> <span data-lang="en">types. Each instrument runs in its own parallel lane.</span><span data-lang="zh">種。每台儀器在自己的平行車道上執行。</span></span></li>
+            <li><span class="k"><span data-lang="en">Also</span><span data-lang="zh">另有</span></span><span class="v"><span data-lang="en">MCP server for LLM clients, headless CLI, step debugger, offline license</span><span data-lang="zh">給 LLM 用的 MCP server、無頭 CLI、單步除錯器、離線授權</span></span></li>
+            <li><span class="k"><span data-lang="en">Verified</span><span data-lang="zh">實機</span></span><span class="v"><span data-lang="en">R&amp;S RTB24 on real hardware, 2026-09</span><span data-lang="zh">R&amp;S RTB24 實機驗收，2026-09</span></span></li>
+            <li><span class="k"><span data-lang="en">Build</span><span data-lang="zh">開發</span></span><span class="v"><span data-lang="en">Rust, Dioxus. <b>286</b> commits, May to Sep 2026. One developer.</span><span data-lang="zh">Rust、Dioxus。<b>286</b> 個 commit，2026 年 5 到 9 月。一人開發。</span></span></li>
+          </ul>
+          <span class="open"><span data-lang="en">Open sheet U1 →</span><span data-lang="zh">看 U1 →</span></span>
         </div>
-        <h3 class="h-card">benchpress</h3>
-        <p class="tagline">
-          <span data-lang="en">A Windows desktop app that controls bench instruments over GPIB / Ethernet and composes test sequences from drag-and-drop blocks — built to replace a LabVIEW station.</span>
-          <span data-lang="zh">控制 GPIB / Ethernet 儀器、用拖拉積木組裝測試流程的 Windows 桌面 app，目標是替換既有的 LabVIEW 工作站。</span>
-        </p>
-        <div class="stack">
-          <span>Rust</span><span>Dioxus</span><span>GPIB</span><span>Windows</span><span>AI-assisted</span>
-        </div>
-        <span class="open">
-          <span data-lang="en">Open case study</span><span data-lang="zh">查看案例</span>
-          <span class="arr">→</span>
-        </span>
-      </article>
+      </div>
+    </a>
 
-      <article class="project">
-        <a class="cover" href="./pos/" aria-label="Open tujia pos case study"></a>
-        <div class="meta">
-          <span class="status"><span data-lang="en">Shipped</span><span data-lang="zh">已上線</span></span>
-          <span class="sep">·</span>
-          <span>2026</span>
-          <span class="sep">·</span>
-          <span><span data-lang="en">Mobile / POS</span><span data-lang="zh">行動 / 收銀</span></span>
+    <a class="fp" id="fp-u2" href="./pos/">
+      <span class="fpref">U2 <b>tujia pos</b></span>
+      <span class="pin1" aria-hidden="true"></span>
+      <div class="show">
+        <figure style="margin:0">
+          <div class="trio">
+            <div class="shot"><img src="./pos/flavors.png" width="635" height="1065" alt="New order step 2: eight flavor cells with price and plus-minus buttons." loading="eager" decoding="async" /></div>
+            <div class="shot"><img src="./pos/calendar.png" width="631" height="1019" alt="Pickup-day calendar: each day shows its bread count in four load bands." loading="eager" decoding="async" /></div>
+            <div class="shot"><img src="./pos/kiln.png" width="1200" height="2000" alt="Kiln tab: prep overview and a date by flavor demand grid." loading="eager" decoding="async" /></div>
+          </div>
+          <figcaption><span class="fig">Fig. 2</span><span><span data-lang="en">New order · pickup calendar · kiln plan · Android tablet</span><span data-lang="zh">新增訂單 · 取件日月曆 · 窯次 · Android 平板</span></span></figcaption>
+        </figure>
+        <div class="side">
+          <p class="one">
+            <span data-lang="en">tujia pos replaces the handwritten order book at my mother-in-law's bakery. One Rust codebase runs on an Android tablet, iPad and Windows.</span>
+            <span data-lang="zh">tujia pos 取代岳母麵包店的手寫訂單簿。一份 Rust 程式碼在 Android 平板、iPad、Windows 上執行。</span>
+          </p>
+          <ul class="kv">
+            <li><span class="k"><span data-lang="en">For</span><span data-lang="zh">對象</span></span><span class="v"><span data-lang="en">One elderly owner. Orders come by phone, Messenger and walk-in.</span><span data-lang="zh">一位高齡店主。訂單來自電話、Messenger 和現場。</span></span></li>
+            <li><span class="k"><span data-lang="en">Rules</span><span data-lang="zh">規則</span></span><span class="v"><span data-lang="en">Text <b>18 pt</b> minimum. Touch targets <b>48 px</b> minimum. <b>3</b> taps maximum. No menus.</span><span data-lang="zh">文字最小 <b>18 pt</b>。觸控目標最小 <b>48 px</b>。最多 <b>3</b> 步。沒有選單。</span></span></li>
+            <li><span class="k">Undo</span><span class="v"><span data-lang="en">The owner can undo every change.</span><span data-lang="zh">店主可以還原每一個變更。</span></span></li>
+            <li><span class="k"><span data-lang="en">Stock</span><span data-lang="zh">庫存</span></span><span class="v"><span data-lang="en">One SQLite file holds orders, kiln batches and walk-in stock.</span><span data-lang="zh">一個 SQLite 檔保存訂單、窯次和現場庫存。</span></span></li>
+            <li><span class="k"><span data-lang="en">Backup</span><span data-lang="zh">備份</span></span><span class="v"><span data-lang="en">Google Drive, every 10 minutes. The app works offline.</span><span data-lang="zh">Google Drive，每 10 分鐘。離線也能用。</span></span></li>
+            <li><span class="k"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></span><span class="v"><span data-lang="en">v1.0, 2026-04. In daily use since April.</span><span data-lang="zh">v1.0，2026-04。四月起每日使用。</span></span></li>
+          </ul>
+          <span class="open"><span data-lang="en">Open sheet U2 →</span><span data-lang="zh">看 U2 →</span></span>
         </div>
-        <h3 class="h-card">tujia pos</h3>
-        <p class="tagline">
-          <span data-lang="en">A local-first, cross-platform POS built for my in-laws' family bakery — Rust + Dioxus on Android / iPad / Windows, every button shaped around the two of them at the counter.</span>
-          <span data-lang="zh">為岳父岳母經營的家庭麵包店而做的離線優先 POS，Rust + Dioxus，跑在 Android / iPad / Windows，每一個按鈕都圍繞著櫃台兩位的需求做。</span>
-        </p>
-        <div class="stack">
-          <span>Rust</span><span>Dioxus 0.7</span><span>SQLite WAL</span><span>Android</span><span>Bluetooth</span><span>AI-assisted</span>
-        </div>
-        <span class="open">
-          <span data-lang="en">Open case study</span><span data-lang="zh">查看案例</span>
-          <span class="arr">→</span>
-        </span>
-      </article>
+      </div>
+    </a>
 
+    <a class="fp" id="fp-j1" href="./workflow/">
+      <span class="fpref">J1 <b><span data-lang="en">Method note</span><span data-lang="zh">方法筆記</span></b></span>
+      <span class="pin1" aria-hidden="true"></span>
+      <div class="j1">
+        <div class="conn" aria-hidden="true">
+          <span class="pin"><span class="pn">1</span><span class="pl">git init</span></span>
+          <span class="pin"><span class="pn">2</span><span class="pl"><span data-lang="en">3 documents</span><span data-lang="zh">三份文件</span></span></span>
+          <span class="pin"><span class="pn">3</span><span class="pl">CLAUDE.md</span></span>
+          <span class="pin"><span class="pn">4</span><span class="pl"><span data-lang="en">Gates</span><span data-lang="zh">關卡</span></span></span>
+        </div>
+        <div class="side">
+          <p class="one mb-0">
+            <span data-lang="en">This note shows how I built U1 and U2 with Claude Code. I write the specification before the code. Tests and hardware runs are the gates.</span>
+            <span data-lang="zh">這篇說明我怎麼用 Claude Code 做出 U1 和 U2。先寫規格，再寫程式。測試和實機執行是關卡。</span>
+          </p>
+          <span class="open"><span data-lang="en">Read J1 →</span><span data-lang="zh">看 J1 →</span></span>
+        </div>
+      </div>
+    </a>
+
+  </section>
+
+  <footer class="dataline region">
+    <div class="id">
+      <span>Tom Huang</span>
+      <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
+      <span>Taipei, TW</span>
+      <span>REV 2026-10</span>
     </div>
-  </div>
-</section>
-
-<!-- ─────────────────── NOTES ─────────────────── -->
-<section class="section" id="notes">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 class="h-section">
-        <span data-lang="en">Notes</span>
-        <span data-lang="zh">筆記</span>
-      </h2>
-      <span class="count">001 / 001</span>
+    <div class="links">
+      <a href="./benchpress/">U1 benchpress</a>
+      <a href="./pos/">U2 tujia pos</a>
+      <a href="./workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
+      <a href="https://github.com/COOMO" target="_blank" rel="noopener">github.com/COOMO</a>
     </div>
+  </footer>
+</main>
 
-    <div class="projects">
-
-      <article class="project">
-        <a class="cover" href="./workflow/" aria-label="Open AI workflow method note"></a>
-        <div class="meta">
-          <span class="status"><span data-lang="en">Living</span><span data-lang="zh">持續更新</span></span>
-          <span class="sep">·</span>
-          <span>2026</span>
-          <span class="sep">·</span>
-          <span><span data-lang="en">Method note</span><span data-lang="zh">方法論</span></span>
-        </div>
-        <h3 class="h-card">how i work with ai</h3>
-        <p class="tagline">
-          <span data-lang="en">How the two projects above actually got built — contracts before code, vertical slices, screenshot-driven iteration, verification gates. Quoting real prompts from the real development sessions.</span>
-          <span data-lang="zh">上面兩個專案實際被做出來的方式：契約先行、垂直切片、截圖驅動迭代、驗證閘門 — 引用的都是真實開發對話的原文。</span>
-        </p>
-        <div class="stack">
-          <span>Claude Code</span><span>CLAUDE.md</span><span>roadmap</span><span>skills</span><span>mock + HIL</span>
-        </div>
-        <span class="open">
-          <span data-lang="en">Read the note</span><span data-lang="zh">閱讀筆記</span>
-          <span class="arr">→</span>
-        </span>
-      </article>
-
-      <article class="project placeholder">
-        <div class="meta">
-          <span><span data-lang="en">Up next</span><span data-lang="zh">下一篇</span></span>
-        </div>
-        <h3 class="h-card">
-          <span data-lang="en">next topic</span>
-          <span data-lang="zh">下一個主題</span>
-        </h3>
-        <p class="tagline">
-          <span data-lang="en">More technical write-ups in the pipeline — deep dives into specific problems from the projects above.</span>
-          <span data-lang="zh">更多技術主題整理中 — 針對上面專案裡特定問題的深入拆解。</span>
-        </p>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────── CONTACT ─────────────────── -->
-<section class="section" id="contact">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 class="h-section">
-        <span data-lang="en">Contact</span>
-        <span data-lang="zh">聯絡</span>
-      </h2>
-    </div>
-
-    <ul class="contact-list">
-      <li><span class="label">Email</span><a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a></li>
-      <li><span class="label">GitHub</span><a href="https://github.com/COOMO" target="_blank" rel="noopener">@COOMO</a></li>
-      <li><span class="label">Résumé</span><a href="mailto:cosccmo@gmail.com?subject=Resume%20request"><span data-lang="en">PDF on request</span><span data-lang="zh">需要時可寄送 PDF</span></a></li>
-      <li><span class="label">Location</span><span data-lang="en">Taiwan</span><span data-lang="zh">台灣</span></li>
-    </ul>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <span>© 2026 Tom</span>
-    <span class="mono">built with rust · web · claude code</span>
-  </div>
-</footer>
-
-<script>
-(function(){
-  const KEY = "portfolio-lang";
-  const supported = ["en","zh"];
-  function setLang(l){
-    if(!supported.includes(l)) l = "en";
-    document.documentElement.setAttribute("lang", l);
-    try{ localStorage.setItem(KEY, l); }catch(e){}
-    // Swap <title> + meta description
-    const t = document.querySelector("title");
-    const d = document.querySelector('meta[name="description"]');
-    if(t && t.dataset[l === "en" ? "en" : "zh"]) t.textContent = t.dataset[l === "en" ? "en" : "zh"];
-    if(d && d.dataset[l === "en" ? "en" : "zh"]) d.setAttribute("content", d.dataset[l === "en" ? "en" : "zh"]);
-  }
-  // Init: localStorage → browser pref → en
-  let initial = null;
-  try{ initial = localStorage.getItem(KEY); }catch(e){}
-  if(!initial){
-    initial = (navigator.language || "en").toLowerCase().startsWith("zh") ? "zh" : "en";
-  }
-  setLang(initial);
-  const btn = document.getElementById("langToggle");
-  if(btn) btn.addEventListener("click", function(){
-    const cur = document.documentElement.getAttribute("lang");
-    setLang(cur === "en" ? "zh" : "en");
-  });
-})();
-</script>
-
+<script src="./assets/site.js" defer></script>
 </body>
 </html>
