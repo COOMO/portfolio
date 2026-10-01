@@ -197,10 +197,14 @@
       </figure>
       <div class="text">
         <h3><span data-lang="en">MCP server</span><span data-lang="zh">MCP server</span></h3>
+        <p class="muted" style="margin-bottom:8px"><span data-lang="en">Connect Claude Desktop, Claude Code or Cursor, then ask:</span><span data-lang="zh">接上 Claude Desktop、Claude Code 或 Cursor，然後直接問：</span></p>
         <ul class="list">
-          <li><span data-lang="en">One switch allows MCP clients to use the data folder. The page shows the client configuration for Claude Desktop, Claude Code or Cursor.</span><span data-lang="zh">一個開關允許 MCP 客戶端使用資料夾。頁面提供 Claude Desktop、Claude Code、Cursor 的設定片段。</span></li>
-          <li><span data-lang="en">The assistant can list instruments and Actions, validate and save TOML, register instruments and read past runs.</span><span data-lang="zh">助理可以列儀器和 Action、驗證並儲存 TOML、登記儀器、讀過去的執行。</span></li>
-          <li><span data-lang="en">It cannot run a sequence or talk to an instrument. Every write is validated first and recorded in <code>audit.jsonl</code>.</span><span data-lang="zh">它不能執行序列，也不能碰儀器。每次寫入先驗證，並記錄在 <code>audit.jsonl</code>。</span></li>
+          <li><span data-lang="en">"How do I connect an instrument that has no template file?"</span><span data-lang="zh">「怎麼接一台還沒有模板檔的儀器？」</span></li>
+          <li><span data-lang="en">"Build a sequence: reset the RTB24, set channel 1 to 1 V/div, single trigger, save a screenshot."</span><span data-lang="zh">「幫我建一個 sequence：RTB24 先 reset，CH1 設 1 V/div，單次觸發，存一張截圖。」</span></li>
+          <li><span data-lang="en">"Read the Agilent 34970A manual and add the thermocouple read command to its template."</span><span data-lang="zh">「參考 Agilent 34970A 手冊，把熱電偶讀值指令加進它的模板。」</span></li>
+          <li><span data-lang="en">"Which step failed in the last Test_Scope run, and how long did it take?"</span><span data-lang="zh">「上一次 Test_Scope 哪一步失敗？跑了多久？」</span></li>
+          <li><span data-lang="en">"Dry-run this sequence with mock instruments and tell me if it compiles."</span><span data-lang="zh">「用 mock 儀器跑一次這個 sequence，看能不能編譯通過。」</span></li>
+          <li><span data-lang="en">The assistant reads and writes TOML files only. It cannot drive an instrument. Every write is validated and logged in <code>audit.jsonl</code>.</span><span data-lang="zh">助理只讀寫 TOML 檔，不能操作儀器。每次寫入都先驗證，並記錄在 <code>audit.jsonl</code>。</span></li>
         </ul>
       </div>
     </div>
