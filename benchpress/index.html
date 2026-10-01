@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title data-en="benchpress · Tom Huang" data-zh="benchpress · Tom Huang">benchpress · Tom Huang</title>
+<title data-en="benchpress Â· Tom Huang" data-zh="benchpress Â· Tom Huang">benchpress Â· Tom Huang</title>
 <meta name="description"
       data-en="benchpress: Windows desktop app that controls bench instruments over GPIB and Ethernet and runs drag-and-drop test sequences. Rust + Dioxus. 7 instruments, 167 SCPI templates, MCP server, headless CLI."
-      data-zh="benchpress：透過 GPIB 與 Ethernet 控制儀器、用積木組測試流程的 Windows 桌面程式。Rust + Dioxus。7 款儀器、167 條 SCPI 模板、MCP server、無頭 CLI。"
+      data-zh="benchpressï¼éé GPIB è Ethernet æ§å¶åå¨ãç¨ç©æ¨çµæ¸¬è©¦æµç¨ç Windows æ¡é¢ç¨å¼ãRust + Dioxusã7 æ¬¾åå¨ã167 æ¢ SCPI æ¨¡æ¿ãMCP serverãç¡é ­ CLIã"
       content="benchpress: Windows desktop app that controls bench instruments over GPIB and Ethernet and runs drag-and-drop test sequences. Rust + Dioxus. 7 instruments, 167 SCPI templates, MCP server, headless CLI." />
 <meta name="color-scheme" content="dark" />
 <meta name="theme-color" content="#121314" />
@@ -29,57 +29,58 @@
       <h1 class="latin">benchpress</h1>
       <p class="title">
         <span data-lang="en">Windows desktop app for a lab bench. Controls instruments over GPIB and Ethernet. Test sequences are blocks, not code.</span>
-        <span data-lang="zh">實驗室用的 Windows 桌面程式。透過 GPIB 與 Ethernet 控制儀器。測試流程是積木，不是程式。</span>
+        <span data-lang="zh">å¯¦é©å®¤ç¨ç Windows æ¡é¢ç¨å¼ãéé GPIB è Ethernet æ§å¶åå¨ãæ¸¬è©¦æµç¨æ¯ç©æ¨ï¼ä¸æ¯ç¨å¼ã</span>
       </p>
     </div>
     <div class="right">
       <button class="jumper" id="jp1" type="button" aria-label="Language: English. Switch to Chinese">
-        <span class="jref">JP1 · LANG</span>
-        <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
+        <span class="jref">JP1 Â· LANG</span>
+        <span class="pins"><span class="pin en">EN</span><span class="pin zh">ä¸­</span></span>
       </button>
-      <span class="rev">U1 · <span data-lang="en">release</span><span data-lang="zh">版本</span> 2026-09-10 · <span data-lang="en">Sheet 2 / 4</span><span data-lang="zh">第 2 / 4 頁</span></span>
+      <span class="rev">U1 Â· <span data-lang="en">release</span><span data-lang="zh">çæ¬</span> 2026-09-10 Â· <span data-lang="en">Sheet 2 / 4</span><span data-lang="zh">ç¬¬ 2 / 4 é </span></span>
     </div>
   </header>
 
   <nav class="sheetnav region" aria-label="Sections">
-    <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
-    <a href="#why"><span data-lang="en">Problem</span><span data-lang="zh">問題</span></a>
-    <a href="#figures"><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></a>
-    <a href="#features"><span data-lang="en">Features</span><span data-lang="zh">功能</span></a>
-    <a href="#arch"><span data-lang="en">Architecture</span><span data-lang="zh">架構</span></a>
-    <a href="#safety"><span data-lang="en">Safety</span><span data-lang="zh">安全</span></a>
-    <a href="#dnp"><span data-lang="en">Roadmap</span><span data-lang="zh">後續規劃</span></a>
+    <a href="../"><span data-lang="en">Board</span><span data-lang="zh">ä¸»æ¿</span></a>
+    <a href="#why"><span data-lang="en">Problem</span><span data-lang="zh">åé¡</span></a>
+    <a href="#figures"><span data-lang="en">Key screens</span><span data-lang="zh">ä¸»è¦ç«é¢</span></a>
+    <a href="#changes"><span data-lang="en">Changes</span><span data-lang="zh">è®æ´</span></a>
+    <a href="#features"><span data-lang="en">Features</span><span data-lang="zh">åè½</span></a>
+    <a href="#arch"><span data-lang="en">Architecture</span><span data-lang="zh">æ¶æ§</span></a>
+    <a href="#safety"><span data-lang="en">Safety</span><span data-lang="zh">å®å¨</span></a>
+    <a href="#dnp"><span data-lang="en">Roadmap</span><span data-lang="zh">å¾çºè¦å</span></a>
   </nav>
 
   <section class="sec region" id="why">
     <div class="cols">
       <div class="c7 stack-24">
-        <div><h2><span data-lang="en">Problem</span><span data-lang="zh">問題</span></h2></div>
+        <div><h2><span data-lang="en">Problem</span><span data-lang="zh">åé¡</span></h2></div>
         <ul class="list">
-          <li><span data-lang="en">An R&amp;D lab ran its bench on a LabVIEW station. It worked.</span><span data-lang="zh">一間研發實驗室的工作站跑 LabVIEW。能用。</span></li>
-          <li><span data-lang="en">Each new instrument meant days of wiring code. Each new test was a new VI.</span><span data-lang="zh">每加一台儀器要寫好幾天接線程式。每個新測項是一個新 VI。</span></li>
-          <li><span data-lang="en">Nothing was in version control. No tests.</span><span data-lang="zh">沒有東西在版本控制裡。沒有測試。</span></li>
-          <li><span data-lang="en">The brief, in the lab's words: swap instruments freely, compose tests like blocks, run several buses at once.</span><span data-lang="zh">實驗室的要求：儀器隨時換、測項像積木一樣組、多條介面同時跑。</span></li>
+          <li><span data-lang="en">An R&amp;D lab ran its bench on a LabVIEW station. It worked.</span><span data-lang="zh">ä¸éç ç¼å¯¦é©å®¤çå·¥ä½ç«è· LabVIEWãè½ç¨ã</span></li>
+          <li><span data-lang="en">Each new instrument meant days of wiring code. Each new test was a new VI.</span><span data-lang="zh">æ¯å ä¸å°åå¨è¦å¯«å¥½å¹¾å¤©æ¥ç·ç¨å¼ãæ¯åæ°æ¸¬é æ¯ä¸åæ° VIã</span></li>
+          <li><span data-lang="en">Nothing was in version control. No tests.</span><span data-lang="zh">æ²ææ±è¥¿å¨çæ¬æ§å¶è£¡ãæ²ææ¸¬è©¦ã</span></li>
+          <li><span data-lang="en">The brief, in the lab's words: swap instruments freely, compose tests like blocks, run several buses at once.</span><span data-lang="zh">å¯¦é©å®¤çè¦æ±ï¼åå¨é¨ææãæ¸¬é åç©æ¨ä¸æ¨£çµãå¤æ¢ä»é¢åæè·ã</span></li>
         </ul>
-        <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
+        <div><h2><span data-lang="en">Solution</span><span data-lang="zh">è§£æ³</span></h2></div>
         <ul class="list list--filled">
-          <li><span data-lang="en">An instrument is one row in <code>instruments.toml</code> plus one template file. No Rust changes.</span><span data-lang="zh">一台儀器是 <code>instruments.toml</code> 一列加一份模板檔。不動 Rust。</span></li>
-          <li><span data-lang="en">A test is a sequence of blocks: Write, Query, Wait, For, If, Parallel, Shell, Set Variable, Print.</span><span data-lang="zh">一個測項是積木序列：Write、Query、Wait、For、If、Parallel、Shell、Set Variable、Print。</span></li>
-          <li><span data-lang="en">Everything is plain text in one folder. Diffs in git. An LLM can write a template from a manual.</span><span data-lang="zh">全部是純文字，放在一個資料夾。git 可 diff。LLM 可以照手冊寫模板。</span></li>
+          <li><span data-lang="en">An instrument is one row in <code>instruments.toml</code> plus one template file. No Rust changes.</span><span data-lang="zh">ä¸å°åå¨æ¯ <code>instruments.toml</code> ä¸åå ä¸ä»½æ¨¡æ¿æªãä¸å Rustã</span></li>
+          <li><span data-lang="en">A test is a sequence of blocks: Write, Query, Wait, For, If, Parallel, Shell, Set Variable, Print.</span><span data-lang="zh">ä¸åæ¸¬é æ¯ç©æ¨åºåï¼WriteãQueryãWaitãForãIfãParallelãShellãSet VariableãPrintã</span></li>
+          <li><span data-lang="en">Everything is plain text in one folder. Diffs in git. An LLM can write a template from a manual.</span><span data-lang="zh">å¨é¨æ¯ç´æå­ï¼æ¾å¨ä¸åè³æå¤¾ãgit å¯ diffãLLM å¯ä»¥ç§æåå¯«æ¨¡æ¿ã</span></li>
         </ul>
       </div>
       <div class="c5">
         <table class="facts">
-          <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">一覽</span></caption>
+          <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">ä¸è¦½</span></caption>
           <tbody>
-            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">Released</span><span data-lang="zh">已出貨</span></span> <span class="dim">2026-09-10 · <span data-lang="en">client evaluation</span><span data-lang="zh">客戶評估中</span></span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Platform</span><span data-lang="zh">平台</span></th><td>Windows 10 / 11 · MSI (WiX 7)</td></tr>
-            <tr><th scope="row"><span data-lang="en">Stack</span><span data-lang="zh">技術</span></th><td>Rust 1.95 · Dioxus 0.7.9 · tokio · visa-rs</td></tr>
-            <tr><th scope="row"><span data-lang="en">Instruments</span><span data-lang="zh">儀器</span></th><td>7 <span data-lang="en">models with templates</span><span data-lang="zh">款有模板</span> · 167 SCPI <span data-lang="en">templates</span><span data-lang="zh">模板</span><br><span class="dim">Chroma 66202 · 61502 · 6314/63103A · Agilent 34970A · R&amp;S RTB24 · Tek DPO4054B · LeCroy HDO4054 · <span data-lang="en">MXO4 planned</span><span data-lang="zh">MXO4 規劃中</span></span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Buses</span><span data-lang="zh">介面</span></th><td>GPIB · Ethernet (VXI-11) · <span class="dim">R&amp;S VISA <span data-lang="en">or</span><span data-lang="zh">或</span> NI-VISA</span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">實機</span></th><td><span data-lang="en">R&amp;S RTB24, 21-step run, report, 2026-09-06</span><span data-lang="zh">R&amp;S RTB24，21 步序列含報告，2026-09-06</span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td>6 crates + app · <span data-lang="en">about 350 tests</span><span data-lang="zh">約 350 個測試</span> · 286 commits</td></tr>
-            <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo. Design, code, docs, installer.</span><span data-lang="zh">獨立完成。設計、程式、文件、安裝包。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">çæ</span></th><td><span class="mark shipped"><span data-lang="en">Released</span><span data-lang="zh">å·²åºè²¨</span></span> <span class="dim">2026-09-10 Â· <span data-lang="en">client evaluation</span><span data-lang="zh">å®¢æ¶è©ä¼°ä¸­</span></span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Platform</span><span data-lang="zh">å¹³å°</span></th><td>Windows 10 / 11 Â· MSI (WiX 7)</td></tr>
+            <tr><th scope="row"><span data-lang="en">Stack</span><span data-lang="zh">æè¡</span></th><td>Rust 1.95 Â· Dioxus 0.7.9 Â· tokio Â· visa-rs</td></tr>
+            <tr><th scope="row"><span data-lang="en">Instruments</span><span data-lang="zh">åå¨</span></th><td>7 <span data-lang="en">models with templates</span><span data-lang="zh">æ¬¾ææ¨¡æ¿</span> Â· 167 SCPI <span data-lang="en">templates</span><span data-lang="zh">æ¨¡æ¿</span><br><span class="dim">Chroma 66202 Â· 61502 Â· 6314/63103A Â· Agilent 34970A Â· R&amp;S RTB24 Â· Tek DPO4054B Â· LeCroy HDO4054 Â· <span data-lang="en">MXO4 planned</span><span data-lang="zh">MXO4 è¦åä¸­</span></span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Buses</span><span data-lang="zh">ä»é¢</span></th><td>GPIB Â· Ethernet (VXI-11) Â· <span class="dim">R&amp;S VISA <span data-lang="en">or</span><span data-lang="zh">æ</span> NI-VISA</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">å¯¦æ©</span></th><td><span data-lang="en">R&amp;S RTB24, 21-step run, report, 2026-09-06</span><span data-lang="zh">R&amp;S RTB24ï¼21 æ­¥åºåå«å ±åï¼2026-09-06</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">è¦æ¨¡</span></th><td>6 crates + app Â· <span data-lang="en">about 350 tests</span><span data-lang="zh">ç´ 350 åæ¸¬è©¦</span> Â· 286 commits</td></tr>
+            <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">è§è²</span></th><td><span data-lang="en">Solo. Design, code, docs, installer.</span><span data-lang="zh">ç¨ç«å®æãè¨­è¨ãç¨å¼ãæä»¶ãå®è£åã</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -87,125 +88,239 @@
   </section>
 
   <section class="sec region" id="figures">
-    <div class="head"><h2><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></h2></div>
+    <div class="head">
+      <h2><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></h2>
+      <p class="muted mb-0"><span data-lang="en">Release build of 2026-09-10, captured 2026-10-01. Figures 2 to 4 are from a run on a real R&amp;S RTB24, 2026-07-28.</span><span data-lang="zh">2026-09-10 的 release 版本，2026-10-01 擷取。圖 2 到 4 來自 2026-07-28 接實機 R&amp;S RTB24 的執行。</span></p>
+    </div>
 
     <div class="figrow">
       <figure class="fp" data-zoom style="margin:0">
-        <span class="fpref">U1.1 <b>Test Panel</b></span><span class="pin1" aria-hidden="true"></span>
-        <div class="shot"><img src="01-test-panel.png" width="1859" height="1186" alt="benchpress Test Panel: instrument list with probe buttons, a command input, the response area and a Save-as-Action form." loading="lazy" decoding="async" /></div>
-        <figcaption><span class="fig">Fig. 1</span><span><span data-lang="en">Test Panel · click to enlarge</span><span data-lang="zh">Test Panel · 點擊放大</span></span></figcaption>
+        <span class="fpref">U1.1 <b>Sequence Editor</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="02-sequence-editor.png" width="1600" height="994" alt="benchpress Sequence Editor with the 21-step Test_Scope sequence loaded, the Data format step selected, and the parameter inspector showing the on-error policy and the real SCPI command." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 1</span><span><span data-lang="en">Sequence Editor, Test_Scope, 21 steps · click to enlarge</span><span data-lang="zh">Sequence Editor，Test_Scope，21 步 · 點擊放大</span></span></figcaption>
       </figure>
       <div class="text">
-        <h3>Test Panel</h3>
+        <h3>Sequence Editor</h3>
         <ul class="list">
-          <li><span data-lang="en">Add an instrument by VISA address. Probe with <code>*IDN?</code>.</span><span data-lang="zh">用 VISA 位址加入儀器。<code>*IDN?</code> 探測。</span></li>
-          <li><span data-lang="en">Send raw SCPI. Save it as an Action with named parameters.</span><span data-lang="zh">直接送 SCPI。存成帶參數的 Action。</span></li>
-          <li><span data-lang="en">The panel is generated from the template file. No per-instrument UI code.</span><span data-lang="zh">面板由模板檔產生。沒有針對單一儀器的 UI 程式碼。</span></li>
+          <li><span data-lang="en">The step list shows each step's instrument and real SCPI command.</span><span data-lang="zh">步驟列表顯示每一步的儀器和實際 SCPI 指令。</span></li>
+          <li><span data-lang="en">The inspector edits parameters and the on-error policy: Halt, Continue, Retry.</span><span data-lang="zh">檢視器編輯參數和錯誤策略：Halt、Continue、Retry。</span></li>
+          <li><span data-lang="en">The DUT serial goes into the run header and the run folder name.</span><span data-lang="zh">DUT 序號會寫進執行表頭和執行資料夾名稱。</span></li>
+          <li><span data-lang="en">Breakpoints, pause, step over and step into are available during a run.</span><span data-lang="zh">執行中可用中斷點、暫停、逐步執行。</span></li>
         </ul>
       </div>
     </div>
 
     <div class="figrow flip">
       <figure class="fp" data-zoom style="margin:0">
-        <span class="fpref">U1.2 <b>Sequence Editor</b></span><span class="pin1" aria-hidden="true"></span>
-        <div class="shot"><img src="02-sequence-editor.png" width="1805" height="1333" alt="benchpress Sequence Editor: three-pane layout with action palette, step list, parameter inspector, and an event log strip at the bottom." loading="lazy" decoding="async" /></div>
-        <figcaption><span class="fig">Fig. 2</span><span><span data-lang="en">Sequence Editor · click to enlarge</span><span data-lang="zh">Sequence Editor · 點擊放大</span></span></figcaption>
+        <span class="fpref">U1.2 <b>Run report</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="04-run-report.png" width="1400" height="1250" alt="benchpress HTML report of a 21-step run on an R&S RTB24: one row per step with time, command, result, and scope hardcopies attached to the Hardcopy query steps." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 2</span><span><span data-lang="en">report.html, real RTB24 run · click to enlarge</span><span data-lang="zh">report.html，RTB24 實機執行 · 點擊放大</span></span></figcaption>
       </figure>
       <div class="text">
-        <h3>Sequence Editor</h3>
+        <h3><span data-lang="en">Run report</span><span data-lang="zh">執行報告</span></h3>
         <ul class="list">
-          <li><span data-lang="en">Three panes: actions, steps, inspector with live command preview. Event log below.</span><span data-lang="zh">三欄：動作、步驟、檢視器（即時指令預覽）。下方事件 log。</span></li>
-          <li><span data-lang="en">Breakpoints, pause, step over, step into.</span><span data-lang="zh">中斷點、暫停、逐步執行。</span></li>
-          <li><span data-lang="en">Variables with <code>${name}</code> substitution and a small expression engine.</span><span data-lang="zh">變數可用 <code>${name}</code> 代入，附小型運算式引擎。</span></li>
-          <li><span data-lang="en">Parallel: one lane per instrument. Same GPIB board shares a lane.</span><span data-lang="zh">平行：每台儀器一條車道。同一張 GPIB 卡共用一條。</span></li>
+          <li><span data-lang="en">One row per step: time, instrument, command, result.</span><span data-lang="zh">每步一列：時間、儀器、指令、結果。</span></li>
+          <li><span data-lang="en">Scope hardcopies are attached to the steps that produced them.</span><span data-lang="zh">示波器截圖附在產生它的那一步。</span></li>
+          <li><span data-lang="en">The report is rendered from <code>execution.jsonl</code>. The header carries the operator, the DUT serial, the sequence hash and each instrument's calibration due date.</span><span data-lang="zh">報告由 <code>execution.jsonl</code> 產生。表頭含操作者、DUT 序號、序列雜湊和每台儀器的校正到期日。</span></li>
         </ul>
       </div>
     </div>
 
     <div class="figrow">
       <figure class="fp" data-zoom style="margin:0">
-        <span class="fpref">U1.3 <b>Manage</b></span><span class="pin1" aria-hidden="true"></span>
-        <div class="shot"><img src="03-manage.png" width="1783" height="1227" alt="benchpress Manage view: tabbed tables of instruments, actions and sequences with editable columns." loading="lazy" decoding="async" /></div>
-        <figcaption><span class="fig">Fig. 3</span><span><span data-lang="en">Manage · click to enlarge</span><span data-lang="zh">Manage · 點擊放大</span></span></figcaption>
+        <span class="fpref">U1.3 <b>Live run</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="05-live-run.png" width="1600" height="1018" alt="benchpress during a run: the Var_Demo sequence sets a variable from a *IDN? query, the events log streams each step, and the variables panel shows vin = 12 and scope_idn = the RTB24 identity string." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 3</span><span><span data-lang="en">Variables and events log during a run · click to enlarge</span><span data-lang="zh">執行中的變數與事件 log · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">Live run</span><span data-lang="zh">執行中</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The events log prints every step as it runs, with timing.</span><span data-lang="zh">事件 log 即時印出每一步和耗時。</span></li>
+          <li><span data-lang="en">A Set Variable step can take a literal, another variable or a SCPI query. Here <code>scope_idn</code> holds the reply to <code>*IDN?</code>.</span><span data-lang="zh">Set Variable 可以接常數、另一個變數或 SCPI 查詢。這裡 <code>scope_idn</code> 存的是 <code>*IDN?</code> 的回覆。</span></li>
+          <li><span data-lang="en">The variables panel shows name, type and current value.</span><span data-lang="zh">變數面板顯示名稱、型別和目前的值。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow flip">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U1.4 <b>Parallel</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="06-parallel.png" width="1600" height="996" alt="benchpress Sequence Editor with a PARALLEL block that contains three shell steps and an END PARALLEL marker." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 4</span><span><span data-lang="en">PARALLEL block · click to enlarge</span><span data-lang="zh">PARALLEL 積木 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">Parallel block</span><span data-lang="zh">平行積木</span></h3>
+        <ul class="list">
+          <li><span data-lang="en"><code>PARALLEL</code> to <code>END PARALLEL</code> compiles to one lane per instrument. Instruments on the same GPIB board share a lane.</span><span data-lang="zh"><code>PARALLEL</code> 到 <code>END PARALLEL</code> 編譯成每台儀器一條車道。同一張 GPIB 卡上的儀器共用一條。</span></li>
+          <li><span data-lang="en">All shell steps share one dedicated lane.</span><span data-lang="zh">所有 Shell 步驟共用一條專用車道。</span></li>
+          <li><span data-lang="en">Each lane runs on its own tokio thread. The UI never waits on an instrument.</span><span data-lang="zh">每條車道在自己的 tokio 執行緒上跑。UI 不等儀器。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U1.5 <b>Test Panel</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="01-test-panel.png" width="1600" height="1001" alt="benchpress Test Panel: eight registered instruments, the add-instrument form with an on-stop SCPI field, and the raw command box." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 5</span><span><span data-lang="en">Test Panel · click to enlarge</span><span data-lang="zh">Test Panel · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3>Test Panel</h3>
+        <ul class="list">
+          <li><span data-lang="en">Add an instrument by VISA address. Probe it with <code>*IDN?</code>.</span><span data-lang="zh">用 VISA 位址加入儀器。用 <code>*IDN?</code> 探測。</span></li>
+          <li><span data-lang="en">The on-stop SCPI field is part of the add form. Source-type instruments require it.</span><span data-lang="zh">停機 SCPI 欄位是新增表單的一部分。source 類儀器必填。</span></li>
+          <li><span data-lang="en">Send raw SCPI. Save it as an Action with named parameters.</span><span data-lang="zh">直接送 SCPI。存成帶參數的 Action。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow flip">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U1.6 <b>Manage</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="03-manage.png" width="1600" height="1001" alt="benchpress Manage view, Instruments tab: eight instruments with category, VISA resource and template file, plus Edit and Delete buttons." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 6</span><span><span data-lang="en">Manage, Instruments · click to enlarge</span><span data-lang="zh">Manage，儀器表 · 點擊放大</span></span></figcaption>
       </figure>
       <div class="text">
         <h3>Manage</h3>
         <ul class="list">
-          <li><span data-lang="en">Three tables: instruments, actions, sequences. One TOML file each.</span><span data-lang="zh">三張表：儀器、Action、序列。各一份 TOML。</span></li>
-          <li><span data-lang="en">The GUI watches the folder. Edits from an editor, git or the MCP server show within a second.</span><span data-lang="zh">GUI 監看資料夾。編輯器、git、MCP server 的改動一秒內出現。</span></li>
-          <li><span data-lang="en">Per-instrument stop command lives here. Chroma <code>LOAD OFF</code>, Keysight <code>INP:STAT OFF</code>, ITECH <code>INPut:STATe OFF</code>.</span><span data-lang="zh">各儀器的停機指令在這裡。Chroma <code>LOAD OFF</code>、Keysight <code>INP:STAT OFF</code>、ITECH <code>INPut:STATe OFF</code>。</span></li>
+          <li><span data-lang="en">Three tables: instruments, actions, sequences. Each table is one TOML file.</span><span data-lang="zh">三張表：儀器、Action、序列。每張表是一份 TOML。</span></li>
+          <li><span data-lang="en">The GUI watches the folder. An edit from an editor, git or the MCP server appears within one second.</span><span data-lang="zh">GUI 監看資料夾。編輯器、git 或 MCP server 的改動一秒內出現。</span></li>
+          <li><span data-lang="en">A template file that no instrument claims shows under Orphan until it is attached.</span><span data-lang="zh">沒有儀器認領的模板檔會列在 Orphan，直到被指派。</span></li>
         </ul>
+      </div>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U1.7 <b>MCP</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="07-mcp-settings.png" width="1160" height="660" alt="benchpress Settings, MCP card: a switch that allows MCP clients to use the data folder, the server path, the current account and role, the last MCP write from the audit log, and the client configuration JSON for Claude Desktop." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 7</span><span><span data-lang="en">Settings, MCP · click to enlarge</span><span data-lang="zh">Settings，MCP · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">MCP server</span><span data-lang="zh">MCP server</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">One switch allows MCP clients to use the data folder. The page shows the client configuration for Claude Desktop, Claude Code or Cursor.</span><span data-lang="zh">一個開關允許 MCP 客戶端使用資料夾。頁面提供 Claude Desktop、Claude Code、Cursor 的設定片段。</span></li>
+          <li><span data-lang="en">The assistant can list instruments and Actions, validate and save TOML, register instruments and read past runs.</span><span data-lang="zh">助理可以列儀器和 Action、驗證並儲存 TOML、登記儀器、讀過去的執行。</span></li>
+          <li><span data-lang="en">It cannot run a sequence or talk to an instrument. Every write is validated first and recorded in <code>audit.jsonl</code>.</span><span data-lang="zh">它不能執行序列，也不能碰儀器。每次寫入先驗證，並記錄在 <code>audit.jsonl</code>。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cols" style="margin-top:36px">
+      <div class="c12">
+        <h3><span data-lang="en">Headless runs and the probe, from a terminal</span><span data-lang="zh">無頭執行與 probe，終端機輸出</span></h3>
+        <p class="muted"><span data-lang="en">Real output, 2026-10-01, no instrument connected. The mock run uses the same compiler, executor and report as the GUI.</span><span data-lang="zh">2026-10-01 的實際輸出，沒有接儀器。mock 執行用的是和 GUI 相同的編譯器、執行器和報告。</span></p>
+        <div class="code"><pre><span class="cm">$ benchpress.exe run test_parallel --mock</span>
+sequence "test_parallel": 5 steps, 1 blocks, instruments: (none)
+started
+&gt; 0
+&gt; 0.0.0
+  0.0.0 done in 977.3ms
+&gt; 0.0.1
+  0.0.1 done in 1.3s
+&gt; 0.0.2
+  0.0.2 done in 1.2s
+  0 done in 3.5s
+finished
+report …\sessions\test_parallel\20261001-172133\report.html
+
+<span class="cm">$ benchpress.exe probe RTB24 --timeout-ms 3000</span>
+key    RTB24 -&gt; TCPIP::169.254.12.131::INSTR
+probe  TCPIP::169.254.12.131::INSTR   (timeout 3000 ms)
+open   FAILED  9 ms   VISA error: viOpen(…): VI_ERROR_RSRC_NFOUND
+hint   VISA cannot see this address. GPIB: check the primary address on the
+       instrument's front panel, the cable, and that the card driver is installed.
+       LAN: ping the IP first, same subnet, VXI-11 / LXI enabled on the instrument.</pre></div>
       </div>
     </div>
   </section>
 
+  <section class="sec region" id="changes">
+    <div class="head">
+      <h2><span data-lang="en">Changes since the first screenshots</span><span data-lang="zh">第一批截圖之後的變更</span></h2>
+      <p class="muted mb-0"><span data-lang="en">From the git log. The portfolio first showed benchpress on 2026-05-21.</span><span data-lang="zh">取自 git log。作品集第一次放上 benchpress 是 2026-05-21。</span></p>
+    </div>
+    <table class="facts">
+      <caption class="sr"><span data-lang="en">Changelog</span><span data-lang="zh">變更紀錄</span></caption>
+      <tbody>
+        <tr><th scope="row">2026-09-10</th><td><span data-lang="en"><code>benchpress probe</code>: a field connection check for one VISA address, with a hint per error code. VISA reads honour END/EOI, so GPIB replies without a line feed no longer time out.</span><span data-lang="zh"><code>benchpress probe</code>：對一個 VISA 位址做現場連線檢查，每種錯誤碼附一句提示。VISA 讀取遵守 END/EOI，沒有換行的 GPIB 回覆不再逾時。</span></td></tr>
+        <tr><th scope="row">2026-09-06</th><td><span data-lang="en">Two-stage confirmation for dangerous Actions (<code>danger = true</code> in templates). Headless <code>benchpress run</code> with <code>--mock</code> or <code>--hardware</code>. The MCP server validates with the real compiler and can dry-run a sequence. The GUI watches the data folder; the Reload buttons are gone. Settings gains an MCP card.</span><span data-lang="zh">危險 Action 兩段確認（模板裡的 <code>danger = true</code>）。無頭 <code>benchpress run</code>，可選 <code>--mock</code> 或 <code>--hardware</code>。MCP server 用真正的編譯器驗證，並可 dry-run 序列。GUI 監看資料夾，Reload 按鈕移除。Settings 新增 MCP 區塊。</span></td></tr>
+        <tr><th scope="row">2026-09-05</th><td><span data-lang="en">MCP server first version: <code>benchpress-mcp.exe</code> reads, validates and writes the data folder. License seats are enforced through a signed machine list; the node lock keys off the Windows MachineGuid.</span><span data-lang="zh">MCP server 第一版：<code>benchpress-mcp.exe</code> 讀取、驗證、寫入資料夾。授權席次透過簽章的機器清單強制；機器鎖定改用 Windows MachineGuid。</span></td></tr>
+        <tr><th scope="row">2026-07-29</th><td><span data-lang="en">License pivot: the base app is free; a license unlocks premium feature flags.</span><span data-lang="zh">授權模式轉向：基礎功能免費，授權解鎖付費功能旗標。</span></td></tr>
+        <tr><th scope="row">2026-07-28</th><td><span data-lang="en">Roles and an audit trail. Offline licensing with a trial. Diagnostics bundle and daily-rotated logs. MSI signing hooks and a deployment guide. DUT serial, operator, sequence hash and calibration due dates in every run header. <code>PARALLEL</code> blocks with one lane per instrument. Shell steps in Bash and Python.</span><span data-lang="zh">角色與稽核紀錄。離線授權含試用期。診斷包與每日輪替的 log。MSI 簽章與部署指南。每次執行的表頭含 DUT 序號、操作者、序列雜湊、校正到期日。<code>PARALLEL</code> 積木，每台儀器一條車道。Shell 步驟支援 Bash 與 Python。</span></td></tr>
+        <tr><th scope="row">2026-05-19</th><td><span data-lang="en">Debugger: breakpoints, pause, step over, step into. Line numbers and a fixed gutter in the step list.</span><span data-lang="zh">除錯器：中斷點、暫停、逐步執行。步驟列表加行號和固定欄。</span></td></tr>
+        <tr><th scope="row">2026-05-15</th><td><span data-lang="en">Group blocks. Post-process editor with five methods. Native Python interpreter for shell steps. Variable and Print chips on the canvas.</span><span data-lang="zh">Group 積木。後處理編輯器，五種方法。Shell 步驟的原生 Python 直譯器。畫布上的 Variable 與 Print 標籤。</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="sec region" id="features">
-    <div class="head"><h2><span data-lang="en">Features</span><span data-lang="zh">功能</span></h2></div>
+    <div class="head"><h2><span data-lang="en">Features</span><span data-lang="zh">åè½</span></h2></div>
     <div class="cols">
       <div class="c4">
-        <h3><span data-lang="en">For the engineer</span><span data-lang="zh">給工程師</span></h3>
+        <h3><span data-lang="en">For the engineer</span><span data-lang="zh">çµ¦å·¥ç¨å¸«</span></h3>
         <ul class="list" style="margin-top:10px">
-          <li><span data-lang="en">Pre-flight opens every instrument a sequence needs, in parallel.</span><span data-lang="zh">執行前平行開啟序列用到的每台儀器。</span></li>
-          <li><span data-lang="en">Per-step failure policy: Halt, Continue, Retry N.</span><span data-lang="zh">每步失敗策略：Halt、Continue、Retry N。</span></li>
-          <li><span data-lang="en">Aggregate FOR: mean, std, min, max across iterations, CSV out.</span><span data-lang="zh">FOR 彙總：跨迭代的平均、標準差、最小、最大，可出 CSV。</span></li>
-          <li><span data-lang="en">Shell steps in Bash or Python with a highlighted editor.</span><span data-lang="zh">Shell 步驟支援 Bash、Python，附語法高亮。</span></li>
-          <li><span data-lang="en">Every run: <code>execution.jsonl</code>, screenshots, <code>report.html</code>. Header has operator, DUT serial, sequence hash, calibration dates.</span><span data-lang="zh">每次執行：<code>execution.jsonl</code>、截圖、<code>report.html</code>。表頭含操作者、DUT 序號、序列雜湊、校正到期日。</span></li>
+          <li><span data-lang="en">Pre-flight opens every instrument a sequence needs, in parallel.</span><span data-lang="zh">å·è¡åå¹³è¡éååºåç¨å°çæ¯å°åå¨ã</span></li>
+          <li><span data-lang="en">Per-step failure policy: Halt, Continue, Retry N.</span><span data-lang="zh">æ¯æ­¥å¤±æç­ç¥ï¼HaltãContinueãRetry Nã</span></li>
+          <li><span data-lang="en">Aggregate FOR: mean, std, min, max across iterations, CSV out.</span><span data-lang="zh">FOR å½ç¸½ï¼è·¨è¿­ä»£çå¹³åãæ¨æºå·®ãæå°ãæå¤§ï¼å¯åº CSVã</span></li>
+          <li><span data-lang="en">Shell steps in Bash or Python with a highlighted editor.</span><span data-lang="zh">Shell æ­¥é©æ¯æ´ BashãPythonï¼éèªæ³é«äº®ã</span></li>
+          <li><span data-lang="en">Every run: <code>execution.jsonl</code>, screenshots, <code>report.html</code>. Header has operator, DUT serial, sequence hash, calibration dates.</span><span data-lang="zh">æ¯æ¬¡å·è¡ï¼<code>execution.jsonl</code>ãæªåã<code>report.html</code>ãè¡¨é ­å«æä½èãDUT åºèãåºåéæ¹ãæ ¡æ­£å°ææ¥ã</span></li>
         </ul>
       </div>
       <div class="c4">
-        <h3><span data-lang="en">For scripts and LLMs</span><span data-lang="zh">給腳本與 LLM</span></h3>
+        <h3><span data-lang="en">For scripts and LLMs</span><span data-lang="zh">çµ¦è³æ¬è LLM</span></h3>
         <ul class="list" style="margin-top:10px">
-          <li><span data-lang="en"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>. Same compile, same report, exit codes.</span><span data-lang="zh"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>。同一套編譯與報告，有 exit code。</span></li>
-          <li><span data-lang="en"><code>benchpress.exe probe &lt;addr&gt;</code>: one query, timing, hex tail, a hint per VISA error.</span><span data-lang="zh"><code>benchpress.exe probe &lt;addr&gt;</code>：一條查詢、耗時、hex 尾端、每種 VISA 錯誤一句提示。</span></li>
-          <li><span data-lang="en">MCP server for Claude Desktop, Claude Code, Cursor. Lists instruments, validates and saves TOML, reads past runs. File only, never touches VISA.</span><span data-lang="zh">MCP server 給 Claude Desktop、Claude Code、Cursor。列儀器、驗證並存 TOML、讀過去的執行。只碰檔案，不碰 VISA。</span></li>
-          <li><span data-lang="en">A sequence MCP accepts is one Run accepts: same compiler.</span><span data-lang="zh">MCP 收下的序列，Run 一定收：同一個編譯器。</span></li>
+          <li><span data-lang="en"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>. Same compile, same report, exit codes.</span><span data-lang="zh"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>ãåä¸å¥ç·¨è­¯èå ±åï¼æ exit codeã</span></li>
+          <li><span data-lang="en"><code>benchpress.exe probe &lt;addr&gt;</code>: one query, timing, hex tail, a hint per VISA error.</span><span data-lang="zh"><code>benchpress.exe probe &lt;addr&gt;</code>ï¼ä¸æ¢æ¥è©¢ãèæãhex å°¾ç«¯ãæ¯ç¨® VISA é¯èª¤ä¸å¥æç¤ºã</span></li>
+          <li><span data-lang="en">MCP server for Claude Desktop, Claude Code, Cursor. Lists instruments, validates and saves TOML, reads past runs. File only, never touches VISA.</span><span data-lang="zh">MCP server çµ¦ Claude DesktopãClaude CodeãCursorãååå¨ãé©è­ä¸¦å­ TOMLãè®éå»çå·è¡ãåªç¢°æªæ¡ï¼ä¸ç¢° VISAã</span></li>
+          <li><span data-lang="en">A sequence MCP accepts is one Run accepts: same compiler.</span><span data-lang="zh">MCP æ¶ä¸çåºåï¼Run ä¸å®æ¶ï¼åä¸åç·¨è­¯å¨ã</span></li>
         </ul>
       </div>
       <div class="c4">
-        <h3><span data-lang="en">For the lab manager</span><span data-lang="zh">給實驗室管理者</span></h3>
+        <h3><span data-lang="en">For the lab manager</span><span data-lang="zh">çµ¦å¯¦é©å®¤ç®¡çè</span></h3>
         <ul class="list" style="margin-top:10px">
-          <li><span data-lang="en">Roles: admin, author, operator, viewer. Mapped from Windows accounts.</span><span data-lang="zh">角色：admin、author、operator、viewer。對應 Windows 帳號。</span></li>
-          <li><span data-lang="en">Audit trail: app start, sequence saved, run started, MCP writes.</span><span data-lang="zh">稽核紀錄：啟動、存序列、開始執行、MCP 寫入。</span></li>
-          <li><span data-lang="en">One-click diagnostics bundle: config, logs, newest run.</span><span data-lang="zh">一鍵診斷包：設定、log、最新執行。</span></li>
-          <li><span data-lang="en">Offline licensing, ed25519 signed, node-locked. Base app free; a license unlocks premium flags.</span><span data-lang="zh">離線授權，ed25519 簽章、綁機器。基礎功能免費，授權解鎖付費功能。</span></li>
-          <li><span data-lang="en">Installs to one folder on the desktop. Nothing in <code>%LOCALAPPDATA%</code>.</span><span data-lang="zh">安裝到桌面一個資料夾。不碰 <code>%LOCALAPPDATA%</code>。</span></li>
+          <li><span data-lang="en">Roles: admin, author, operator, viewer. Mapped from Windows accounts.</span><span data-lang="zh">è§è²ï¼adminãauthorãoperatorãviewerãå°æ Windows å¸³èã</span></li>
+          <li><span data-lang="en">Audit trail: app start, sequence saved, run started, MCP writes.</span><span data-lang="zh">ç¨½æ ¸ç´éï¼ååãå­åºåãéå§å·è¡ãMCP å¯«å¥ã</span></li>
+          <li><span data-lang="en">One-click diagnostics bundle: config, logs, newest run.</span><span data-lang="zh">ä¸éµè¨ºæ·åï¼è¨­å®ãlogãææ°å·è¡ã</span></li>
+          <li><span data-lang="en">Offline licensing, ed25519 signed, node-locked. Base app free; a license unlocks premium flags.</span><span data-lang="zh">é¢ç·ææ¬ï¼ed25519 ç°½ç« ãç¶æ©å¨ãåºç¤åè½åè²»ï¼ææ¬è§£éä»è²»åè½ã</span></li>
+          <li><span data-lang="en">Installs to one folder on the desktop. Nothing in <code>%LOCALAPPDATA%</code>.</span><span data-lang="zh">å®è£å°æ¡é¢ä¸åè³æå¤¾ãä¸ç¢° <code>%LOCALAPPDATA%</code>ã</span></li>
         </ul>
       </div>
     </div>
   </section>
 
   <section class="sec region" id="arch">
-    <div class="head"><h2><span data-lang="en">Architecture</span><span data-lang="zh">架構</span></h2></div>
+    <div class="head"><h2><span data-lang="en">Architecture</span><span data-lang="zh">æ¶æ§</span></h2></div>
     <div class="cols">
       <div class="c5">
         <div class="blocks" aria-label="Block diagram">
-          <div class="blk"><div class="n">UI · Dioxus 0.7.9</div><div class="s">Test Panel · Sequence Editor · Manage · Settings</div></div>
+          <div class="blk"><div class="n">UI Â· Dioxus 0.7.9</div><div class="s">Test Panel Â· Sequence Editor Â· Manage Â· Settings</div></div>
           <div class="link" aria-hidden="true"></div>
-          <div class="blk"><div class="n"><span data-lang="en">Executor · tokio</span><span data-lang="zh">執行器 · tokio</span></div><div class="s">compile_steps · <span data-lang="en">shared by GUI, CLI, MCP</span><span data-lang="zh">GUI、CLI、MCP 共用</span></div></div>
+          <div class="blk"><div class="n"><span data-lang="en">Executor Â· tokio</span><span data-lang="zh">å·è¡å¨ Â· tokio</span></div><div class="s">compile_steps Â· <span data-lang="en">shared by GUI, CLI, MCP</span><span data-lang="zh">GUIãCLIãMCP å±ç¨</span></div></div>
           <div class="link" aria-hidden="true"></div>
           <div class="split">
-            <div class="blk"><div class="n">TransportRegistry</div><div class="s"><span data-lang="en">VISA session pool · one mutex per instrument</span><span data-lang="zh">VISA session 池 · 每台一把 mutex</span></div></div>
-            <div class="blk"><div class="n"><span data-lang="en">Safety cleanup</span><span data-lang="zh">安全清理</span></div><div class="s">on_stop_scpi · Stop · <span data-lang="en">close</span><span data-lang="zh">關閉</span> · panic</div></div>
+            <div class="blk"><div class="n">TransportRegistry</div><div class="s"><span data-lang="en">VISA session pool Â· one mutex per instrument</span><span data-lang="zh">VISA session æ±  Â· æ¯å°ä¸æ mutex</span></div></div>
+            <div class="blk"><div class="n"><span data-lang="en">Safety cleanup</span><span data-lang="zh">å®å¨æ¸ç</span></div><div class="s">on_stop_scpi Â· Stop Â· <span data-lang="en">close</span><span data-lang="zh">éé</span> Â· panic</div></div>
           </div>
           <div class="link" aria-hidden="true"></div>
-          <div class="blk"><div class="n">visa-rs → visa64.dll</div><div class="s">R&amp;S VISA · NI-VISA · MockVisa <span data-lang="en">for tests</span><span data-lang="zh">供測試</span></div></div>
+          <div class="blk"><div class="n">visa-rs â visa64.dll</div><div class="s">R&amp;S VISA Â· NI-VISA Â· MockVisa <span data-lang="en">for tests</span><span data-lang="zh">ä¾æ¸¬è©¦</span></div></div>
         </div>
       </div>
       <div class="c7 stack-24">
         <table class="facts">
           <caption class="sr"><span data-lang="en">Crates</span><span data-lang="zh">Crate</span></caption>
           <tbody>
-            <tr><th scope="row">core</th><td><span data-lang="en">Transport trait, data dir, instruments schema, settings, roles</span><span data-lang="zh">Transport trait、資料目錄、儀器 schema、設定、角色</span></td></tr>
-            <tr><th scope="row">visa</th><td><span data-lang="en">The only place visa-rs is linked. MockVisa behind a feature.</span><span data-lang="zh">唯一 link visa-rs 的地方。MockVisa 用 feature 切換。</span></td></tr>
-            <tr><th scope="row">sequencer</th><td><span data-lang="en">Block model, compiler, executor, templates, variables</span><span data-lang="zh">積木模型、編譯器、執行器、模板、變數</span></td></tr>
-            <tr><th scope="row">report</th><td><span data-lang="en">execution.jsonl, RunHeader, report.html</span><span data-lang="zh">execution.jsonl、RunHeader、report.html</span></td></tr>
-            <tr><th scope="row">license</th><td><span data-lang="en">Offline verification, keygen and sign tools</span><span data-lang="zh">離線驗證、產鑰與簽章工具</span></td></tr>
-            <tr><th scope="row">mcp</th><td><span data-lang="en">benchpress-mcp.exe. Reads, validates, writes the data folder.</span><span data-lang="zh">benchpress-mcp.exe。讀、驗證、寫資料夾。</span></td></tr>
+            <tr><th scope="row">core</th><td><span data-lang="en">Transport trait, data dir, instruments schema, settings, roles</span><span data-lang="zh">Transport traitãè³æç®éãåå¨ schemaãè¨­å®ãè§è²</span></td></tr>
+            <tr><th scope="row">visa</th><td><span data-lang="en">The only place visa-rs is linked. MockVisa behind a feature.</span><span data-lang="zh">å¯ä¸ link visa-rs çå°æ¹ãMockVisa ç¨ feature åæã</span></td></tr>
+            <tr><th scope="row">sequencer</th><td><span data-lang="en">Block model, compiler, executor, templates, variables</span><span data-lang="zh">ç©æ¨æ¨¡åãç·¨è­¯å¨ãå·è¡å¨ãæ¨¡æ¿ãè®æ¸</span></td></tr>
+            <tr><th scope="row">report</th><td><span data-lang="en">execution.jsonl, RunHeader, report.html</span><span data-lang="zh">execution.jsonlãRunHeaderãreport.html</span></td></tr>
+            <tr><th scope="row">license</th><td><span data-lang="en">Offline verification, keygen and sign tools</span><span data-lang="zh">é¢ç·é©è­ãç¢é°èç°½ç« å·¥å·</span></td></tr>
+            <tr><th scope="row">mcp</th><td><span data-lang="en">benchpress-mcp.exe. Reads, validates, writes the data folder.</span><span data-lang="zh">benchpress-mcp.exeãè®ãé©è­ãå¯«è³æå¤¾ã</span></td></tr>
           </tbody>
         </table>
         <ul class="list">
-          <li><span data-lang="en">The UI thread never awaits VISA. Every instrument call goes through <code>spawn_blocking</code>. A 30 s scope timeout cannot freeze Stop.</span><span data-lang="zh">UI 執行緒不 await VISA。每個儀器呼叫走 <code>spawn_blocking</code>。scope 30 秒 timeout 凍不住 Stop。</span></li>
-          <li><span data-lang="en">Phase 1 had one crate per instrument. After templates landed, 9 crates and 1,500 lines were deleted.</span><span data-lang="zh">第一階段一台儀器一個 crate。模板上線後刪掉 9 個 crate、1,500 行。</span></li>
+          <li><span data-lang="en">The UI thread never awaits VISA. Every instrument call goes through <code>spawn_blocking</code>. A 30 s scope timeout cannot freeze Stop.</span><span data-lang="zh">UI å·è¡ç·ä¸ await VISAãæ¯ååå¨å¼å«èµ° <code>spawn_blocking</code>ãscope 30 ç§ timeout åä¸ä½ Stopã</span></li>
+          <li><span data-lang="en">Phase 1 had one crate per instrument. After templates landed, 9 crates and 1,500 lines were deleted.</span><span data-lang="zh">ç¬¬ä¸éæ®µä¸å°åå¨ä¸å crateãæ¨¡æ¿ä¸ç·å¾åªæ 9 å crateã1,500 è¡ã</span></li>
         </ul>
         <div class="code"><pre><span class="cm"># instruments.toml</span>
 <span class="k">schema_version</span> = <span class="n">1</span>
@@ -220,35 +335,35 @@
 <span class="k">key</span>          = <span class="s">"eload_chroma"</span>
 <span class="k">addr</span>         = <span class="s">"GPIB0::5::INSTR"</span>
 <span class="k">category</span>     = <span class="s">"ELoad"</span>
-<span class="k">on_stop_scpi</span> = [<span class="s">"LOAD OFF"</span>]   <span class="cm"># <span data-lang="en">sent on Stop, close, panic</span><span data-lang="zh">Stop、關閉、panic 時送出</span></span></pre></div>
+<span class="k">on_stop_scpi</span> = [<span class="s">"LOAD OFF"</span>]   <span class="cm"># <span data-lang="en">sent on Stop, close, panic</span><span data-lang="zh">Stopãééãpanic æéåº</span></span></pre></div>
       </div>
     </div>
   </section>
 
   <section class="sec region" id="safety">
-    <div class="head"><h2><span data-lang="en">Safety and verification</span><span data-lang="zh">安全與驗證</span></h2></div>
+    <div class="head"><h2><span data-lang="en">Safety and verification</span><span data-lang="zh">å®å¨èé©è­</span></h2></div>
     <div>
       <div class="dec">
-        <h3><span data-lang="en">Outputs never auto-enable</span><span data-lang="zh">輸出絕不自動開啟</span></h3>
+        <h3><span data-lang="en">Outputs never auto-enable</span><span data-lang="zh">è¼¸åºçµä¸èªåéå</span></h3>
         <ul class="list">
-          <li><span data-lang="en">Templates mark dangerous commands with <code>danger = true</code>. GUI asks "Run anyway". CLI needs <code>--confirm-danger</code>.</span><span data-lang="zh">模板用 <code>danger = true</code> 標記危險指令。GUI 要按「Run anyway」。CLI 要加 <code>--confirm-danger</code>。</span></li>
-          <li><span data-lang="en">Stop, fatal error, window close, panic: each sends every instrument's <code>on_stop_scpi</code>.</span><span data-lang="zh">Stop、嚴重錯誤、關閉視窗、panic：都送出每台儀器的 <code>on_stop_scpi</code>。</span></li>
+          <li><span data-lang="en">Templates mark dangerous commands with <code>danger = true</code>. GUI asks "Run anyway". CLI needs <code>--confirm-danger</code>.</span><span data-lang="zh">æ¨¡æ¿ç¨ <code>danger = true</code> æ¨è¨å±éªæä»¤ãGUI è¦æãRun anywayããCLI è¦å  <code>--confirm-danger</code>ã</span></li>
+          <li><span data-lang="en">Stop, fatal error, window close, panic: each sends every instrument's <code>on_stop_scpi</code>.</span><span data-lang="zh">Stopãå´éé¯èª¤ãééè¦çªãpanicï¼é½éåºæ¯å°åå¨ç <code>on_stop_scpi</code>ã</span></li>
         </ul>
       </div>
       <div class="dec">
-        <h3><span data-lang="en">Green tests are not a working feature</span><span data-lang="zh">測試綠不等於功能可用</span></h3>
+        <h3><span data-lang="en">Green tests are not a working feature</span><span data-lang="zh">æ¸¬è©¦ç¶ ä¸ç­æ¼åè½å¯ç¨</span></h3>
         <ul class="list">
-          <li><span data-lang="en">CI runs about 350 tests on MockVisa with no instrument attached.</span><span data-lang="zh">CI 用 MockVisa 跑約 350 個測試，不接儀器。</span></li>
-          <li><span data-lang="en">Hardware tests are <code>#[ignore]</code> and run only with <code>BENCHPRESS_HW=1</code>.</span><span data-lang="zh">實機測試標 <code>#[ignore]</code>，只在 <code>BENCHPRESS_HW=1</code> 時跑。</span></li>
-          <li><span data-lang="en">Acceptance has two layers: open and <code>*IDN?</code>, then every template command on the real unit. Logged per instrument with firmware and commit.</span><span data-lang="zh">驗收兩層：先開啟與 <code>*IDN?</code>，再把每條模板指令送到實機。每台記韌體與 commit。</span></li>
-          <li><span data-lang="en">Verified so far: R&amp;S RTB24, firmware 03.000, 21 steps, three screenshots, report. 2026-09-06.</span><span data-lang="zh">目前已驗：R&amp;S RTB24，韌體 03.000，21 步、三張截圖、報告。2026-09-06。</span></li>
+          <li><span data-lang="en">CI runs about 350 tests on MockVisa with no instrument attached.</span><span data-lang="zh">CI ç¨ MockVisa è·ç´ 350 åæ¸¬è©¦ï¼ä¸æ¥åå¨ã</span></li>
+          <li><span data-lang="en">Hardware tests are <code>#[ignore]</code> and run only with <code>BENCHPRESS_HW=1</code>.</span><span data-lang="zh">å¯¦æ©æ¸¬è©¦æ¨ <code>#[ignore]</code>ï¼åªå¨ <code>BENCHPRESS_HW=1</code> æè·ã</span></li>
+          <li><span data-lang="en">Acceptance has two layers: open and <code>*IDN?</code>, then every template command on the real unit. Logged per instrument with firmware and commit.</span><span data-lang="zh">é©æ¶å©å±¤ï¼åéåè <code>*IDN?</code>ï¼åææ¯æ¢æ¨¡æ¿æä»¤éå°å¯¦æ©ãæ¯å°è¨éé«è commitã</span></li>
+          <li><span data-lang="en">Verified so far: R&amp;S RTB24, firmware 03.000, 21 steps, three screenshots, report. 2026-09-06.</span><span data-lang="zh">ç®åå·²é©ï¼R&amp;S RTB24ï¼éé« 03.000ï¼21 æ­¥ãä¸å¼µæªåãå ±åã2026-09-06ã</span></li>
         </ul>
       </div>
       <div class="dec">
-        <h3><span data-lang="en">Every push is watched to the end</span><span data-lang="zh">每次 push 都盯到 CI 結束</span></h3>
+        <h3><span data-lang="en">Every push is watched to the end</span><span data-lang="zh">æ¯æ¬¡ push é½ç¯å° CI çµæ</span></h3>
         <ul class="list">
-          <li><span data-lang="en">Gates: <code>cargo fmt</code>, <code>clippy -D warnings</code>, <code>cargo test</code>, then <code>gh run watch</code>.</span><span data-lang="zh">關卡：<code>cargo fmt</code>、<code>clippy -D warnings</code>、<code>cargo test</code>，再 <code>gh run watch</code>。</span></li>
-          <li><span data-lang="en">Reason: a tokio flush-before-drop bug that only ever reproduced on the runner.</span><span data-lang="zh">原因：一個只在 CI runner 上重現的 tokio flush-before-drop bug。</span></li>
+          <li><span data-lang="en">Gates: <code>cargo fmt</code>, <code>clippy -D warnings</code>, <code>cargo test</code>, then <code>gh run watch</code>.</span><span data-lang="zh">éå¡ï¼<code>cargo fmt</code>ã<code>clippy -D warnings</code>ã<code>cargo test</code>ï¼å <code>gh run watch</code>ã</span></li>
+          <li><span data-lang="en">Reason: a tokio flush-before-drop bug that only ever reproduced on the runner.</span><span data-lang="zh">åå ï¼ä¸ååªå¨ CI runner ä¸éç¾ç tokio flush-before-drop bugã</span></li>
         </ul>
       </div>
     </div>
@@ -256,29 +371,29 @@
 
   <section class="sec region" id="dnp">
     <div class="head">
-      <h2><span data-lang="en">Roadmap</span><span data-lang="zh">後續規劃</span></h2>
-      <p class="muted mb-0"><span data-lang="en">Planned, not built. The footprints exist. The parts are not placed.</span><span data-lang="zh">規劃中，尚未實作。腳位已有，零件未放。</span></p>
+      <h2><span data-lang="en">Roadmap</span><span data-lang="zh">å¾çºè¦å</span></h2>
+      <p class="muted mb-0"><span data-lang="en">Planned, not built. The footprints exist. The parts are not placed.</span><span data-lang="zh">è¦åä¸­ï¼å°æªå¯¦ä½ãè³ä½å·²æï¼é¶ä»¶æªæ¾ã</span></p>
     </div>
     <div class="cols">
       <div class="c4 fp dnp">
-        <span class="fpref">U1.4 <b><span data-lang="en">Manual parsing</span><span data-lang="zh">手冊解析</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
+        <span class="fpref">U1.4 <b><span data-lang="en">Manual parsing</span><span data-lang="zh">æåè§£æ</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
         <ul class="list">
-          <li><span data-lang="en">An LLM reads an instrument PDF and drafts its template file.</span><span data-lang="zh">LLM 讀儀器 PDF，草擬模板檔。</span></li>
-          <li><span data-lang="en">Draft a sequence from one sentence.</span><span data-lang="zh">一句話產生序列草稿。</span></li>
+          <li><span data-lang="en">An LLM reads an instrument PDF and drafts its template file.</span><span data-lang="zh">LLM è®åå¨ PDFï¼èæ¬æ¨¡æ¿æªã</span></li>
+          <li><span data-lang="en">Draft a sequence from one sentence.</span><span data-lang="zh">ä¸å¥è©±ç¢çåºåèç¨¿ã</span></li>
         </ul>
       </div>
       <div class="c4 fp dnp">
-        <span class="fpref">U1.5 <b><span data-lang="en">More hardware runs</span><span data-lang="zh">更多實機驗收</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
+        <span class="fpref">U1.5 <b><span data-lang="en">More hardware runs</span><span data-lang="zh">æ´å¤å¯¦æ©é©æ¶</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
         <ul class="list">
-          <li><span data-lang="en">Six template files are written from manuals and not yet run on the unit.</span><span data-lang="zh">六份模板照手冊寫，尚未接實機。</span></li>
-          <li><span data-lang="en">MXO4 template, copied from RTB24, then verified.</span><span data-lang="zh">MXO4 模板，從 RTB24 複製後驗收。</span></li>
+          <li><span data-lang="en">Six template files are written from manuals and not yet run on the unit.</span><span data-lang="zh">å­ä»½æ¨¡æ¿ç§æåå¯«ï¼å°æªæ¥å¯¦æ©ã</span></li>
+          <li><span data-lang="en">MXO4 template, copied from RTB24, then verified.</span><span data-lang="zh">MXO4 æ¨¡æ¿ï¼å¾ RTB24 è¤è£½å¾é©æ¶ã</span></li>
         </ul>
       </div>
       <div class="c4 fp dnp">
-        <span class="fpref">U1.6 <b><span data-lang="en">Fleet</span><span data-lang="zh">多機台</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
+        <span class="fpref">U1.6 <b><span data-lang="en">Fleet</span><span data-lang="zh">å¤æ©å°</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
         <ul class="list">
-          <li><span data-lang="en">Start, watch and collect runs on other bench PCs.</span><span data-lang="zh">從一台 PC 啟動、監看、收回其他工作台的執行。</span></li>
-          <li><span data-lang="en">Fan independent steps onto idle benches.</span><span data-lang="zh">把獨立步驟分到閒置工作台。</span></li>
+          <li><span data-lang="en">Start, watch and collect runs on other bench PCs.</span><span data-lang="zh">å¾ä¸å° PC ååãç£çãæ¶åå¶ä»å·¥ä½å°çå·è¡ã</span></li>
+          <li><span data-lang="en">Fan independent steps onto idle benches.</span><span data-lang="zh">æç¨ç«æ­¥é©åå°éç½®å·¥ä½å°ã</span></li>
         </ul>
       </div>
     </div>
@@ -287,21 +402,21 @@
   <footer class="dataline region">
     <div class="id">
       <span>Tom Huang</span>
-      <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
+      <span><span data-lang="en">Software engineer</span><span data-lang="zh">è»é«å·¥ç¨å¸«</span></span>
       <span>Taipei, TW</span>
-      <span>U1 · 2026-09-10</span>
+      <span>U1 Â· 2026-09-10</span>
     </div>
     <div class="links">
-      <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+      <a href="../"><span data-lang="en">Board</span><span data-lang="zh">ä¸»æ¿</span></a>
       <a href="../pos/">U2 tujia pos</a>
-      <a href="../workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
+      <a href="../workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">æ¹æ³ç­è¨</span></a>
       <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
     </div>
   </footer>
 </main>
 
 <dialog class="lightbox" id="lightbox" aria-label="Enlarged screenshot">
-  <div class="lb-bar"><span class="lb-cap"></span><button type="button"><span data-lang="en">Close · Esc</span><span data-lang="zh">關閉 · Esc</span></button></div>
+  <div class="lb-bar"><span class="lb-cap"></span><button type="button"><span data-lang="en">Close Â· Esc</span><span data-lang="zh">éé Â· Esc</span></button></div>
   <div class="lb-img"></div>
 </dialog>
 
