@@ -54,7 +54,7 @@
         <span class="jref">JP1 · LANG</span>
         <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
       </button>
-      <span class="rev">J1 · <span data-lang="en">living</span><span data-lang="zh">持續更新</span> · REV 2026-10 · <span data-lang="en">Sheet 4 / 4</span><span data-lang="zh">第 4 / 4 頁</span></span>
+      <span class="rev">J1 · <span data-lang="en">living</span><span data-lang="zh">持續更新</span> · REV 2026-10 · <span data-lang="en">Sheet 7 / 7</span><span data-lang="zh">第 7 / 7 頁</span></span>
     </div>
   </header>
 
@@ -96,7 +96,7 @@
         <h2><span data-lang="en">Git first</span><span data-lang="zh">先建 Git</span></h2>
         <ul class="list">
           <li><span data-lang="en">First command in a new folder: <code>git init</code>.</span><span data-lang="zh">新資料夾第一個指令：<code>git init</code>。</span></li>
-          <li><span data-lang="en">Claude Code's checkpoint undoes its own edits inside one session. Not what you ran by hand, not across machines, no branches, no review.</span><span data-lang="zh">Claude Code 的 checkpoint 只在同一個 session 內倒回它自己的改動。不含你手動跑的、不跨機器、沒分支、不能 review。</span></li>
+          <li><span data-lang="en">Claude Code's checkpoint only undoes its own edits inside one session; it does not cover what you ran by hand, other machines, branches or review.</span><span data-lang="zh">Claude Code 的 checkpoint 只能倒回同一個 session 內它自己的改動，管不到你手動跑的、別台機器、分支和 review。</span></li>
           <li><span data-lang="en">One branch per issue. Each commit maps to a ROADMAP step. Diffs are what gets reviewed.</span><span data-lang="zh">每個 issue 一條分支。每個 commit 對應一個 ROADMAP 步驟。review 的對象是 diff。</span></li>
         </ul>
       </div>
@@ -175,7 +175,7 @@
           <div class="st"><span class="n">8</span><span class="t"><span data-lang="en">Squash merge, watch CI to the end</span><span data-lang="zh">squash 合併，盯 CI 到結束</span></span></div>
         </div>
         <ul class="list">
-          <li><span data-lang="en">The pause at step 7 is deliberate. Mock tests green is not the feature working. The instrument decides.</span><span data-lang="zh">第 7 步的停頓是故意的。mock 測試綠不等於功能可用。儀器說了算。</span></li>
+          <li><span data-lang="en">The pause at step 7 is deliberate: green mock tests do not prove the feature, the instrument does.</span><span data-lang="zh">第 7 步的停頓是故意的：mock 測試綠不代表功能可用，要儀器說了算。</span></li>
           <li><span data-lang="en">Hardware tests are <code>#[ignore]</code> and need <code>BENCHPRESS_HW=1</code>. Acceptance per instrument is logged with firmware and commit.</span><span data-lang="zh">實機測試標 <code>#[ignore]</code>，要 <code>BENCHPRESS_HW=1</code>。每台儀器的驗收記韌體與 commit。</span></li>
           <li><span data-lang="en">For U2 the gate was the counter: feedback came as phone photos of the tablet, and the next commit answered them.</span><span data-lang="zh">U2 的關卡是櫃台：回饋是平板的手機照片，下一個 commit 回答它們。</span></li>
         </ul>
@@ -197,14 +197,14 @@
       <div class="c7 stack-24">
         <h2 class="mb-0"><span data-lang="en">Real prompts</span><span data-lang="zh">真實的 prompt</span></h2>
         <p class="muted mb-0"><span data-lang="en">From the U1 project notes, unedited. Chinese as written; English alongside.</span><span data-lang="zh">取自 U1 的專案筆記，未修改。</span></p>
-        <div class="prompt"><span data-lang="en">The old flow is hard-coded. I want the new flow to be built by dragging, like blocks: combine commands from different instruments into a full test item, with waits and the like. Also allow for several GPIB or Ethernet interfaces sending commands and handling replies at the same time.</span><span data-lang="zh">舊的操作流程是寫死的, 希望新的操作流程可以藉由拖拉的方式, 像積木一樣組合不同儀器的 command 拼湊出完整的側項, 也可以設定等待時間之類的操作, 另外也要考慮若有多條 GPIB 或 ethernet 介面, 同時發送指令和處理的可能性</span><span class="src"><span data-lang="en">Brief, 2026-05 · became the block model and parallel lanes</span><span data-lang="zh">需求，2026-05 · 成了積木模型與平行車道</span></span></div>
+        <div class="prompt"><span data-lang="en">The old flow is hard-coded. I want the new flow to be built by dragging, like blocks: combine commands from different instruments into a full test item, with waits and the like. Also allow for several GPIB or Ethernet interfaces sending commands and handling replies at the same time.</span><span data-lang="zh">舊的操作流程是寫死的, 希望新的操作流程可以藉由拖拉的方式, 像積木一樣組合不同儀器的 command 拼湊出完整的側項, 也可以設定等待時間之類的操作, 另外也要考慮若有多條 GPIB 或 ethernet 介面, 同時發送指令和處理的可能性</span><span class="src"><span data-lang="en">Brief · became the block model and parallel lanes</span><span data-lang="zh">需求 · 成了積木模型與平行車道</span></span></div>
         <div class="prompt"><span data-lang="en">Plan an Error Handler flow. It is a special state entered whenever an error occurs. It must filter errors and, by severity, either let them pass or handle them.</span><span data-lang="zh">請規劃新增一個 Error Handler 流程 這是當任何時候有錯誤發生時會進入的特殊狀態, 要可以過濾錯誤, 視不同等級的錯誤放行或錯誤處理</span><span class="src"><span data-lang="en">Change request · became per-step Halt / Continue / Retry with severity</span><span data-lang="zh">修改需求 · 成了每步的 Halt / Continue / Retry 與錯誤分級</span></span></div>
         <div class="prompt"><span data-lang="en">Code cleanliness matters.</span><span data-lang="zh">code cleanliness 很重要</span><span class="src"><span data-lang="en">ROADMAP M9 · led to deleting 9 crates and 1,500 lines once templates replaced them</span><span data-lang="zh">ROADMAP M9 · 模板上線後據此刪掉 9 個 crate、1,500 行</span></span></div>
       </div>
       <div class="c5">
         <h2><span data-lang="en">Why it matters</span><span data-lang="zh">為什麼重要</span></h2>
         <ul class="list" style="margin-top:14px">
-          <li><span data-lang="en">The documents are not the value. Being forced to think the idea through before any code is.</span><span data-lang="zh">文件本身不是價值。被迫在寫程式前把想法想清楚才是。</span></li>
+          <li><span data-lang="en">The value is in being forced to think the idea through before any code exists; the documents are the by-product.</span><span data-lang="zh">價值在於被迫在寫程式之前把想法想清楚；文件是順帶的產物。</span></li>
           <li><span data-lang="en">A clear spec is implemented fast. A vague one produces something that looks right and is wrong, just as fast.</span><span data-lang="zh">規格清楚，實作很快。規格模糊，一樣快做出看起來對其實錯的東西。</span></li>
           <li><span data-lang="en">The model does the typing. The gates, the hardware and the counter decide what ships.</span><span data-lang="zh">打字的是模型。決定什麼能出貨的是關卡、儀器和櫃台。</span></li>
         </ul>
@@ -223,6 +223,9 @@
       <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
       <a href="../benchpress/">U1 benchpress</a>
       <a href="../pos/">U2 tujia pos</a>
+      <a href="../scope-dll/">U3 scope dll</a>
+      <a href="../imx93/">U4 i.MX93 bsp</a>
+      <a href="../genio/">U5 genio 420</a>
       <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
     </div>
   </footer>

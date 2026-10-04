@@ -2,7 +2,7 @@
 version: 1
 slug: "index-html"
 primary_target: "index.html"
-related_targets: ["benchpress/index.html","pos/index.html","workflow/index.html"]
+related_targets: ["benchpress/index.html","pos/index.html","scope-dll/index.html","imx93/index.html","genio/index.html","workflow/index.html"]
 ---
 
 # Surface brief: portfolio landing (index.html) and the three case-study sheets
@@ -35,6 +35,10 @@ Signature interaction: continuity. Hovering or focusing a BOM row turns its trac
 FORM: PCB silkscreen, the assigned card of the re-roll round; seed key 312d4b87, re-roll 1. Black mask and showcase-first order are user-pinned changes (2026-10-01) applied inside the same world. Raises carried: machine-format identity line (passport), paired bilingual lettering (painted poster), one continuous board object (daylight section), state never by color alone (cyclorama), rank by span with one body size (cutting bench), board stays whole on phones (minihompy).
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+
+### Expansion 2026-10-04
+
+Three works added inside the same world, in the order Tom chose (oldest first): U3 scope dll, U4 i.MX93 bsp, U5 genio 420, placed between U2 and J1. Each has a BOM row, a landing footprint (one screenshot, one-liner, six-row kv list) and its own sheet built from the benchpress sheet pattern. Sheet count is now 7. Client naming per Tom: SoC and instrument names (Genio 420, i.MX93, RTB2000) are fine; board product names and company names are not. Screenshots of the two install stations and tsn-manager are the real pages run offline against recorded board output, stated in each figure caption.
 
 ## Unresolved
 

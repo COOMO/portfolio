@@ -240,7 +240,7 @@ html[lang="zh"] .bom .part a{font-family:var(--cond)}
 .traces circle.hot{stroke:var(--gold)}
 @media (prefers-reduced-motion:no-preference){
   .traces path.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw .9s cubic-bezier(.16,1,.3,1) forwards}
-  .traces path.draw.d2{animation-delay:.08s}.traces path.draw.d3{animation-delay:.16s}
+  .traces path.draw.d2{animation-delay:.08s}.traces path.draw.d3{animation-delay:.16s}.traces path.draw.d4{animation-delay:.24s}.traces path.draw.d5{animation-delay:.32s}.traces path.draw.d6{animation-delay:.4s}
   @keyframes draw{to{stroke-dashoffset:0}}
 }
 @media (max-width:980px){.traces{display:none}}
@@ -264,6 +264,7 @@ html[lang="zh"] .facts th{font-family:var(--zh);letter-spacing:.08em;font-weight
 .figrow:first-of-type{border-top:0;padding-top:0}
 .figrow.flip{grid-template-columns:5fr 7fr}
 .figrow.flip .fp{order:2}
+.figrow>*{min-width:0}
 .figrow .text h3{margin-bottom:12px}
 .figrow .text .fig{display:block;font-family:var(--cond);font-size:var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--silk-3);margin-bottom:10px}
 @media (max-width:900px){.figrow,.figrow.flip{grid-template-columns:1fr}.figrow.flip .fp{order:0}}

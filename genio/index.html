@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-en="genio 420 · Tom Huang" data-zh="genio 420 · Tom Huang">genio 420 · Tom Huang</title>
+<meta name="description"
+      data-en="Ubuntu 26.04 on a MediaTek Genio 420 module: kernel rebuilt from source, network and USB install station, NXP RT1180 as a TSN switch with a management page, GMSL3 camera bring-up, VLM demo on the NPU."
+      data-zh="MediaTek Genio 420 模組上的 Ubuntu 26.04：kernel 自建、網路與 USB 裝機站、NXP RT1180 當 TSN 交換器加管理頁、GMSL3 相機 bring-up、NPU 上的 VLM demo。"
+      content="Ubuntu 26.04 on a MediaTek Genio 420 module: kernel rebuilt from source, network and USB install station, NXP RT1180 as a TSN switch with a management page, GMSL3 camera bring-up, VLM demo on the NPU." />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#121314" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<main class="board sheet">
+  <span class="hole tl" aria-hidden="true"></span><span class="hole tr" aria-hidden="true"></span>
+  <span class="hole bl" aria-hidden="true"></span><span class="hole br" aria-hidden="true"></span>
+  <span class="fid a" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid b" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid c" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+
+  <header class="legend region">
+    <div class="name">
+      <h1 class="latin">genio 420</h1>
+      <p class="title">
+        <span data-lang="en">Ubuntu 26.04 on a MediaTek Genio 420 module. Kernel from source, an install station, an NXP RT1180 as TSN switch, a GMSL3 camera, and a VLM demo on the NPU.</span>
+        <span data-lang="zh">在 MediaTek Genio 420 模組上跑 Ubuntu 26.04：自建 kernel、裝機站、NXP RT1180 當 TSN 交換器、GMSL3 相機，以及 NPU 上的 VLM demo。</span>
+      </p>
+    </div>
+    <div class="right">
+      <button class="jumper" id="jp1" type="button" aria-label="Language: English. Switch to Chinese">
+        <span class="jref">JP1 · LANG</span>
+        <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
+      </button>
+      <span class="rev">U5 · <span data-lang="en">in delivery</span><span data-lang="zh">交付中</span> · <span data-lang="en">Sheet 6 / 7</span><span data-lang="zh">第 6 / 7 頁</span></span>
+    </div>
+  </header>
+
+  <nav class="sheetnav region" aria-label="Sections">
+    <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+    <a href="#why"><span data-lang="en">Problem</span><span data-lang="zh">問題</span></a>
+    <a href="#figures"><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></a>
+    <a href="#numbers"><span data-lang="en">Measurements</span><span data-lang="zh">量測</span></a>
+    <a href="#decisions"><span data-lang="en">Decisions</span><span data-lang="zh">決定</span></a>
+    <a href="#delivery"><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></a>
+    <a href="#dnp"><span data-lang="en">Open items</span><span data-lang="zh">未結項目</span></a>
+  </nav>
+
+  <section class="sec region" id="why">
+    <div class="cols">
+      <div class="c7 stack-24">
+        <div><h2><span data-lang="en">Problem</span><span data-lang="zh">問題</span></h2></div>
+        <ul class="list">
+          <li><span data-lang="en">A module maker wants Ubuntu 26.04 on its Genio 420 system-on-module and carrier. MediaTek supports Ubuntu up to 24.04, and only on eMMC, while this module boots from UFS.</span><span data-lang="zh">一家模組廠想在自家的 Genio 420 模組與載板上跑 Ubuntu 26.04。MediaTek 只支援到 24.04，而且只支援 eMMC，這塊模組卻是從 UFS 開機。</span></li>
+          <li><span data-lang="en">The product needs a camera, a time-sensitive network port and an AI demo, and the boards must be installed and restored by people without a serial cable.</span><span data-lang="zh">產品需要相機、時間敏感網路埠和一個 AI demo，而且板子要讓沒有 serial 線的人也能安裝與還原。</span></li>
+          <li><span data-lang="en">The SD slot cannot boot this board: U-Boot stops at ACMD41. After three layers of diagnosis the plan changed, and the slot is now only an install medium.</span><span data-lang="zh">這塊板的 SD 槽不能開機，U-Boot 停在 ACMD41。分三層排查確認之後才改計畫，SD 現在只當安裝媒介。</span></li>
+        </ul>
+        <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
+        <ul class="list list--filled">
+          <li><span data-lang="en">Keep the vendor boot chain and replace only kernel and rootfs. The kernel finds root by <code>PARTLABEL</code>, so a rebuilt Ubuntu rootfs boots without touching the bootloaders.</span><span data-lang="zh">保留原廠的開機鏈，只換 kernel 與 rootfs。kernel 用 <code>PARTLABEL</code> 找 root，所以重建的 Ubuntu rootfs 不用動 bootloader 就能開機。</span></li>
+          <li><span data-lang="en">Kernel 6.6.137 rebuilt from the IoT Yocto v26.0 tree plus one board layer. Device trees and overlays come out byte-identical to the vendor's.</span><span data-lang="zh">kernel 6.6.137 從 IoT Yocto v26.0 的原始碼樹加一層板層重建，產出的 device tree 與 overlay 和原廠位元組一致。</span></li>
+          <li><span data-lang="en">Install from the network or a USB stick. A Windows PC is the station: DHCP, TFTP, HTTP and one web page. Factory restore takes 100 s, the unified system 135 s.</span><span data-lang="zh">從網路或 USB 碟安裝。一台 Windows PC 當站台，提供 DHCP、TFTP、HTTP 和一個網頁。回復出廠 100 秒，裝統一版 135 秒。</span></li>
+          <li><span data-lang="en">An i.MX RT1180 as a DSA switch under Linux. A package applies one YAML of TSN settings at boot and shows the file next to the hardware state on a page.</span><span data-lang="zh">i.MX RT1180 在 Linux 下當 DSA 交換器。一個套件在開機時套用一份 TSN 設定 YAML，網頁上並列檔案內容與硬體現況。</span></li>
+        </ul>
+      </div>
+      <div class="c5">
+        <table class="facts">
+          <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">一覽</span></caption>
+          <tbody>
+            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark living"><span data-lang="en">In delivery</span><span data-lang="zh">交付中</span></span> <span class="dim"><span data-lang="en">work continues</span><span data-lang="zh">持續進行</span></span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Hardware</span><span data-lang="zh">硬體</span></th><td>MediaTek Genio 420 <span class="dim">(MT8371 · 2 × A78 + 6 × A55 · Mali-G57 · NPU)</span> · UFS · <span data-lang="en">custom carrier</span><span data-lang="zh">客製載板</span> · NXP i.MX RT1180 EVK · Sony IMX900 <span data-lang="en">over</span><span data-lang="zh">經</span> GMSL3</td></tr>
+            <tr><th scope="row"><span data-lang="en">Software</span><span data-lang="zh">軟體</span></th><td>Ubuntu 26.04 · kernel 6.6.137 <span data-lang="en">from</span><span data-lang="zh">自</span> IoT Yocto v26.0 · Weston · <span data-lang="en">vendor Mali and NPU runtimes</span><span data-lang="zh">原廠 Mali 與 NPU runtime</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></th><td><span data-lang="en">Station or USB stick · factory 100 s · unified 135 s · 5 phases, resumable</span><span data-lang="zh">站台或 USB 碟 · 出廠 100 秒 · 統一版 135 秒 · 5 階段可續跑</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Network</span><span data-lang="zh">網路</span></th><td>802.1AS · Qbv · Qci · Qbu <span data-lang="en">verified with hardware timestamps</span><span data-lang="zh">以硬體時戳驗過</span> · tsn-manager</td></tr>
+            <tr><th scope="row"><span data-lang="en">Camera</span><span data-lang="zh">相機</span></th><td><span data-lang="en">GMSL3 RAW12 out · IP camera decode 5 ms per frame · glass to glass 127 ms at 1024 × 768, 60 fps</span><span data-lang="zh">GMSL3 出 RAW12 · IP camera 解碼每幀 5 ms · glass-to-glass 127 ms，1024 × 768、60 fps</span></td></tr>
+            <tr><th scope="row">CI</th><td><span data-lang="en">4 workflows · a bench runner installs a real board on every asset release</span><span data-lang="zh">4 條 workflow · 台架 runner 在每次素材發布時裝一塊真板</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td><span data-lang="en">396 commits in two repos · AI-assisted</span><span data-lang="zh">兩個 repo 共 396 個 commit · AI 協作</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo, contract. BSP, drivers, tools, packages, docs.</span><span data-lang="zh">獨立承接。BSP、驅動、工具、套件、文件。</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="figures">
+    <div class="head">
+      <h2><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></h2>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U5.1 <b><span data-lang="en">Install station</span><span data-lang="zh">裝機站</span></b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="01-station.png" width="2560" height="1520" alt="Genio 420 install station page: two factory-state board cards with serial, MAC, hostname, kernel, rootfs usage, load and a UFS partition bar, each with an Install unified button; on the right a finished job, the DHCP log and a help note." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 1</span><span><span data-lang="en">Station page · click to enlarge</span><span data-lang="zh">站台頁面 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">Install station</span><span data-lang="zh">裝機站</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">A board plugged into the station NIC appears within 60 s of power-on, identified by its UFS serial. One button installs the unified system; another restores the factory one.</span><span data-lang="zh">板子接上站台網卡後，上電 60 秒內就會出現，以 UFS 序號識別。一個按鈕裝統一版，另一個回復出廠。</span></li>
+          <li><span data-lang="en">The job has five phases: assess, prepare, schedule, track, verify. Each is checkpointed per board, so a failed or cancelled job resumes where it stopped.</span><span data-lang="zh">作業分五個階段：assess、prepare、schedule、track、verify。每塊板各自存 checkpoint，失敗或取消的作業可以從停下的地方續跑。</span></li>
+          <li><span data-lang="en">The board does the install itself from RAM: U-Boot loads the installer over TFTP, the installer streams the rootfs over HTTP, verifies it and reboots.</span><span data-lang="zh">板子自己在 RAM 裡完成安裝：U-Boot 用 TFTP 載入安裝器，安裝器用 HTTP 串流 rootfs，驗證後重開。</span></li>
+          <li><span data-lang="en">The terminal shows the board's console, built from the job's serial log and the SSH journal. The CLI runs the same job code.</span><span data-lang="zh">終端機把作業的 serial log 與 SSH journal 合在一起，就是這塊板的 console。CLI 跑的是同一份作業碼。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow flip">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U5.2 <b>tsn-manager</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="02-tsn-manager.png" width="1440" height="1120" alt="tsn-manager web page: two TSN ports up, four status lamps (switch connected, time locked at 0 ns offset, schedule starting, file and hardware differ), the 802.1AS section with the file on the left and hardware state on the right, and the port 1 802.1Qbv schedule drawn as eight traffic-class bars over a 1 ms cycle." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 2</span><span><span data-lang="en">tsn-manager · click to enlarge</span><span data-lang="zh">tsn-manager · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3>tsn-manager</h3>
+        <ul class="list">
+          <li><span data-lang="en">One YAML file describes the two external TSN ports and the 802.1AS clock. A service turns it into <code>tc</code>, <code>ethtool</code> and <code>ptp4l</code> calls at boot and on every save.</span><span data-lang="zh">一份 YAML 描述兩個對外 TSN 埠與 802.1AS 時鐘。服務在開機與每次存檔時，把它轉成 <code>tc</code>、<code>ethtool</code>、<code>ptp4l</code> 指令。</span></li>
+          <li><span data-lang="en">The left column is the file and can be edited; the right column is what the hardware is running, read every five seconds and never editable. Four lamps show switch, time lock, schedule and whether the two sides match.</span><span data-lang="zh">左欄是檔案，可以編輯；右欄是硬體正在跑的設定，每五秒讀一次，不能編輯。四盞燈顯示交換器、時間鎖定、排程，以及檔案與硬體是否一致。</span></li>
+          <li><span data-lang="en">A schedule applied from this page was checked with hardware timestamps on the far node.</span><span data-lang="zh">從這個頁面套用的排程，在對端用硬體時戳驗證過。</span></li>
+          <li><span data-lang="en">On a board without the switch the service installs and stays off, which is not an error.</span><span data-lang="zh">沒有交換器的板子，服務照裝但不啟動，不算錯誤。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U5.3 <b>NPU</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="03-npu-camera.jpg" width="1280" height="720" alt="A USB camera frame from the Genio 420 with two detection boxes drawn on it, a phone labelled laptop 0.99 and a remote control labelled remote 0.79; the header reads camera 19.8 fps, NPU 14 ms, objects 2." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 3</span><span><span data-lang="en">Object detection on the NPU, 14 ms per frame · click to enlarge</span><span data-lang="zh">NPU 上的物件偵測，每幀 14 ms · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">NPU demos</span><span data-lang="zh">NPU demo</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Detection: USB camera frames go to the NPU, 14 ms per inference, and the boxes are drawn back on the frame. The 19.8 fps camera is the bottleneck.</span><span data-lang="zh">偵測：USB 相機的畫面送進 NPU，每次推論 14 ms，框再畫回畫面。瓶頸在 19.8 fps 的相機。</span></li>
+          <li><span data-lang="en">VLM: Qwen3VL-2B on the NPU answers questions about the live camera image and points at what it names. It ships as a package the customer installs and was verified on the board's DP display.</span><span data-lang="zh">VLM：NPU 上的 Qwen3VL-2B 回答即時相機畫面的問題，並指出它提到的東西在哪裡。做成客戶自行安裝的套件，在板子的 DP 螢幕上驗過。</span></li>
+          <li><span data-lang="en">The model package comes from MediaTek's model zoo; the kit does not redistribute it.</span><span data-lang="zh">模型套件來自 MediaTek 的 model zoo，交付包不轉散布。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow flip">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U5.4 <b><span data-lang="en">Benchmark</span><span data-lang="zh">實測</span></b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="04-benchmark.png" width="1600" height="1130" alt="One-page benchmark sheet for the Genio 420: GPU 112 GFLOPS FP32 at 99% of theory, glmark2 369, NPU 10.3 ms per inference, DRAM 18 GB/s; a SAXPY bar chart with GPU 3.36 ms against CPU 4.44 ms; a selection guide by workload; a Mandelbrot render from the GLES functional test; the tools and versions used." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 4</span><span><span data-lang="en">Hardware acceleration measured on the board · click to enlarge</span><span data-lang="zh">板上實測的硬體加速 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">Benchmark</span><span data-lang="zh">實測數字</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">GPU 112 GFLOPS FP32, 99% of the theoretical 113. glmark2 369. NPU 10.3 ms per MobileNet v2 inference. DRAM 18 GB/s read.</span><span data-lang="zh">GPU FP32 112 GFLOPS，是理論值 113 的 99%。glmark2 369 分。NPU 跑 MobileNet v2 每次 10.3 ms。DRAM 讀取 18 GB/s。</span></li>
+          <li><span data-lang="en">SAXPY on the GPU is only 1.3 times the CPU because both hit the same DRAM limit. The sheet ends with a rule of thumb: GPU for compute-bound FP32, NPU for INT8, CPU for small jobs.</span><span data-lang="zh">GPU 跑 SAXPY 只比 CPU 快 1.3 倍，因為兩者撞上同一道 DRAM 頻寬牆。表尾留了一條選型規則：算力型 FP32 給 GPU，INT8 給 NPU，小工作留在 CPU。</span></li>
+          <li><span data-lang="en">Measured with standard tools on the earlier mixed system; the numbers set the plan.</span><span data-lang="zh">在前期的混搭系統上用標準工具量的，這些數字決定了後面的計畫。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="numbers">
+    <div class="head">
+      <h2><span data-lang="en">Measurements</span><span data-lang="zh">量測</span></h2>
+      <p class="muted mb-0"><span data-lang="en">Each number has a pass threshold and a log file in the repo. Latency probes use hardware timestamps on the receiving NIC.</span><span data-lang="zh">每個數字都有通過門檻，也都有 repo 裡的 log 可查。延遲探測用收端網卡的硬體時戳。</span></p>
+    </div>
+    <div class="cols">
+      <div class="c12">
+        <table class="facts">
+          <caption class="sr"><span data-lang="en">Results</span><span data-lang="zh">結果</span></caption>
+          <tbody>
+            <tr><th scope="row">802.1AS</th><td><span data-lang="en">Offset in the tens of ns. Two-hop boundary clock under a line-rate flood: the far node stays within 32 ns, measured with independent hardware timestamps.</span><span data-lang="zh">offset 在幾十 ns。兩跳 boundary clock 在線速洪流下，對端偏差不超過 32 ns，用獨立的硬體時戳量得。</span></td></tr>
+            <tr><th scope="row">802.1Qbv</th><td><span data-lang="en">The gate delays only the class it closes, by exactly the configured window, while the express class stays at the sender's noise floor.</span><span data-lang="zh">閘門只影響它關掉的那個 class，延遲正好等於設定的關門時間；優先 class 停在送端的雜訊底。</span></td></tr>
+            <tr><th scope="row">802.1Qci</th><td><span data-lang="en">Police and gate counters match the configured rates within 3%, and the drop count equals the firmware's red count.</span><span data-lang="zh">police 與 gate 的計數與設定值差在 3% 以內，丟包數等於韌體的 red 計數。</span></td></tr>
+            <tr><th scope="row">802.1Qbu</th><td><span data-lang="en">Preemption verification SUCCEEDED, TX active, and time sync held during the test.</span><span data-lang="zh">搶占驗證 SUCCEEDED、TX active，測試期間時間同步沒有掉。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Install time</span><span data-lang="zh">安裝時間</span></th><td><span data-lang="en">Factory restore went from 263 s to 100 s and the unified install from 492 s to 135 s, through faster hashing and compression, a smaller master image and no idle waits.</span><span data-lang="zh">回復出廠從 263 秒縮到 100 秒，裝統一版從 492 秒縮到 135 秒。手段是更快的雜湊與壓縮、更小的母版映像，以及不空等。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Decode</span><span data-lang="zh">解碼</span></th><td><span data-lang="en">The hardware H.264 decoder held 3 frames on IP-camera streams whose SPS has no reorder depth, 107 ms per frame. A GStreamer element that writes the missing reorder depth into the SPS brings it to 5 ms.</span><span data-lang="zh">IP camera 串流的 SPS 沒寫 reorder depth，硬體 H.264 解碼器就會囤 3 幀，每幀 107 ms。一個把缺的 reorder depth 補進 SPS 的 GStreamer 元件，把它降到 5 ms。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Glass to glass</span><span data-lang="zh">Glass-to-glass</span></th><td><span data-lang="en">GMSL3 camera to screen 127 ms at 1024 × 768, 60 fps, and 166 ms at 4K30, measured by a camera-to-display feedback loop with a time-code bar. The wait for vblank in <code>kmssink</code> was the bottleneck, not the display driver.</span><span data-lang="zh">GMSL3 相機到螢幕 127 ms（1024 × 768、60 fps），4K30 則是 166 ms，用相機拍螢幕的回饋迴路加時間碼直條量出來。瓶頸是 <code>kmssink</code> 等 vblank，不是顯示驅動。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Scheduling</span><span data-lang="zh">排程延遲</span></th><td><span data-lang="en">Stock 6.6 kernel under load: worst case 1.4 to 2.2 ms, with the RT patch not applied yet. This number is why EtherCAT master stays an open item.</span><span data-lang="zh">現行 6.6 kernel 在負載下最差 1.4 到 2.2 ms，RT patch 還沒套。EtherCAT 主站還掛在未結項目，原因就是這個數字。</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="decisions">
+    <div class="head"><h2><span data-lang="en">Decisions</span><span data-lang="zh">決定</span></h2></div>
+    <div>
+      <div class="dec">
+        <h3><span data-lang="en">Only kernel and rootfs are replaced</span><span data-lang="zh">只換 kernel 與 rootfs</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Boot is a relay: BROM, BL2, BL31, OP-TEE, U-Boot, kernel, rootfs. The vendor's first five stay as shipped; kernel and rootfs are mine, with the vendor's modules and firmware copied in.</span><span data-lang="zh">開機像接力：BROM、BL2、BL31、OP-TEE、U-Boot、kernel、rootfs。原廠的前五棒照舊，kernel 與 rootfs 換成我的，原廠的模組與韌體搬進來。</span></li>
+          <li><span data-lang="en">The kernel partition has no backup copy, so it is dumped before every write.</span><span data-lang="zh">kernel 分割區沒有備援，每次寫入之前都先 dump 一份。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">SD is for installing only</span><span data-lang="zh">SD 只拿來安裝</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">U-Boot's MediaTek SD host never gets past ACMD41 on this board; ten hypotheses were tested and ruled out. The network and USB paths use the mature Synopsys and xHCI drivers and worked first time.</span><span data-lang="zh">這塊板上 U-Boot 的 MediaTek SD host 過不了 ACMD41，十個假設逐一實驗排除。網路與 USB 走成熟的 Synopsys 與 xHCI 驅動，一次就通。</span></li>
+          <li><span data-lang="en">Rule kept from it: a command listed in <code>help</code> is not a feature that works. <code>fastboot</code> is listed, but there is no USB gadget controller.</span><span data-lang="zh">從這件事留下的規則：<code>help</code> 列出的指令不代表功能真的能用。<code>fastboot</code> 有列出來，但板上沒有 USB gadget 控制器。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">The driver cleans the switch on shutdown</span><span data-lang="zh">驅動在 shutdown 時清掉交換器狀態</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The RT1180 switch keeps DSA tag rules, stream filters and gate lists across a warm reboot, and left in place they blocked U-Boot and the installer at the CPU port. <code>shutdown</code> and <code>remove</code> now release them and restore each port's PVID.</span><span data-lang="zh">RT1180 交換器的 DSA tag 規則、stream filter 與閘門清單會撐過暖重開；留著不清，U-Boot 與安裝器就會被擋在 CPU port 外。<code>shutdown</code> 與 <code>remove</code> 現在會釋放它們，並還原每個埠的 PVID。</span></li>
+          <li><span data-lang="en">A hang traced to a PTP mutex that was never initialised, fixed together with the SPI command path and the firmware's command status reporting.</span><span data-lang="zh">一次卡死追到一把從未初始化的 PTP mutex，連同 SPI 命令路徑與韌體的命令狀態回報一起修掉。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">A self-hosted runner installs real boards</span><span data-lang="zh">台架上的 runner 裝真板</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Hosted CI runs the unit and API tests on every push. A self-hosted runner on the bench PC installs a real board whenever a new asset Release is published, and rebuilds the kernel on request.</span><span data-lang="zh">hosted CI 每次 push 跑單元與 API 測試。台架 PC 上的 self-hosted runner 在每次素材 Release 發布時裝一塊真板，也能按需求重編 kernel。</span></li>
+          <li><span data-lang="en">The runner is a service account with its own WSL distro, and setup, status and full removal are three scripts.</span><span data-lang="zh">runner 是一個獨立的服務帳號，配自己的 WSL distro。安裝、查狀態、完整拆除各是一支腳本。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">Board evidence beats documents</span><span data-lang="zh">板上證據優先於文件</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">A dump or log from the board beats the datasheet, which beats the official docs, which beat a blog post.</span><span data-lang="zh">板上的 dump 與 log 優先於規格書，規格書優先於官方文件，官方文件優先於部落格文章。</span></li>
+          <li><span data-lang="en">The factory-restore runbook was replayed end to end before it was called done.</span><span data-lang="zh">回復出廠的 runbook 從頭到尾實走一次才算完成。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="delivery">
+    <div class="head"><h2><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></h2></div>
+    <div class="cols">
+      <div class="c7">
+        <ul class="list">
+          <li><span data-lang="en">Two repos: the working repo holds everything, including bench logs, and the deployment kit is synced from it commit by commit through a manifest, so the customer never sees a bench path.</span><span data-lang="zh">兩個 repo：工作 repo 放全部內容，含台架 log；交付包經 manifest 從它逐 commit 同步，客戶看不到任何台架路徑。</span></li>
+          <li><span data-lang="en">The kit holds the install station, the USB installer, the BSP build in Docker with the board layer, the RT1180 firmware and driver patches, tsn-manager, the VLM package, the decoder fix and three runbooks.</span><span data-lang="zh">交付包內容：裝機站、USB 安裝碟、Docker 內的 BSP 建置與板層、RT1180 韌體與驅動 patch、tsn-manager、VLM 套件、解碼修正，以及三份 runbook。</span></li>
+          <li><span data-lang="en">Large files are GitHub Release assets with a committed sha256 ledger; <code>fetch-assets.py</code> downloads 4.6 GB and verifies each file.</span><span data-lang="zh">大檔案放在 GitHub Release，配上已提交的 sha256 帳本；<code>fetch-assets.py</code> 下載 4.6 GB 後逐檔驗證。</span></li>
+          <li><span data-lang="en"><code>LICENSES.md</code> names every component, its license and its source. Vendor runtimes whose redistribution is not yet confirmed are marked as such.</span><span data-lang="zh"><code>LICENSES.md</code> 列出每個元件、授權與原始碼來源。原廠 runtime 轉散布權還沒確認的，照實標明。</span></li>
+          <li><span data-lang="en">A residue scan runs before each sync and refuses personal paths and names in the kit.</span><span data-lang="zh">每次同步前跑一次殘留掃描，交付包裡出現個人路徑或人名就擋下。</span></li>
+        </ul>
+      </div>
+      <div class="c5">
+        <div class="code"><pre><span class="cm"># <span data-lang="en">install a board from a PC</span><span data-lang="zh">從 PC 裝一塊板</span></span>
+<span class="k">gh</span> repo clone &lt;kit&gt; &amp;&amp; <span class="k">cd</span> &lt;kit&gt;
+<span class="k">uv run</span> fetch-assets.py            <span class="cm"># 4.6 GB, VERIFY OK</span>
+<span class="k">cd</span> station &amp;&amp; <span class="k">uv run</span> station      <span class="cm"># http://127.0.0.1:8080</span>
+
+<span class="cm"># <span data-lang="en">same job from the CLI</span><span data-lang="zh">CLI 跑同一個作業</span></span>
+<span class="k">uv run</span> station-job install --profile unified --ip &lt;board&gt;
+<span class="k">uv run</span> station-job install --profile unified --ip &lt;board&gt; --resume
+
+<span class="cm"># <span data-lang="en">rebuild the shipped kernel</span><span data-lang="zh">重建出貨的 kernel</span></span>
+<span class="k">bitbake</span> linux-mtk                 <span class="cm"># 6.6.137, DTBs byte-identical</span></pre></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="dnp">
+    <div class="head">
+      <h2><span data-lang="en">Open items</span><span data-lang="zh">未結項目</span></h2>
+      <p class="muted mb-0"><span data-lang="en">Investigated, not built. The footprints exist. The parts are not placed.</span><span data-lang="zh">查過，沒做。腳位已有，零件未放。</span></p>
+    </div>
+    <div class="cols">
+      <div class="c4 fp dnp">
+        <span class="fpref">U5.5 <b><span data-lang="en">Hardware ISP</span><span data-lang="zh">硬體 ISP</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
+        <ul class="list">
+          <li><span data-lang="en">The GMSL3 camera outputs RAW12 and the pipeline has no ISP yet. The public prebuilt route is mapped out, but nothing is wired.</span><span data-lang="zh">GMSL3 相機輸出 RAW12，目前管線還沒有 ISP。公開 prebuilt 的路線查清楚了，但還沒接上。</span></li>
+        </ul>
+      </div>
+      <div class="c4 fp dnp">
+        <span class="fpref">U5.6 <b><span data-lang="en">Real time</span><span data-lang="zh">即時</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
+        <ul class="list">
+          <li><span data-lang="en">PREEMPT_RT on the 6.6 kernel, then an EtherCAT master in Linux; the baseline is measured. Splitting an A55 for Zephyr was studied and parked because the only NIC belongs to Linux.</span><span data-lang="zh">6.6 kernel 套 PREEMPT_RT，再上 Linux 的 EtherCAT 主站，基準已經量完。切一顆 A55 跑 Zephyr 研究過後先擱置，因為唯一的網口歸 Linux。</span></li>
+        </ul>
+      </div>
+      <div class="c4 fp dnp">
+        <span class="fpref">U5.7 <b><span data-lang="en">Remaining TSN tests</span><span data-lang="zh">剩下的 TSN 測試</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
+        <ul class="list">
+          <li><span data-lang="en">802.1AS test AS-4 has not been run. CBS, FRER and HSR are not in this switch firmware build, and EtherCAT is outside the current release.</span><span data-lang="zh">802.1AS 的 AS-4 測試沒做。這版交換器韌體沒有 CBS、FRER、HSR，EtherCAT 也不在這次交付範圍。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="dataline region">
+    <div class="id">
+      <span>Tom Huang</span>
+      <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
+      <span>Taipei, TW</span>
+      <span>U5 · <span data-lang="en">in delivery</span><span data-lang="zh">交付中</span></span>
+    </div>
+    <div class="links">
+      <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+      <a href="../benchpress/">U1 benchpress</a>
+      <a href="../pos/">U2 tujia pos</a>
+      <a href="../scope-dll/">U3 scope dll</a>
+      <a href="../imx93/">U4 i.MX93 bsp</a>
+      <a href="../workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
+      <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
+    </div>
+  </footer>
+</main>
+
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged screenshot">
+  <div class="lb-bar"><span class="lb-cap"></span><button type="button"><span data-lang="en">Close · Esc</span><span data-lang="zh">關閉 · Esc</span></button></div>
+  <div class="lb-img"></div>
+</dialog>
+
+<script src="../assets/site.js" defer></script>
+</body>
+</html>

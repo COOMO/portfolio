@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-en="i.MX93 bsp · Tom Huang" data-zh="i.MX93 bsp · Tom Huang">i.MX93 bsp · Tom Huang</title>
+<meta name="description"
+      data-en="Bootloader, kernel and system image rebuilt from NXP sources for an industrial i.MX93 board, plus a network install station that converts and verifies every unit. Python tools, GitHub Release delivery."
+      data-zh="為工業用 i.MX93 板從 NXP 原始碼重建 bootloader、kernel 與系統映像，加上純網路裝機站，逐板安裝與驗收。Python 工具，GitHub Release 交付。"
+      content="Bootloader, kernel and system image rebuilt from NXP sources for an industrial i.MX93 board, plus a network install station that converts and verifies every unit. Python tools, GitHub Release delivery." />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#121314" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<main class="board sheet">
+  <span class="hole tl" aria-hidden="true"></span><span class="hole tr" aria-hidden="true"></span>
+  <span class="hole bl" aria-hidden="true"></span><span class="hole br" aria-hidden="true"></span>
+  <span class="fid a" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid b" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid c" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+
+  <header class="legend region">
+    <div class="name">
+      <h1 class="latin">i.MX93 bsp</h1>
+      <p class="title">
+        <span data-lang="en">Bootloader, kernel and system image rebuilt from NXP sources for an industrial i.MX93 board, and the install line that puts them on every unit and verifies the result.</span>
+        <span data-lang="zh">為一塊工業用 i.MX93 板從 NXP 原始碼重建 bootloader、kernel 與系統映像，加上把它們裝到每塊板上並驗收的安裝線。</span>
+      </p>
+    </div>
+    <div class="right">
+      <button class="jumper" id="jp1" type="button" aria-label="Language: English. Switch to Chinese">
+        <span class="jref">JP1 · LANG</span>
+        <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
+      </button>
+      <span class="rev">U4 · <span data-lang="en">delivered</span><span data-lang="zh">已交付</span> · <span data-lang="en">Sheet 5 / 7</span><span data-lang="zh">第 5 / 7 頁</span></span>
+    </div>
+  </header>
+
+  <nav class="sheetnav region" aria-label="Sections">
+    <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+    <a href="#why"><span data-lang="en">Problem</span><span data-lang="zh">問題</span></a>
+    <a href="#figures"><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></a>
+    <a href="#line"><span data-lang="en">Install line</span><span data-lang="zh">安裝線</span></a>
+    <a href="#causes"><span data-lang="en">Root causes</span><span data-lang="zh">根因</span></a>
+    <a href="#delivery"><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></a>
+  </nav>
+
+  <section class="sec region" id="why">
+    <div class="cols">
+      <div class="c7 stack-24">
+        <div><h2><span data-lang="en">Problem</span><span data-lang="zh">問題</span></h2></div>
+        <ul class="list">
+          <li><span data-lang="en">A board maker ships an i.MX93 product whose Linux system one engineer had built with Yocto. After that engineer left, nobody could reproduce the build.</span><span data-lang="zh">一家板廠出貨的 i.MX93 產品，Linux 系統是一位工程師用 Yocto 建的。他離職後，沒人能重現建置。</span></li>
+          <li><span data-lang="en">The shipped image had errors in dmesg, a 9 kHz interrupt storm and kernel panics under load.</span><span data-lang="zh">出貨映像的 dmesg 有錯誤，還有一條 9 kHz 的中斷風暴，高負載下會 kernel panic。</span></li>
+          <li><span data-lang="en">More boards were coming, and each needed the same system, its own MAC pair and a record that it passed.</span><span data-lang="zh">後面還有更多板子要出。每一塊都要裝同一套系統、燒各自的 MAC，並留下通過驗收的紀錄。</span></li>
+        </ul>
+        <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
+        <ul class="list list--filled">
+          <li><span data-lang="en">I rebuilt the whole chain from NXP's LF6.18.20 sources: SPL, TF-A, OP-TEE, U-Boot and kernel 6.18.20 with the board's own device tree, so no vendor binary remains.</span><span data-lang="zh">整條鏈從 NXP 的 LF6.18.20 原始碼重建：SPL、TF-A、OP-TEE、U-Boot，加上配板子自己 device tree 的 kernel 6.18.20，沒有留下任何原廠 binary。</span></li>
+          <li><span data-lang="en">Two payloads: a Debian maintenance system on p1 and the Ubuntu main system on p2, and either one can reinstall the other.</span><span data-lang="zh">兩個 payload：p1 放 Debian 維護系統，p2 放 Ubuntu 主系統，任一邊都能重灌另一邊。</span></li>
+          <li><span data-lang="en">An install line in Python turns a factory board into a unified one in about 15 minutes, with no serial cable. A web page runs it for many boards at once.</span><span data-lang="zh">Python 寫的安裝線，大約 15 分鐘把出廠板裝成統一版，不需要 serial 線。網頁版可以同時處理很多塊板。</span></li>
+          <li><span data-lang="en"><code>checkup</code> is one command that collects identity, health and link state into a report with a verdict; the first PASS is kept as the board's baseline.</span><span data-lang="zh"><code>checkup</code> 一條指令蒐集身分、健康、連線狀態，產出一份帶結論的報告，第一次 PASS 就存成該板的 baseline。</span></li>
+        </ul>
+      </div>
+      <div class="c5">
+        <table class="facts">
+          <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">一覽</span></caption>
+          <tbody>
+            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">Delivered</span><span data-lang="zh">已交付</span></span> <span class="dim">7 <span data-lang="en">boards on the unified image</span><span data-lang="zh">塊板上統一版</span></span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Hardware</span><span data-lang="zh">硬體</span></th><td>NXP i.MX93 · eMMC · 4 × RS-485 (FT4232H) · TPM 2.0 · Ethos-U65 NPU · 2 × GbE</td></tr>
+            <tr><th scope="row"><span data-lang="en">Rebuilt</span><span data-lang="zh">自建</span></th><td>SPL + TF-A + OP-TEE + U-Boot · kernel 6.18.20 · Debian p1 · Ubuntu 26.04 p2</td></tr>
+            <tr><th scope="row"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></th><td><span data-lang="en">Network only, about 15 min per board · web station, up to 16 in parallel · serial path with full boot log</span><span data-lang="zh">純網路，每板約 15 分鐘 · 網頁站台最多 16 塊並行 · serial 路徑含完整開機 log</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">驗收</span></th><td><span data-lang="en"><code>checkup</code> report with VERDICT per board · baseline file · four-port RS-485 jig</span><span data-lang="zh">每板一份 <code>checkup</code> 報告含 VERDICT · baseline 檔 · 四埠 RS-485 治具</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></th><td><span data-lang="en">Customer repo · images in a GitHub Release · sha256 ledger · CI compares ledger and Release</span><span data-lang="zh">客戶 repo · 映像放 GitHub Release · sha256 帳本 · CI 比對帳本與 Release</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td><span data-lang="en">2 Python tools, about 3,000 lines · 147 commits</span><span data-lang="zh">2 支 Python 工具，約 3,000 行 · 147 個 commit</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo, contract. BSP, tools, docs, handover.</span><span data-lang="zh">獨立承接。BSP、工具、文件、交接。</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="figures">
+    <div class="head">
+      <h2><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></h2>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U4.1 <b><span data-lang="en">Install station</span><span data-lang="zh">裝機站</span></b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="01-station.png" width="2560" height="1600" alt="Install station web page: a board card in the busy state with a 62% install progress bar, a factory-state board card with an Install button and a red blank RS-485 EEPROM line, and a job list on the right with one running and two passed jobs." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 1</span><span><span data-lang="en">Station page · click to enlarge</span><span data-lang="zh">站台頁面 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">Install station</span><span data-lang="zh">裝機站</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Every board that asks for DHCP becomes a card: factory, unified, busy or offline.</span><span data-lang="zh">每塊發出 DHCP 請求的板子都會變成一張卡：出廠態、統一版、作業中或離線。</span></li>
+          <li><span data-lang="en">A factory card has one button. It suggests the next MAC from the purchased block and a board name, then runs the full conversion with progress and a final checkup.</span><span data-lang="zh">出廠卡只有一個按鈕。按下去它會從購買的號段建議下一組 MAC 與板名，接著跑完整改裝，過程顯示進度，最後自動 checkup。</span></li>
+          <li><span data-lang="en">A unified card offers reinstall, checkup, dtb update, set MAC, file upload and download, and reboot.</span><span data-lang="zh">統一版卡提供重灌、checkup、更新 dtb、設定 MAC、上傳下載檔案與重開機。</span></li>
+          <li><span data-lang="en">Three faults get a badge on the card: a blank RS-485 EEPROM, an interrupt storm, a station NIC without its address.</span><span data-lang="zh">三種故障會在卡片上亮標記：RS-485 EEPROM 空白、中斷風暴、站台網卡沒有設位址。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow flip">
+      <div class="fp" style="margin:0">
+        <span class="fpref">U4.2 <b>checkup</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="code" style="margin-top:4px"><pre><span class="cm"># checkup board-1e  (<span data-lang="en">excerpt</span><span data-lang="zh">節錄</span>)</span>
+<span class="k">VERDICT: PASS</span>
+
+== IDENTITY
+soc-rev:     1.2
+kernel:      6.18.20 SMP PREEMPT
+bootloader:  U-Boot
+os-release:  Ubuntu 26.04 LTS
+env-core:    bootcmd=run mmcargs; run bootcmd_mmc
+             ethaddr=02:4a:9c:04:fe:1e
+partitions:  mmcblk0p1 2 GiB · mmcblk0p2 12.7 GiB
+
+== HEALTH
+rootdev:     /dev/mmcblk0p2
+dmesg-err:   (empty)
+deferred:    (empty)
+optee:       revision 4.10
+tpm:         /dev/tpm0
+mmc-mode:    HS400 enhanced strobe
+eth-links:   end0 carrier=1 speed=1000
+rtc-read:    ok
+sdcard:      empty-slot</pre></div>
+      </div>
+      <div class="text">
+        <h3>checkup</h3>
+        <ul class="list">
+          <li><span data-lang="en">One SSH session gathers about 30 facts: silicon revision, serial, MAC pairs, kernel, bootloader, U-Boot env, partitions, dmesg errors, deferred probes, OP-TEE, TPM, eMMC mode, link state, RTC.</span><span data-lang="zh">一次 SSH 連線蒐集約 30 項事實：矽版本、序號、MAC 對、kernel、bootloader、U-Boot env、分割區、dmesg 錯誤、deferred probe、OP-TEE、TPM、eMMC 模式、link 狀態、RTC。</span></li>
+          <li><span data-lang="en">Rules produce one VERDICT. The report is written to the board's folder, and the first PASS becomes its baseline.</span><span data-lang="zh">規則算出一個 VERDICT，報告寫進該板的資料夾，第一次 PASS 就是它的 baseline。</span></li>
+          <li><span data-lang="en">The install job reports the install outcome and checkup reports the board, so a green job with a FAIL checkup is shown as both.</span><span data-lang="zh">安裝作業回報的是安裝結果，checkup 回報的是板子本身。作業成功但 checkup FAIL 時，兩個狀態都會顯示。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="line">
+    <div class="head"><h2><span data-lang="en">Install line</span><span data-lang="zh">安裝線</span></h2></div>
+    <div class="cols">
+      <div class="c5">
+        <div class="blocks" aria-label="Install flow">
+          <div class="blk"><div class="n">DHCP</div><div class="s"><span data-lang="en">The PC is the DHCP server, so a factory board shows up as soon as it asks for an address. Boards are identified by SoC serial because the MAC changes during install.</span><span data-lang="zh">PC 當 DHCP server，出廠板一要位址就會現身。板子用 SoC 序號識別，因為 MAC 在安裝過程中會改變。</span></div></div>
+          <div class="link" aria-hidden="true"></div>
+          <div class="blk"><div class="n">p1 · <span data-lang="en">maintenance</span><span data-lang="zh">維護系統</span></div><div class="s"><span data-lang="en">The station pushes the payload and the installer over SSH; nothing on p2 is touched yet.</span><span data-lang="zh">站台透過 SSH 把 payload 與安裝器推上去，這時 p2 還沒有動。</span></div></div>
+          <div class="link" aria-hidden="true"></div>
+          <div class="blk"><div class="n"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></div><div class="s"><span data-lang="en">Repartition, write p2, write the bootloader and the MAC pair, read everything back, hash.</span><span data-lang="zh">重建分割、寫入 p2、寫 bootloader 與 MAC 對，全部回讀並算 hash。</span></div></div>
+          <div class="link" aria-hidden="true"></div>
+          <div class="split">
+            <div class="blk"><div class="n">RS-485 EEPROM</div><div class="s"><span data-lang="en">Checked; burned if blank.</span><span data-lang="zh">檢查，空白就補燒。</span></div></div>
+            <div class="blk"><div class="n">checkup</div><div class="s"><span data-lang="en">VERDICT, record, baseline.</span><span data-lang="zh">VERDICT、紀錄、baseline。</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c7 stack-24">
+        <ul class="list">
+          <li><span data-lang="en">Asset names are the interface: kernel, modules, payload, each with its own <code>.sha256</code> and size file. One installer handles both the factory conversion and a plain reinstall.</span><span data-lang="zh">素材檔名就是介面：kernel、modules、payload，各自配一個 <code>.sha256</code> 與大小檔。同一支安裝器既做出廠改裝，也做一般重灌。</span></li>
+          <li><span data-lang="en">Every write is read back and hashed before the board reboots. On a mismatch the installer stops and keeps the shell.</span><span data-lang="zh">每次寫入都先回讀算 hash，對了才重開機；不符就停在 shell，保留現場。</span></li>
+          <li><span data-lang="en">The board keeps one IP for the whole job, and the station reserves that IP for the new MAC before the board changes identity, which is what lets several installs run at once.</span><span data-lang="zh">一塊板在整個作業中都用同一個 IP，板子換身分之前站台就先把這個 IP 預留給新 MAC，多塊板才能同時安裝。</span></li>
+          <li><span data-lang="en">A job that fails resumes from its phase. A job that succeeds is not re-run, and a backup equal to a known asset is not kept twice.</span><span data-lang="zh">失敗的作業從停下的那個階段續跑；成功的作業不重跑，和已知素材相同的備份也不會留第二份。</span></li>
+          <li><span data-lang="en">The page and the CLI share the same job code; the page only wraps it.</span><span data-lang="zh">頁面與 CLI 共用同一份作業碼，頁面只是外面的一層包裝。</span></li>
+          <li><span data-lang="en">Bench rules: test on SD first, then write eMMC. Pull the USB cable with the power. Never move the boot switch under power.</span><span data-lang="zh">台架規矩：先寫 SD 測，通過才寫 eMMC；斷電時 USB 線一起拔；開關不在通電時撥。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="causes">
+    <div class="head">
+      <h2><span data-lang="en">Root causes</span><span data-lang="zh">根因</span></h2>
+      <p class="muted mb-0"><span data-lang="en">What was wrong with the shipped system, and what fixed it. Each one was verified on the original board before and after.</span><span data-lang="zh">出貨系統哪裡有問題、怎麼修的。每一項都在原板上做過修前修後的對照。</span></p>
+    </div>
+    <div>
+      <div class="dec">
+        <h3><span data-lang="en">9 kHz interrupt storm</span><span data-lang="zh">9 kHz 中斷風暴</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The PMIC interrupt line was routed to a UART7 pad in the device tree. Removing it brought dmesg errors to zero and stopped the panic under load.</span><span data-lang="zh">device tree 把 PMIC 的中斷線接到 UART7 的 pad。移掉之後 dmesg 錯誤歸零，高負載 panic 也消失。</span></li>
+          <li><span data-lang="en">The station still watches for it and raises a badge on the card.</span><span data-lang="zh">站台持續監看，再發生就在卡片上亮標記。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">DRAM above spec</span><span data-lang="zh">DRAM 超規</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The vendor bootloader ran the memory at 3733 MT/s. The rebuilt one uses the 3200 MT/s in the datasheet.</span><span data-lang="zh">原廠 bootloader 把記憶體跑在 3733 MT/s，自建版改回規格書上的 3200 MT/s。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">RS-485 dead on some boards</span><span data-lang="zh">部分板子 RS-485 不通</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Production had not programmed the FT4232H EEPROM, so the direction-control pin was undefined. A four-port loopback jig found it.</span><span data-lang="zh">產線沒有燒 FT4232H 的 EEPROM，方向控制腳因此沒有定義。這是用四埠回送治具找到的。</span></li>
+          <li><span data-lang="en">Every install path now burns it and checkup verifies it. The customer re-burned its fielded boards with the same tool.</span><span data-lang="zh">現在每條安裝路徑都會補燒，checkup 也必檢。客戶用同一支工具把已出貨的板子全部補燒完成。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">Interface names flip</span><span data-lang="zh">網路介面名對調</span></h3>
+        <ul class="list">
+          <li><span data-lang="en"><code>end0</code> and <code>end1</code> are numbered differently on Debian and Ubuntu, so the network self-setup picks the port by carrier instead of by name.</span><span data-lang="zh"><code>end0</code> 與 <code>end1</code> 在 Debian 和 Ubuntu 上的編號相反，網路自組因此改成依 carrier 選埠，不寫死介面名。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">NPU never ran</span><span data-lang="zh">NPU 從來跑不起來</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The shipped userspace had an old delegate, firmware in the wrong path and no Python runtime. All three are fixed, and fielded boards upgrade with one <code>.deb</code>.</span><span data-lang="zh">出貨的 userspace 用的是舊 delegate，韌體放錯位置，也沒有 Python runtime。三項都修好了，已出貨的板子裝一個 <code>.deb</code> 就能升級。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">OP-TEE and TPM missing</span><span data-lang="zh">缺 OP-TEE 與 TPM</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">BL32 and <code>TPM2_Startup</code> were missing from the boot chain. With them added, the TPM appears as <code>/dev/tpm0</code> and checkup reads PCR0.</span><span data-lang="zh">開機鏈少了 BL32 與 <code>TPM2_Startup</code>。補上後 TPM 以 <code>/dev/tpm0</code> 出現，checkup 會讀 PCR0。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="delivery">
+    <div class="head"><h2><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></h2></div>
+    <div class="cols">
+      <div class="c7">
+        <ul class="list">
+          <li><span data-lang="en">The customer repo holds the tool, the README and small files, while kernel and images live in a GitHub Release. <code>fetch-assets.py</code> downloads them and verifies every file against the committed sha256 ledger.</span><span data-lang="zh">客戶 repo 放工具、README 與小檔案，kernel 與映像放在 GitHub Release。<code>fetch-assets.py</code> 下載後逐檔對照已提交的 sha256 帳本。</span></li>
+          <li><span data-lang="en">A GitHub Action re-checks the ledger against the Release on demand, because re-uploading an asset emits no event.</span><span data-lang="zh">GitHub Action 可以手動重新比對帳本與 Release，因為重新上傳素材不會觸發任何事件。</span></li>
+          <li><span data-lang="en"><code>LICENSES.md</code> lists every component, its license and where the source is.</span><span data-lang="zh"><code>LICENSES.md</code> 列每個元件、授權與原始碼位置。</span></li>
+          <li><span data-lang="en">The customer's three steps are capture, install, checkup. The README gives the exact commands and the expected last line of each.</span><span data-lang="zh">客戶要做的三步是 capture、install、checkup。README 給出確切指令，以及每一步預期看到的最後一行。</span></li>
+          <li><span data-lang="en">The MAC ledger is one Markdown table that the station appends to, and it is the record of which board got which pair.</span><span data-lang="zh">MAC 帳本是一張 Markdown 表，由站台自動追加，哪塊板拿了哪組號都查得到。</span></li>
+          <li><span data-lang="en">The same skeleton was reused for U5: change the board files and keep the station, the ledger and the release flow.</span><span data-lang="zh">同一副骨架在 U5 再用了一次：換掉板子專屬的檔案，站台、帳本與發布流程都不用動。</span></li>
+        </ul>
+      </div>
+      <div class="c5">
+        <div class="code"><pre><span class="cm"># <span data-lang="en">the customer's three steps</span><span data-lang="zh">客戶的三步</span></span>
+<span class="k">uv run</span> &lt;tool&gt; capture   <span class="cm"># <span data-lang="en">boot log, factory fingerprint</span><span data-lang="zh">開機 log，出廠指紋</span></span>
+<span class="k">uv run</span> &lt;tool&gt; install   <span class="cm"># <span data-lang="en">factory board to unified</span><span data-lang="zh">出廠板變統一版</span></span>
+<span class="k">uv run</span> &lt;tool&gt; checkup   <span class="cm"># VERDICT: PASS → baseline</span>
+
+<span class="cm"># <span data-lang="en">no serial cable</span><span data-lang="zh">不接 serial</span></span>
+<span class="k">uv run</span> &lt;tool&gt; serve     <span class="cm"># waiting for a factory board … COMPLETE … VERDICT: PASS</span></pre></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="dataline region">
+    <div class="id">
+      <span>Tom Huang</span>
+      <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
+      <span>Taipei, TW</span>
+      <span>U4 · <span data-lang="en">delivered</span><span data-lang="zh">已交付</span></span>
+    </div>
+    <div class="links">
+      <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+      <a href="../benchpress/">U1 benchpress</a>
+      <a href="../pos/">U2 tujia pos</a>
+      <a href="../scope-dll/">U3 scope dll</a>
+      <a href="../genio/">U5 genio 420</a>
+      <a href="../workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
+      <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
+    </div>
+  </footer>
+</main>
+
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged screenshot">
+  <div class="lb-bar"><span class="lb-cap"></span><button type="button"><span data-lang="en">Close · Esc</span><span data-lang="zh">關閉 · Esc</span></button></div>
+  <div class="lb-img"></div>
+</dialog>
+
+<script src="../assets/site.js" defer></script>
+</body>
+</html>

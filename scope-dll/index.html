@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-en="scope dll · Tom Huang" data-zh="scope dll · Tom Huang">scope dll · Tom Huang</title>
+<meta name="description"
+      data-en="A C++ DLL that puts an R&S RTB2000 oscilloscope into a third-party ATE. Soft AMR watches a voltage window and keeps every excursion; FWF captures four channels in sync. Called from LabVIEW. 35 releases."
+      data-zh="把 R&S RTB2000 示波器整合進第三方 ATE 的 C++ DLL。Soft AMR 監看電壓窗並留下每次超限；FWF 同步擷取四個通道。LabVIEW 呼叫。35 個版本。"
+      content="A C++ DLL that puts an R&S RTB2000 oscilloscope into a third-party ATE. Soft AMR watches a voltage window and keeps every excursion; FWF captures four channels in sync. Called from LabVIEW. 35 releases." />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#121314" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<main class="board sheet">
+  <span class="hole tl" aria-hidden="true"></span><span class="hole tr" aria-hidden="true"></span>
+  <span class="hole bl" aria-hidden="true"></span><span class="hole br" aria-hidden="true"></span>
+  <span class="fid a" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid b" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+  <span class="fid c" aria-hidden="true"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor"/><path d="M7 0v4M7 10v4M0 7h4M10 7h4" stroke="currentColor"/></svg></span>
+
+  <header class="legend region">
+    <div class="name">
+      <h1 class="latin">scope dll</h1>
+      <p class="title">
+        <span data-lang="en">A C++ DLL that puts an R&amp;S RTB2000 oscilloscope into a third-party ATE. Two APIs: Soft AMR and FWF. Called from LabVIEW and C++.</span>
+        <span data-lang="zh">把 R&amp;S RTB2000 示波器整合進第三方 ATE 的 C++ DLL。兩組 API：Soft AMR 與 FWF。LabVIEW 與 C++ 都能呼叫。</span>
+      </p>
+    </div>
+    <div class="right">
+      <button class="jumper" id="jp1" type="button" aria-label="Language: English. Switch to Chinese">
+        <span class="jref">JP1 · LANG</span>
+        <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
+      </button>
+      <span class="rev">U3 · <span data-lang="en">in use</span><span data-lang="zh">使用中</span> · <span data-lang="en">Sheet 4 / 7</span><span data-lang="zh">第 4 / 7 頁</span></span>
+    </div>
+  </header>
+
+  <nav class="sheetnav region" aria-label="Sections">
+    <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+    <a href="#why"><span data-lang="en">Problem</span><span data-lang="zh">問題</span></a>
+    <a href="#figures"><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></a>
+    <a href="#api">API</a>
+    <a href="#decisions"><span data-lang="en">Decisions</span><span data-lang="zh">決定</span></a>
+  </nav>
+
+  <section class="sec region" id="why">
+    <div class="cols">
+      <div class="c7 stack-24">
+        <div><h2><span data-lang="en">Problem</span><span data-lang="zh">問題</span></h2></div>
+        <ul class="list">
+          <li><span data-lang="en">A third-party ATE on a production line needed an oscilloscope inside its test routine. The integration point is a DLL call: the ATE calls one function per step and reads the files back.</span><span data-lang="zh">產線上有一台第三方 ATE，需要在測試流程裡用示波器。整合方式是 DLL 呼叫：ATE 每個步驟呼叫一個函式，結束後讀回產出的檔案。</span></li>
+          <li><span data-lang="en">Each board has dozens of pins. When a pin leaves its voltage window, the waveform itself has to be saved.</span><span data-lang="zh">一塊板有幾十支 pin。任何一支的電壓一超出上下限，就要把當時的波形留下來。</span></li>
+          <li><span data-lang="en">The scope's history buffer is finite, so a step with more triggers than it can hold loses the oldest waveforms before anyone reads them back.</span><span data-lang="zh">示波器的 history 緩衝區有限，一個測項觸發太多次，最舊的波形在讀回之前就被蓋掉了。</span></li>
+        </ul>
+        <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
+        <ul class="list list--filled">
+          <li><span data-lang="en"><strong>Soft AMR</strong> opens one session per pin with that pin's voltage window. The scope triggers on every excursion; the DLL keeps the segments, steps the trigger level toward the signal peak, and at the end dumps each violating segment with a screenshot.</span><span data-lang="zh"><strong>Soft AMR</strong> 為每支 pin 開一個 session，帶上它的電壓上下限。示波器對每次超限觸發，DLL 把這些 segment 留下來，把 trigger level 一步步往訊號峰值推，最後把違規的 segment 連同截圖一併倒出。</span></li>
+          <li><span data-lang="en"><strong>FWF</strong> captures up to four channels in sync from one trigger pin. Each pin's V/div comes from its limits, and the segments are grouped by function with a zoom view.</span><span data-lang="zh"><strong>FWF</strong> 用一支觸發 pin，同步擷取最多四個通道。每支 pin 的 V/div 由它的上下限算出，segment 依功能分組，另有 zoom 視圖。</span></li>
+          <li><span data-lang="en">Every run writes HTML, XLSX, CSV, a JSON summary and a log. The ATE reads the files; there is no GUI.</span><span data-lang="zh">每次執行產出 HTML、XLSX、CSV、JSON 摘要與 log。ATE 讀的是檔案，沒有 GUI。</span></li>
+          <li><span data-lang="en">One function per step: init, open, mark, dump, close. A new version never forces the ATE to change its calls.</span><span data-lang="zh">一個步驟對應一個函式：init、open、mark、dump、close。新版本不會逼 ATE 改既有的呼叫。</span></li>
+        </ul>
+      </div>
+      <div class="c5">
+        <table class="facts">
+          <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">一覽</span></caption>
+          <tbody>
+            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">In use</span><span data-lang="zh">使用中</span></span> <span class="dim">35 <span data-lang="en">releases</span><span data-lang="zh">個版本</span></span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Instrument</span><span data-lang="zh">儀器</span></th><td>R&amp;S RTB2000 <span data-lang="en">series</span><span data-lang="zh">系列</span> · <span data-lang="en">verified on an</span><span data-lang="zh">實機</span> RTB2004 · LAN · R&amp;S VISA <span data-lang="en">or</span><span data-lang="zh">或</span> NI-VISA</td></tr>
+            <tr><th scope="row"><span data-lang="en">Callers</span><span data-lang="zh">呼叫端</span></th><td>LabVIEW <span data-lang="en">VIs and example project</span><span data-lang="zh">VI 與範例專案</span> · C++ <span data-lang="en">demos</span><span data-lang="zh">範例</span> · 31 <span data-lang="en">exported functions</span><span data-lang="zh">個匯出函式</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Platform</span><span data-lang="zh">平台</span></th><td>Windows 7 <span data-lang="en">to</span><span data-lang="zh">到</span> 11 · x64 <span data-lang="en">and</span><span data-lang="zh">與</span> x86 · Inno Setup <span data-lang="en">installer with a VISA compatibility check</span><span data-lang="zh">安裝檔含 VISA 相容檢查</span> · <span class="dim"><span data-lang="en">XP tested in a sandbox for legacy stations</span><span data-lang="zh">XP 在 sandbox 測過，給舊機台</span></span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Stack</span><span data-lang="zh">技術</span></th><td>C++17 · CMake · MSVC · libxlsxwriter · VISA</td></tr>
+            <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td><span data-lang="en">About 10,000 lines of C++ · 152 commits</span><span data-lang="zh">約 10,000 行 C++ · 152 個 commit</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo. API, manual, FAQ, release notes, installer, support.</span><span data-lang="zh">獨立完成。API、手冊、FAQ、版本紀錄、安裝檔、支援。</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="figures">
+    <div class="head">
+      <h2><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></h2>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U3.1 <b><span data-lang="en">Zoom dump</span><span data-lang="zh">Zoom dump</span></b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="01-amr-zoom.png" width="1280" height="800" alt="RTB2004 screen: the top pane holds a 10 ms record at 1 ms per division, the bottom pane a 100 ns per division zoom centred on the peak of a triangle wave, with the trigger level line and Vp+ 25.774 V, PW+ 494.4 ns in the measurement bar." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 1</span><span><span data-lang="en">AMR zoom dump · click to enlarge</span><span data-lang="zh">AMR zoom dump · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">Zoom dump</span><span data-lang="zh">Zoom dump</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Each segment can be dumped as a second image: the whole record on top, a zoom window below.</span><span data-lang="zh">每個 segment 可以多存一張圖：上半是整段紀錄，下半是放大視窗。</span></li>
+          <li><span data-lang="en">The zoom is centred on the segment's own peak, not on the trigger point. The peak is found with the scope's own search over the full record.</span><span data-lang="zh">zoom 以該 segment 自己的峰值為中心，而不是觸發點。峰值由示波器自己在完整紀錄上搜尋。</span></li>
+          <li><span data-lang="en">The trigger level shown is the level at capture time, not the latest one. The DLL records the level per segment and switches the display back before each shot.</span><span data-lang="zh">畫面上顯示的 trigger level 是擷取當時的值，不是最後一次設定。DLL 替每個 segment 記下當時的 level，截圖前先把顯示切回去。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow flip">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U3.2 <b>History</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="02-amr-history.png" width="1280" height="800" alt="RTB2004 screen at 1 ms per division in peak-detect mode: a dense yellow band between plus and minus 25 volts across the whole screen, the trigger level line at 0 volts, and Vp+ 25.774 V, Vp- -25.382 V, PW+ 465 ns in the measurement bar." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 2</span><span><span data-lang="en">AMR segment, main shot · click to enlarge</span><span data-lang="zh">AMR segment 主截圖 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">History segments</span><span data-lang="zh">History segment</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The scope runs with history on. Each excursion past the trigger level is one segment with its own time stamp.</span><span data-lang="zh">示波器開著 history 執行。每次越過 trigger level 就是一個 segment，各有自己的時戳。</span></li>
+          <li><span data-lang="en"><code>amr_mark</code> names the test step that is running, so each segment is attributed to the step that produced it and the report groups by step.</span><span data-lang="zh"><code>amr_mark</code> 標記目前在跑的測項，segment 歸到產生它的那個測項，報告也依測項分組。</span></li>
+          <li><span data-lang="en">The DLL detects overflow: when a step produces more segments than the history holds, the report says so instead of silently losing the oldest.</span><span data-lang="zh">DLL 會偵測滿溢：一個測項的 segment 多過 history 容量時，報告會寫明，而不是默默丟掉最舊的。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U3.3 <b>FWF</b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="03-fwf-4ch.png" width="1280" height="800" alt="RTB2004 screen with four channels captured together at 600 ms per division: channel 1 a yellow triangle wave labelled PWM1, channels 2 to 4 flat lines labelled PWM2 to PWM4 at different offsets, and the generator settings panel open." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 3</span><span><span data-lang="en">FWF, four channels in one capture · click to enlarge</span><span data-lang="zh">FWF，四通道一次擷取 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">Sync capture</span><span data-lang="zh">同步擷取</span></h3>
+        <ul class="list">
+          <li><span data-lang="en"><code>fwf_open</code> takes a list of pins: channel, name, V/div. The trigger pin arms a single acquisition; then the ATE runs the function.</span><span data-lang="zh"><code>fwf_open</code> 接收一串 pin 設定：通道、名稱、V/div。觸發 pin 先 arm 一次擷取，然後由 ATE 執行功能。</span></li>
+          <li><span data-lang="en">Each pin's V/div is either given explicitly or derived from that pin's limits.</span><span data-lang="zh">每支 pin 的 V/div 可以直接指定，也可以由該 pin 的上下限算出。</span></li>
+          <li><span data-lang="en">Segments are centred the same way in TIM:POS and ZOOM mode, so the overview and the zoom report line up.</span><span data-lang="zh">TIM:POS 與 ZOOM 兩種模式用同一套置中規則，所以全景與 zoom 報告對得起來。</span></li>
+          <li><span data-lang="en">A window with no trigger is not a failure; the DLL captures a blank snapshot and the report says no trigger.</span><span data-lang="zh">時間窗內沒有觸發不算失敗，DLL 照樣截一張空白畫面，報告寫明沒有觸發。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow flip">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U3.4 <b><span data-lang="en">AMR report</span><span data-lang="zh">AMR 報告</span></b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="04-amr-report.png" width="1400" height="700" alt="AMR HTML report: three totals (2 segments, 2 violations, 0.0% pass rate), a yellow warning that vscale was auto-adjusted from 5 to 10 V/div and the history was cleared, and two segment rows marked VIOLATION." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 4</span><span><span data-lang="en">AMR HTML report · click to enlarge</span><span data-lang="zh">AMR HTML 報告 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">AMR report</span><span data-lang="zh">AMR 報告</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Totals, violations, pass rate, then one row per segment with its screenshots inline.</span><span data-lang="zh">總數、違規數、通過率，接著每個 segment 一列，截圖直接嵌在裡面。</span></li>
+          <li><span data-lang="en">A warning line records anything that changed during the run; in this one, an automatic vertical-scale change had cleared the scope's history.</span><span data-lang="zh">警示列記下執行途中發生的變動；這份報告裡是垂直刻度自動換檔，示波器的 history 因此被清掉。</span></li>
+          <li><span data-lang="en">The XLSX has a sheet per pin: Vp+, Vp-, notes, and how many times the trigger level was adjusted.</span><span data-lang="zh">XLSX 每支 pin 一張工作表，列出 Vp+、Vp-、備註，以及 trigger level 被調整過幾次。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="figrow">
+      <figure class="fp" data-zoom style="margin:0">
+        <span class="fpref">U3.5 <b><span data-lang="en">FWF report</span><span data-lang="zh">FWF 報告</span></b></span><span class="pin1" aria-hidden="true"></span>
+        <div class="shot"><img src="05-fwf-report.png" width="1400" height="1204" alt="FWF waveform HTML report: a header with function count and the channel list, then one section per function with three scope shots per pin group: overview, segment 1, segment 2." loading="lazy" decoding="async" /></div>
+        <figcaption><span class="fig">Fig. 5</span><span><span data-lang="en">FWF waveform report · click to enlarge</span><span data-lang="zh">FWF 波形報告 · 點擊放大</span></span></figcaption>
+      </figure>
+      <div class="text">
+        <h3><span data-lang="en">FWF report</span><span data-lang="zh">FWF 報告</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">One section per function, one row per pin group: the overview and each segment.</span><span data-lang="zh">每個功能一節，每組 pin 一列，放全景與各個 segment。</span></li>
+          <li><span data-lang="en">Measurements are optional, and the scope computes them.</span><span data-lang="zh">量測值可開可關，數值直接由示波器計算。</span></li>
+          <li><span data-lang="en">Reports are ordered by run, so a repeated function keeps its history.</span><span data-lang="zh">報告依執行順序排列，同一個功能重跑時前後紀錄都會保留。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="api">
+    <div class="head"><h2>API</h2></div>
+    <div class="cols">
+      <div class="c7">
+        <div class="code" style="margin-top:0"><pre><span class="cm">// Soft AMR, one scope, many pins. <span data-lang="en">Return 1 on success; amr_last_error() has the text.</span><span data-lang="zh">成功回 1；錯誤文字看 amr_last_error()。</span></span>
+<span class="k">amr_init</span>(<span class="s">"TCPIP::192.0.2.31::INSTR"</span>);            <span class="cm">// <span data-lang="en">once per session</span><span data-lang="zh">每個 session 一次</span></span>
+
+<span class="k">amr_open</span>(channel, low, high, …);              <span class="cm">// <span data-lang="en">window, scale, time base, trigger, out dir</span><span data-lang="zh">上下限、刻度、時基、觸發、輸出目錄</span></span>
+<span class="k">amr_mark</span>(<span class="s">"P01_PowerUp"</span>, <span class="n">0</span>);                      <span class="cm">// <span data-lang="en">the ATE step starts</span><span data-lang="zh">ATE 測項開始</span></span>
+<span class="cm">// … <span data-lang="en">the ATE runs its routine</span><span data-lang="zh">ATE 跑它的流程</span> …</span>
+<span class="k">amr_step_trigger_level</span>();                        <span class="cm">// <span data-lang="en">optional: chase the peak</span><span data-lang="zh">可選：追峰值</span></span>
+<span class="k">amr_dump_segments</span>(…);                            <span class="cm">// <span data-lang="en">violating segments, screenshots</span><span data-lang="zh">違規 segment 與截圖</span></span>
+
+<span class="k">amr_open</span>(channel + 1, …);                        <span class="cm">// <span data-lang="en">next pin; results accumulate</span><span data-lang="zh">下一支 pin，結果累積</span></span>
+<span class="cm">// …</span>
+<span class="k">amr_generate_report</span>();                           <span class="cm">// HTML + XLSX + CSV + JSON</span>
+<span class="k">amr_close</span>();
+
+<span class="cm">// FWF, <span data-lang="en">four channels, one trigger</span><span data-lang="zh">四通道一觸發</span></span>
+<span class="k">fwf_init</span>(<span class="s">"TCPIP::192.0.2.31::INSTR"</span>);
+<span class="k">fwf_open</span>(pins, <span class="n">4</span>, …);                            <span class="cm">// <span data-lang="en">channel, name, V/div per pin</span><span data-lang="zh">每支 pin 的通道、名稱、V/div</span></span>
+<span class="k">fwf_start</span>();  <span class="cm">/* <span data-lang="en">run the function</span><span data-lang="zh">跑功能</span> */</span>  <span class="k">fwf_dump</span>(<span class="s">"OpenShort"</span>, …);
+<span class="k">fwf_generate_html_report</span>();  <span class="k">fwf_close</span>();</pre></div>
+      </div>
+      <div class="c5">
+        <ul class="list">
+          <li><span data-lang="en">Plain C ABI. LabVIEW calls it through Call Library Function nodes, and a VI per function ships with the DLL.</span><span data-lang="zh">純 C ABI。LabVIEW 透過 Call Library Function 節點呼叫，DLL 附每個函式對應的 VI。</span></li>
+          <li><span data-lang="en">Non-blocking flow for long steps: <code>amr_has_new_trigger</code> polls, <code>fwf_start</code> arms and returns.</span><span data-lang="zh">長測項用非阻塞流程：<code>amr_has_new_trigger</code> 輪詢，<code>fwf_start</code> arm 完就回來。</span></li>
+          <li><span data-lang="en">New behaviour arrives as a new parameter whose zero value is the old behaviour, so the ATE's existing calls keep working.</span><span data-lang="zh">新行為以新參數加入，傳 0 就是原本的行為，ATE 既有的呼叫不用改。</span></li>
+          <li><span data-lang="en">Every run writes a debug log of each SCPI exchange with timing; the firmware quirks below were found in those logs.</span><span data-lang="zh">每次執行都留一份 debug log，記錄每條 SCPI 往返與耗時，下面幾個韌體怪癖都是從這裡找出來的。</span></li>
+          <li><span data-lang="en">Release notes per version, in the ATE team's language, naming the log that triggered each fix.</span><span data-lang="zh">每個版本都有版本紀錄，用 ATE 團隊看得懂的話寫，並註明是哪份 log 引出哪個修正。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec region" id="decisions">
+    <div class="head"><h2><span data-lang="en">Decisions</span><span data-lang="zh">決定</span></h2></div>
+    <div>
+      <div class="dec">
+        <h3><span data-lang="en">Peak search runs on the scope</span><span data-lang="zh">峰值搜尋在示波器上做</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">Reading a full record back over the network takes seconds per segment, and reading it at display resolution misses narrow spikes. The scope's own search finds the peak in about a second and never moves the history index.</span><span data-lang="zh">把完整紀錄經網路讀回，每個 segment 要好幾秒；用顯示解析度讀回又會漏掉窄 spike。示波器自己的搜尋約一秒就找到峰值，而且不會動到 history index。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">Trigger steps are monotonic</span><span data-lang="zh">trigger 步進只往一個方向</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The earlier two-tier rule pulled the level back toward the measured peak and then out again, so when the scope's statistics froze on a narrow pulse the level oscillated forever. The steps are now monotonic, with a guard that widens the vertical scale after three rounds and, if that still fails, gives up and flags the pin in the report.</span><span data-lang="zh">舊的兩段式規則會把 level 先拉回量到的峰值再往外踩，示波器的統計一被窄脈波凍住，level 就永遠震盪。現在改成單調步進，加上一道防呆：連續三輪沒收斂就放大垂直刻度，再不行就放棄，並在報告上標記這支 pin。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">Firmware quirks handled in code</span><span data-lang="zh">韌體怪癖在程式裡處理</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">On this scope's firmware, turning ZOOM on while stopped resets the history index to the newest segment. A zoom shot that showed a flat line where the main shot showed a waveform gave it away. The DLL now re-selects the segment after ZOOM ON.</span><span data-lang="zh">這台示波器的韌體在 STOP 狀態下打開 ZOOM，會把 history index 重設到最新的 segment。一張 zoom 圖只有平線、主圖卻有波形，就是這樣被抓到的。DLL 現在在 ZOOM ON 之後重新選回該 segment。</span></li>
+          <li><span data-lang="en">Trigger levels past the hardware limit and steps below the minimum resolution both used to stall the loop. Both are now clamped and logged.</span><span data-lang="zh">trigger level 超過硬體上下限，或步進小於最小解析度，以前都會讓迴圈卡住。現在兩者都會夾限並記進 log。</span></li>
+        </ul>
+      </div>
+      <div class="dec">
+        <h3><span data-lang="en">Fixes start from field logs</span><span data-lang="zh">修正從現場 log 開始</span></h3>
+        <ul class="list">
+          <li><span data-lang="en">The ATE team sends the run folder: log, report, screenshots. Each fix in the release notes names the log and the pin that showed the problem, and the demo program then reproduces the case so the fix can be seen on the bench.</span><span data-lang="zh">ATE 團隊把執行資料夾寄來：log、報告、截圖。版本紀錄裡每個修正都註明是哪份 log、哪支 pin 出的問題，再用 demo 程式把那個情境重現，修正在台架上就看得到。</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="dataline region">
+    <div class="id">
+      <span>Tom Huang</span>
+      <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
+      <span>Taipei, TW</span>
+      <span>U3 · <span data-lang="en">in use</span><span data-lang="zh">使用中</span></span>
+    </div>
+    <div class="links">
+      <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
+      <a href="../benchpress/">U1 benchpress</a>
+      <a href="../pos/">U2 tujia pos</a>
+      <a href="../imx93/">U4 i.MX93 bsp</a>
+      <a href="../genio/">U5 genio 420</a>
+      <a href="../workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
+      <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
+    </div>
+  </footer>
+</main>
+
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged screenshot">
+  <div class="lb-bar"><span class="lb-cap"></span><button type="button"><span data-lang="en">Close · Esc</span><span data-lang="zh">關閉 · Esc</span></button></div>
+  <div class="lb-img"></div>
+</dialog>
+
+<script src="../assets/site.js" defer></script>
+</body>
+</html>

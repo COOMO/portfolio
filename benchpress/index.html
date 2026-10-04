@@ -28,8 +28,8 @@
     <div class="name">
       <h1 class="latin">benchpress</h1>
       <p class="title">
-        <span data-lang="en">Windows desktop app for a lab bench. Controls instruments over GPIB and Ethernet. Test sequences are blocks, not code.</span>
-        <span data-lang="zh">實驗室用的 Windows 桌面程式。透過 GPIB 與 Ethernet 控制儀器。測試流程是積木，不是程式。</span>
+        <span data-lang="en">Windows desktop app for a lab bench. It controls instruments over GPIB and Ethernet and runs test sequences built from blocks.</span>
+        <span data-lang="zh">實驗室用的 Windows 桌面程式。透過 GPIB 與 Ethernet 控制儀器，用積木組成測試序列。</span>
       </p>
     </div>
     <div class="right">
@@ -37,7 +37,7 @@
         <span class="jref">JP1 · LANG</span>
         <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
       </button>
-      <span class="rev">U1 · <span data-lang="en">release</span><span data-lang="zh">版本</span> 2026-09-10 · <span data-lang="en">Sheet 2 / 4</span><span data-lang="zh">第 2 / 4 頁</span></span>
+      <span class="rev">U1 · <span data-lang="en">released</span><span data-lang="zh">已出貨</span> · <span data-lang="en">Sheet 2 / 7</span><span data-lang="zh">第 2 / 7 頁</span></span>
     </div>
   </header>
 
@@ -56,28 +56,28 @@
       <div class="c7 stack-24">
         <div><h2><span data-lang="en">Problem</span><span data-lang="zh">問題</span></h2></div>
         <ul class="list">
-          <li><span data-lang="en">An R&amp;D lab ran its bench on a LabVIEW station. It worked.</span><span data-lang="zh">一間研發實驗室的工作站跑 LabVIEW。能用。</span></li>
-          <li><span data-lang="en">Each new instrument meant days of wiring code. Each new test was a new VI.</span><span data-lang="zh">每加一台儀器要寫好幾天接線程式。每個新測項是一個新 VI。</span></li>
-          <li><span data-lang="en">Nothing was in version control. No tests.</span><span data-lang="zh">沒有東西在版本控制裡。沒有測試。</span></li>
+          <li><span data-lang="en">An R&amp;D lab ran its bench from a LabVIEW station.</span><span data-lang="zh">一間研發實驗室的工作站跑 LabVIEW。</span></li>
+          <li><span data-lang="en">Each new instrument meant days of wiring code, and each new test was a new VI.</span><span data-lang="zh">每加一台儀器要寫好幾天接線程式，每個新測項又是一個新 VI。</span></li>
+          <li><span data-lang="en">Nothing was in version control and nothing was tested.</span><span data-lang="zh">沒有版本控制，也沒有測試。</span></li>
           <li><span data-lang="en">The brief, in the lab's words: swap instruments freely, compose tests like blocks, run several buses at once.</span><span data-lang="zh">實驗室的要求：儀器隨時換、測項像積木一樣組、多條介面同時跑。</span></li>
         </ul>
         <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
         <ul class="list list--filled">
           <li><span data-lang="en">An instrument is one row in <code>instruments.toml</code> plus one template file. No Rust changes.</span><span data-lang="zh">一台儀器是 <code>instruments.toml</code> 一列加一份模板檔。不動 Rust。</span></li>
           <li><span data-lang="en">A test is a sequence of blocks: Write, Query, Wait, For, If, Parallel, Shell, Set Variable, Print.</span><span data-lang="zh">一個測項是積木序列：Write、Query、Wait、For、If、Parallel、Shell、Set Variable、Print。</span></li>
-          <li><span data-lang="en">Everything is plain text in one folder. Diffs in git. An LLM can write a template from a manual.</span><span data-lang="zh">全部是純文字，放在一個資料夾。git 可 diff。LLM 可以照手冊寫模板。</span></li>
+          <li><span data-lang="en">Everything is plain text in one folder, so git shows the diffs and an LLM can draft a template from a manual.</span><span data-lang="zh">全部是純文字，放在一個資料夾，git 看得到 diff，LLM 也能照手冊草擬模板。</span></li>
         </ul>
       </div>
       <div class="c5">
         <table class="facts">
           <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">一覽</span></caption>
           <tbody>
-            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">Released</span><span data-lang="zh">已出貨</span></span> <span class="dim">2026-09-10 · <span data-lang="en">client evaluation</span><span data-lang="zh">客戶評估中</span></span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">Released</span><span data-lang="zh">已出貨</span></span> <span class="dim"><span data-lang="en">client evaluation</span><span data-lang="zh">客戶評估中</span></span></td></tr>
             <tr><th scope="row"><span data-lang="en">Platform</span><span data-lang="zh">平台</span></th><td>Windows 10 / 11 · MSI (WiX 7)</td></tr>
             <tr><th scope="row"><span data-lang="en">Stack</span><span data-lang="zh">技術</span></th><td>Rust 1.95 · Dioxus 0.7.9 · tokio · visa-rs</td></tr>
             <tr><th scope="row"><span data-lang="en">Instruments</span><span data-lang="zh">儀器</span></th><td>7 <span data-lang="en">models with templates</span><span data-lang="zh">款有模板</span> · 167 SCPI <span data-lang="en">templates</span><span data-lang="zh">模板</span><br><span class="dim">Chroma 66202 · 61502 · 6314/63103A · Agilent 34970A · R&amp;S RTB24 · Tek DPO4054B · LeCroy HDO4054 · <span data-lang="en">MXO4 planned</span><span data-lang="zh">MXO4 規劃中</span></span></td></tr>
             <tr><th scope="row"><span data-lang="en">Buses</span><span data-lang="zh">介面</span></th><td>GPIB · Ethernet (VXI-11) · <span class="dim">R&amp;S VISA <span data-lang="en">or</span><span data-lang="zh">或</span> NI-VISA</span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">實機</span></th><td><span data-lang="en">R&amp;S RTB24, 21-step run, report, 2026-09-06</span><span data-lang="zh">R&amp;S RTB24，21 步序列含報告，2026-09-06</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">實機</span></th><td><span data-lang="en">R&amp;S RTB24, 21-step run with report</span><span data-lang="zh">R&amp;S RTB24，21 步序列含報告</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td>6 crates + app · <span data-lang="en">about 350 tests</span><span data-lang="zh">約 350 個測試</span> · 286 commits</td></tr>
             <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo. Design, code, docs, installer.</span><span data-lang="zh">獨立完成。設計、程式、文件、安裝包。</span></td></tr>
           </tbody>
@@ -89,7 +89,6 @@
   <section class="sec region" id="figures">
     <div class="head">
       <h2><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></h2>
-      <p class="muted mb-0"><span data-lang="en">Release build of 2026-09-10, captured 2026-10-01. Figures 2 to 4 are from a run on a real R&amp;S RTB24, 2026-07-28.</span><span data-lang="zh">2026-09-10 的 release 版本，2026-10-01 擷取。圖 2 到 4 來自 2026-07-28 接實機 R&amp;S RTB24 的執行。</span></p>
     </div>
 
     <div class="figrow">
@@ -230,7 +229,7 @@
           <li><span data-lang="en"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>. Same compile, same report, exit codes.</span><span data-lang="zh"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>。同一套編譯與報告，有 exit code。</span></li>
           <li><span data-lang="en"><code>benchpress.exe probe &lt;addr&gt;</code>: one query, timing, hex tail, a hint per VISA error.</span><span data-lang="zh"><code>benchpress.exe probe &lt;addr&gt;</code>：一條查詢、耗時、hex 尾端、每種 VISA 錯誤一句提示。</span></li>
           <li><span data-lang="en">MCP server for Claude Desktop, Claude Code, Cursor. Lists instruments, validates and saves TOML, reads past runs. File only, never touches VISA.</span><span data-lang="zh">MCP server 給 Claude Desktop、Claude Code、Cursor。列儀器、驗證並存 TOML、讀過去的執行。只碰檔案，不碰 VISA。</span></li>
-          <li><span data-lang="en">A sequence MCP accepts is one Run accepts: same compiler.</span><span data-lang="zh">MCP 收下的序列，Run 一定收：同一個編譯器。</span></li>
+          <li><span data-lang="en">If MCP accepts a sequence, Run accepts it too; they share one compiler.</span><span data-lang="zh">MCP 收下的序列 Run 一定收，兩者共用同一個編譯器。</span></li>
         </ul>
       </div>
       <div class="c4">
@@ -312,7 +311,7 @@
           <li><span data-lang="en">CI runs about 350 tests on MockVisa with no instrument attached.</span><span data-lang="zh">CI 用 MockVisa 跑約 350 個測試，不接儀器。</span></li>
           <li><span data-lang="en">Hardware tests are <code>#[ignore]</code> and run only with <code>BENCHPRESS_HW=1</code>.</span><span data-lang="zh">實機測試標 <code>#[ignore]</code>，只在 <code>BENCHPRESS_HW=1</code> 時跑。</span></li>
           <li><span data-lang="en">Acceptance has two layers: open and <code>*IDN?</code>, then every template command on the real unit. Logged per instrument with firmware and commit.</span><span data-lang="zh">驗收兩層：先開啟與 <code>*IDN?</code>，再把每條模板指令送到實機。每台記韌體與 commit。</span></li>
-          <li><span data-lang="en">Verified so far: R&amp;S RTB24, firmware 03.000, 21 steps, three screenshots, report. 2026-09-06.</span><span data-lang="zh">目前已驗：R&amp;S RTB24，韌體 03.000，21 步、三張截圖、報告。2026-09-06。</span></li>
+          <li><span data-lang="en">Verified so far: R&amp;S RTB24, 21 steps, three screenshots, report.</span><span data-lang="zh">目前已驗：R&amp;S RTB24，21 步、三張截圖、報告。</span></li>
         </ul>
       </div>
       <div class="dec">
@@ -360,11 +359,14 @@
       <span>Tom Huang</span>
       <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
       <span>Taipei, TW</span>
-      <span>U1 · 2026-09-10</span>
+      <span>U1 · <span data-lang="en">released</span><span data-lang="zh">已出貨</span></span>
     </div>
     <div class="links">
       <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
       <a href="../pos/">U2 tujia pos</a>
+      <a href="../scope-dll/">U3 scope dll</a>
+      <a href="../imx93/">U4 i.MX93 bsp</a>
+      <a href="../genio/">U5 genio 420</a>
       <a href="../workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
       <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
     </div>

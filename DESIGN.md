@@ -203,7 +203,7 @@ components:
 
 **Creative North Star: "The Fabricated Board"**
 
-The site is one printed circuit board under a matte black solder mask. Everything written on it is white silkscreen in a condensed grotesk; the works are footprints with reference designators (U1, U2, J1); the landing's compact bill of materials is the index; copper traces route from each BOM row to its footprint; and the only gold on the board is ENIG plating on things you can press. Depth is never faked: a region reads a step lighter where copper pour sits under the mask, darker in a recess, and every edge is a 1 px line.
+The site is one printed circuit board under a matte black solder mask. Everything written on it is white silkscreen in a condensed grotesk; the works are footprints with reference designators (U1 to U5, J1); the landing's compact bill of materials is the index; copper traces route from each BOM row to its footprint; and the only gold on the board is ENIG plating on things you can press. Depth is never faked: a region reads a step lighter where copper pour sits under the mask, darker in a recess, and every edge is a 1 px line.
 
 Density is that of a fabrication drawing, not a brochure. Labels are small, uppercase and tracked; running copy is short, list-like, numbers first, set at one body size with a 66ch measure; numerals are tabular. The landing leads with the work: the first footprint shows a full-width screenshot with a one-liner and a six-row label/value list beside it. Both languages live in the same DOM and the JP1 jumper selects which one is populated, so the Chinese sheet is the same board, not a translation layer. The board stays one object on every viewport: on phones the outline, holes and fiducials shrink, the routed traces give way to short bronze stubs, but nothing leaves.
 
@@ -326,7 +326,7 @@ Gold text with a 1 px underline at .2em offset, underline at 55% gold, going sol
 - **DNP variant:** dashed silk outline, transparent fill, a "DNP" tag on the top-right outline, hollow pin-1. Used for planned, unbuilt items only.
 
 ### Status Marks
-A 9 px drawn mark plus a word, never colour alone: filled square = shipped (Released, In use), filled circle = Living, dashed square = DNP. Label voice, silk-2.
+A 9 px drawn mark plus a word, never colour alone: filled square = shipped (Released, In use, Delivered), filled circle = living or ongoing (Living, In delivery), dashed square = DNP. Label voice, silk-2.
 
 ### BOM (bill-of-materials index)
 Table with 13 px column heads, copper rules, REF column 56 px, part names as condensed links whose hit area fills the row. Hovered or hot rows step to copper pour and their REF turns gold. At ≤980 each row grows a bronze stub and via in the left margin (gold when hot); at ≤640 the head hides and each row becomes a two-line grid (REF, part, status / description) with the year hidden.

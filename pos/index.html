@@ -36,7 +36,7 @@
     <div class="name">
       <h1 class="latin">tujia pos</h1>
       <p class="title">
-        <span data-lang="en">The order book for my mother-in-law's bakery. Built for an elderly owner. One Rust codebase on Android tablet, iPad and Windows.</span>
+        <span data-lang="en">The order book for my mother-in-law's bakery, built for an elderly owner. One Rust codebase on an Android tablet, iPad and Windows.</span>
         <span data-lang="zh">岳母麵包店的訂單系統。為高齡店主而做。一份 Rust 程式碼跑在 Android 平板、iPad、Windows。</span>
       </p>
     </div>
@@ -45,7 +45,7 @@
         <span class="jref">JP1 · LANG</span>
         <span class="pins"><span class="pin en">EN</span><span class="pin zh">中</span></span>
       </button>
-      <span class="rev">U2 · v1.0 2026-04-16 · <span data-lang="en">Sheet 3 / 4</span><span data-lang="zh">第 3 / 4 頁</span></span>
+      <span class="rev">U2 · <span data-lang="en">in use</span><span data-lang="zh">使用中</span> · <span data-lang="en">Sheet 3 / 7</span><span data-lang="zh">第 3 / 7 頁</span></span>
     </div>
   </header>
 
@@ -68,28 +68,28 @@
         </div>
         <ul class="list">
           <li><span data-lang="en">Facebook and Instagram posts went viral. Orders arrive by phone, Messenger and walk-in. Messages piled into the thousands.</span><span data-lang="zh">FB 與 IG 貼文爆紅。訂單從電話、Messenger、現場進來。訊息累積上千則。</span></li>
-          <li><span data-lang="en">Everything went into one handwritten notebook. Finding an order meant reading glasses and a queue waiting.</span><span data-lang="zh">全寫進一本手寫簿。找一筆單要戴老花眼鏡，後面還排著隊。</span></li>
-          <li><span data-lang="en">Off-the-shelf POS failed on small text and nested menus. The owner corrects by crossing out.</span><span data-lang="zh">市售 POS 字太小、選單一層又一層。店主習慣用塗改修正。</span></li>
+          <li><span data-lang="en">Everything went into one handwritten notebook. Finding an order meant putting on reading glasses while a queue waited.</span><span data-lang="zh">全寫進一本手寫簿。找一筆單要先戴上老花眼鏡，後面還排著隊。</span></li>
+          <li><span data-lang="en">Off-the-shelf POS systems failed on small text and nested menus, and none let her correct an order the way she does on paper, by crossing it out.</span><span data-lang="zh">市售 POS 字太小、選單一層又一層，也沒有一套能像她在紙上那樣用塗改修正。</span></li>
         </ul>
         <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
         <ul class="list list--filled">
           <li><span data-lang="en">Search by name or the first digits of a phone. Surnames sorted by how often they appear in the shop.</span><span data-lang="zh">用姓名或電話前幾碼找單。姓氏依店內出現頻率排序。</span></li>
-          <li><span data-lang="en">Orders, kiln batches and walk-in stock in one SQLite file. Over-booking warns, never blocks.</span><span data-lang="zh">訂單、窯次、現場庫存在同一個 SQLite。超量會警告，不會擋。</span></li>
+          <li><span data-lang="en">Orders, kiln batches and walk-in stock in one SQLite file. Over-booking triggers a warning and nothing more.</span><span data-lang="zh">訂單、窯次、現場庫存在同一個 SQLite。超量只會警告，不會擋單。</span></li>
           <li><span data-lang="en">The pickup calendar colours each day by bread count. The kiln tab shows demand per flavor per bake day.</span><span data-lang="zh">取件日月曆依麵包數上色。窯次頁顯示每個出爐日各口味的需求。</span></li>
-          <li><span data-lang="en">Every change can be undone. Crossing-out, kept.</span><span data-lang="zh">每個變更都能還原。塗改留下來了。</span></li>
+          <li><span data-lang="en">Every change can be undone, which is the notebook's crossing-out carried over.</span><span data-lang="zh">每個變更都能還原，等於把訂單簿上的塗改搬進來。</span></li>
         </ul>
       </div>
       <div class="c5">
         <table class="facts">
           <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">一覽</span></caption>
           <tbody>
-            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">In use</span><span data-lang="zh">使用中</span></span> <span class="dim">v1.0 2026-04-16 · <span data-lang="en">latest</span><span data-lang="zh">最新</span> 2026-06-22</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">In use</span><span data-lang="zh">使用中</span></span> <span class="dim"><span data-lang="en">at the counter every day</span><span data-lang="zh">櫃台每天在用</span></span></td></tr>
             <tr><th scope="row"><span data-lang="en">Device</span><span data-lang="zh">裝置</span></th><td><span data-lang="en">Android tablet at the counter · iPad · Windows</span><span data-lang="zh">櫃台的 Android 平板 · iPad · Windows</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Stack</span><span data-lang="zh">技術</span></th><td>Rust · Dioxus 0.7 · sqlx · SQLite WAL · tokio</td></tr>
-            <tr><th scope="row"><span data-lang="en">Flavors</span><span data-lang="zh">口味</span></th><td>8, <span data-lang="en">in order-book order. Data, not code.</span><span data-lang="zh">照訂單簿順序。是資料，不是程式。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Flavors</span><span data-lang="zh">口味</span></th><td>8, <span data-lang="en">in order-book order, stored as data.</span><span data-lang="zh">照訂單簿順序，存成資料。</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Bake days</span><span data-lang="zh">出爐日</span></th><td><span data-lang="en">Thursday, Saturday. Two or three batches a day.</span><span data-lang="zh">週四、週六。一天兩到三窯。</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Backup</span><span data-lang="zh">備份</span></th><td><span data-lang="en">Google Drive app folder, every 10 min, skipped when unchanged</span><span data-lang="zh">Google Drive 應用資料夾，每 10 分鐘，沒變就跳過</span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td>12 migrations · 10 undo op types · 23 commits, Mar–Jun 2026</td></tr>
+            <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td>12 migrations · 10 undo op types · 23 commits <span data-lang="en">over three months</span><span data-lang="zh">歷時三個月</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo. Interviews at the counter, schema from photos of the notebook, APK on the tablet.</span><span data-lang="zh">獨立完成。櫃台訪談、從訂單簿照片推 schema、裝到平板。</span></td></tr>
           </tbody>
         </table>
@@ -100,7 +100,6 @@
   <section class="sec region" id="figures">
     <div class="head">
       <h2><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></h2>
-      <p class="muted mb-0"><span data-lang="en">Android tablet build. Orders shown are seeded test data.</span><span data-lang="zh">Android 平板版本。畫面中的訂單是測試資料。</span></p>
     </div>
 
     <div class="figrow">
@@ -223,31 +222,31 @@
     <div class="head"><h2><span data-lang="en">Decisions</span><span data-lang="zh">設計決策</span></h2></div>
     <div>
       <div class="dec">
-        <h3><span data-lang="en">Sizes are constants, not taste</span><span data-lang="zh">尺寸是常數，不是品味</span></h3>
+        <h3><span data-lang="en">Sizes are constants</span><span data-lang="zh">尺寸是常數</span></h3>
         <ul class="list">
           <li><span data-lang="en">Text 18 pt, titles 22 pt, minimum 16. Targets 48 px, main button 64 × 56, cells 80 × 80. All in <code>theme.rs</code>.</span><span data-lang="zh">內文 18 pt、標題 22 pt、最小 16。觸控 48 px、主按鈕 64 × 56、格子 80 × 80。都在 <code>theme.rs</code>。</span></li>
           <li><span data-lang="en">At most three steps for any core action. No dropdowns anywhere.</span><span data-lang="zh">核心操作最多三步。沒有任何下拉選單。</span></li>
         </ul>
       </div>
       <div class="dec">
-        <h3><span data-lang="en">Warn, never block</span><span data-lang="zh">警告，不阻擋</span></h3>
+        <h3><span data-lang="en">Warn without blocking</span><span data-lang="zh">只警告，不阻擋</span></h3>
         <ul class="list">
           <li><span data-lang="en">Stock checks are advisory. The owner has the last word.</span><span data-lang="zh">庫存檢查只是建議。最後決定權在店主。</span></li>
-          <li><span data-lang="en">No "are you sure" dialogs. Undo instead.</span><span data-lang="zh">沒有「您確定嗎」。用 Undo 代替。</span></li>
+          <li><span data-lang="en">There are no "are you sure" dialogs; undo covers it.</span><span data-lang="zh">沒有「您確定嗎」對話框，靠 Undo 處理。</span></li>
         </ul>
       </div>
       <div class="dec">
         <h3><span data-lang="en">Save locally first</span><span data-lang="zh">先存本地</span></h3>
         <ul class="list">
           <li><span data-lang="en">SQLite with WAL and foreign keys on. Works with no network.</span><span data-lang="zh">SQLite 開 WAL 與 foreign keys。沒網路照常運作。</span></li>
-          <li><span data-lang="en">Backup is a snapshot upload. Failure shows one small icon, nothing else.</span><span data-lang="zh">備份是快照上傳。失敗只顯示一個小圖示。</span></li>
+          <li><span data-lang="en">Backup is a snapshot upload. A failure shows one small icon.</span><span data-lang="zh">備份是上傳快照。失敗只亮一個小圖示。</span></li>
         </ul>
       </div>
       <div class="dec">
         <h3><span data-lang="en">Built from the counter</span><span data-lang="zh">從櫃台長出來的</span></h3>
         <ul class="list">
           <li><span data-lang="en">Schema reverse-engineered from photos of the notebook. Flavors in the notebook's order.</span><span data-lang="zh">schema 從訂單簿照片反推。口味照簿子的順序。</span></li>
-          <li><span data-lang="en">Feedback came as phone photos of the screen. Example, April: "regulars have no phone number, let me skip it."</span><span data-lang="zh">回饋是手機拍的螢幕照片。例如四月：「熟客不會有電話，讓我跳過。」</span></li>
+          <li><span data-lang="en">Feedback came as phone photos of the screen. One of them: "regulars have no phone number, let me skip it."</span><span data-lang="zh">回饋是手機拍的螢幕照片。其中一則：「熟客不會有電話，讓我跳過。」</span></li>
         </ul>
       </div>
     </div>
@@ -285,11 +284,14 @@
       <span>Tom Huang</span>
       <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
       <span>Taipei, TW</span>
-      <span>U2 · v1.0</span>
+      <span>U2 · <span data-lang="en">in use</span><span data-lang="zh">使用中</span></span>
     </div>
     <div class="links">
       <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
       <a href="../benchpress/">U1 benchpress</a>
+      <a href="../scope-dll/">U3 scope dll</a>
+      <a href="../imx93/">U4 i.MX93 bsp</a>
+      <a href="../genio/">U5 genio 420</a>
       <a href="../workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
       <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
     </div>

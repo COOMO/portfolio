@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title data-en="Tom Huang · portfolio" data-zh="Tom Huang · 作品集">Tom Huang · portfolio</title>
 <meta name="description"
-      data-en="Tom Huang, software engineer in Taipei. Two shipped Rust products: an instrument-control app for a lab bench and an order book for a bakery."
-      data-zh="Tom Huang，台北的軟體工程師。兩個已出貨的 Rust 產品：實驗室儀器控制軟體，和麵包店的訂單系統。"
-      content="Tom Huang, software engineer in Taipei. Two shipped Rust products: an instrument-control app for a lab bench and an order book for a bakery." />
+      data-en="Tom Huang, software engineer in Taipei. Shipped work: instrument control for a lab bench, an order book for a bakery, an oscilloscope DLL for a tester, and BSP plus install stations for i.MX93 and Genio 420 boards."
+      data-zh="Tom Huang，台北的軟體工程師。已出貨的作品：實驗室儀器控制軟體、麵包店訂單系統、測試機用的示波器 DLL、i.MX93 與 Genio 420 板的 BSP 與裝機站。"
+      content="Tom Huang, software engineer in Taipei. Shipped work: instrument control for a lab bench, an order book for a bakery, an oscilloscope DLL for a tester, and BSP plus install stations for i.MX93 and Genio 420 boards." />
 <meta name="color-scheme" content="dark" />
 <meta name="theme-color" content="#121314" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,6 +95,27 @@
           <td class="year">2026</td>
           <td><span class="mark shipped"><span data-lang="en">In use</span><span data-lang="zh">使用中</span></span></td>
         </tr>
+        <tr id="row-u3" data-trace-to="fp-u3">
+          <td class="ref">U3</td>
+          <td class="part"><a href="./scope-dll/">scope dll</a></td>
+          <td class="desc"><span data-lang="en">Soft AMR and FWF measurement DLL for an R&amp;S RTB2000 oscilloscope. Windows, C++.</span><span data-lang="zh">R&amp;S RTB2000 示波器的 Soft AMR 與 FWF 量測 DLL。Windows，C++。</span></td>
+          <td class="year">2025–26</td>
+          <td><span class="mark shipped"><span data-lang="en">In use</span><span data-lang="zh">使用中</span></span></td>
+        </tr>
+        <tr id="row-u4" data-trace-to="fp-u4">
+          <td class="ref">U4</td>
+          <td class="part"><a href="./imx93/">i.MX93 bsp</a></td>
+          <td class="desc"><span data-lang="en">BSP rebuilt from source and an install station for an industrial i.MX93 board. Linux, Python.</span><span data-lang="zh">工業用 i.MX93 板的 BSP 自建與裝機站。Linux，Python。</span></td>
+          <td class="year">2026</td>
+          <td><span class="mark shipped"><span data-lang="en">Delivered</span><span data-lang="zh">已交付</span></span></td>
+        </tr>
+        <tr id="row-u5" data-trace-to="fp-u5">
+          <td class="ref">U5</td>
+          <td class="part"><a href="./genio/">genio 420</a></td>
+          <td class="desc"><span data-lang="en">Ubuntu 26.04 port, install station, TSN switch and camera for a MediaTek Genio 420 module.</span><span data-lang="zh">MediaTek Genio 420 模組的 Ubuntu 26.04 移植、裝機站、TSN 交換器與相機。</span></td>
+          <td class="year">2026</td>
+          <td><span class="mark living"><span data-lang="en">In delivery</span><span data-lang="zh">交付中</span></span></td>
+        </tr>
         <tr id="row-j1" data-trace-to="fp-j1">
           <td class="ref">J1</td>
           <td class="part"><a href="./workflow/">how i work with ai</a></td>
@@ -118,16 +139,16 @@
         </figure>
         <div class="side">
           <p class="one">
-            <span data-lang="en">benchpress controls bench instruments through GPIB and Ethernet. The user builds a test sequence from blocks. No code is necessary.</span>
-            <span data-lang="zh">benchpress 透過 GPIB 與 Ethernet 控制儀器。使用者用積木組出測試序列。不需要寫程式。</span>
+            <span data-lang="en">benchpress controls bench instruments over GPIB and Ethernet. Test sequences are built from blocks, without code.</span>
+            <span data-lang="zh">benchpress 透過 GPIB 與 Ethernet 控制儀器。測試序列用積木組，不用寫程式。</span>
           </p>
           <ul class="kv">
-            <li><span class="k"><span data-lang="en">For</span><span data-lang="zh">對象</span></span><span class="v"><span data-lang="en">An R&amp;D lab. It replaces the lab's LabVIEW station.</span><span data-lang="zh">一間研發實驗室。取代該實驗室的 LabVIEW 工作站。</span></span></li>
+            <li><span class="k"><span data-lang="en">For</span><span data-lang="zh">對象</span></span><span class="v"><span data-lang="en">An R&amp;D lab, replacing its LabVIEW station.</span><span data-lang="zh">一間研發實驗室，取代原本的 LabVIEW 工作站。</span></span></li>
             <li><span class="k"><span data-lang="en">Instruments</span><span data-lang="zh">儀器</span></span><span class="v"><b>7</b> <span data-lang="en">models, <b>167</b> SCPI templates</span><span data-lang="zh">款，<b>167</b> 條 SCPI 模板</span></span></li>
             <li><span class="k"><span data-lang="en">Blocks</span><span data-lang="zh">積木</span></span><span class="v"><b>9</b> <span data-lang="en">types. Each instrument runs in its own parallel lane.</span><span data-lang="zh">種。每台儀器在自己的平行車道上執行。</span></span></li>
             <li><span class="k"><span data-lang="en">Also</span><span data-lang="zh">另有</span></span><span class="v"><span data-lang="en">MCP server for LLM clients, headless CLI, step debugger, offline license</span><span data-lang="zh">給 LLM 用的 MCP server、無頭 CLI、單步除錯器、離線授權</span></span></li>
-            <li><span class="k"><span data-lang="en">Verified</span><span data-lang="zh">實機</span></span><span class="v"><span data-lang="en">R&amp;S RTB24 on real hardware, 2026-09</span><span data-lang="zh">R&amp;S RTB24 實機驗收，2026-09</span></span></li>
-            <li><span class="k"><span data-lang="en">Build</span><span data-lang="zh">開發</span></span><span class="v"><span data-lang="en">Rust, Dioxus. <b>286</b> commits, May to Sep 2026. One developer.</span><span data-lang="zh">Rust、Dioxus。<b>286</b> 個 commit，2026 年 5 到 9 月。一人開發。</span></span></li>
+            <li><span class="k"><span data-lang="en">Verified</span><span data-lang="zh">實機</span></span><span class="v"><span data-lang="en">R&amp;S RTB24 on real hardware</span><span data-lang="zh">R&amp;S RTB24 實機驗收</span></span></li>
+            <li><span class="k"><span data-lang="en">Build</span><span data-lang="zh">開發</span></span><span class="v"><span data-lang="en">Rust, Dioxus. <b>286</b> commits over five months.</span><span data-lang="zh">Rust、Dioxus。<b>286</b> 個 commit，歷時五個月。</span></span></li>
           </ul>
           <span class="open"><span data-lang="en">Open sheet U1 →</span><span data-lang="zh">看 U1 →</span></span>
         </div>
@@ -157,9 +178,87 @@
             <li><span class="k">Undo</span><span class="v"><span data-lang="en">The owner can undo every change.</span><span data-lang="zh">店主可以還原每一個變更。</span></span></li>
             <li><span class="k"><span data-lang="en">Stock</span><span data-lang="zh">庫存</span></span><span class="v"><span data-lang="en">One SQLite file holds orders, kiln batches and walk-in stock.</span><span data-lang="zh">一個 SQLite 檔保存訂單、窯次和現場庫存。</span></span></li>
             <li><span class="k"><span data-lang="en">Backup</span><span data-lang="zh">備份</span></span><span class="v"><span data-lang="en">Google Drive, every 10 minutes. The app works offline.</span><span data-lang="zh">Google Drive，每 10 分鐘。離線也能用。</span></span></li>
-            <li><span class="k"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></span><span class="v"><span data-lang="en">v1.0, 2026-04. In daily use since April.</span><span data-lang="zh">v1.0，2026-04。四月起每日使用。</span></span></li>
+            <li><span class="k"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></span><span class="v"><span data-lang="en">In daily use at the counter.</span><span data-lang="zh">櫃台每天在用。</span></span></li>
           </ul>
           <span class="open"><span data-lang="en">Open sheet U2 →</span><span data-lang="zh">看 U2 →</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a class="fp" id="fp-u3" href="./scope-dll/">
+      <span class="fpref">U3 <b>scope dll</b></span>
+      <span class="pin1" aria-hidden="true"></span>
+      <div class="show">
+        <figure style="margin:0">
+          <div class="shot"><img src="./scope-dll/01-amr-zoom.png" width="1280" height="800" alt="R&amp;S RTB2004 screen: the top pane holds a 10 ms record, the bottom pane a 100 ns per division zoom centred on the peak of a triangle wave; the measurement bar reads Vp+ 25.774 V and PW+ 494.4 ns." loading="lazy" decoding="async" /></div>
+          <figcaption><span class="fig">Fig. 3</span><span><span data-lang="en">AMR zoom dump · R&amp;S RTB2004</span><span data-lang="zh">AMR zoom dump · R&amp;S RTB2004</span></span></figcaption>
+        </figure>
+        <div class="side">
+          <p class="one">
+            <span data-lang="en">A C++ DLL that puts an R&amp;S RTB2000 oscilloscope into a third-party ATE. The ATE calls one function per test step and reads the files back.</span>
+            <span data-lang="zh">把 R&amp;S RTB2000 示波器整合進第三方 ATE 的 C++ DLL。ATE 每個測試步驟呼叫一個函式，再讀回檔案。</span>
+          </p>
+          <ul class="kv">
+            <li><span class="k"><span data-lang="en">For</span><span data-lang="zh">對象</span></span><span class="v"><span data-lang="en">A third-party ATE on a production line. One session per pin.</span><span data-lang="zh">產線上的第三方 ATE。每支 pin 一個 session。</span></span></li>
+            <li><span class="k">APIs</span><span class="v"><span data-lang="en"><b>Soft AMR</b> watches a voltage window and keeps every excursion. <b>FWF</b> captures up to <b>4</b> channels in sync.</span><span data-lang="zh"><b>Soft AMR</b> 監看電壓窗，留下每次超限。<b>FWF</b> 同步擷取最多 <b>4</b> 個通道。</span></span></li>
+            <li><span class="k"><span data-lang="en">Output</span><span data-lang="zh">產出</span></span><span class="v"><span data-lang="en">A screenshot per segment. HTML, XLSX, CSV, JSON.</span><span data-lang="zh">每個 segment 一張截圖。HTML、XLSX、CSV、JSON。</span></span></li>
+            <li><span class="k"><span data-lang="en">Verified</span><span data-lang="zh">實機</span></span><span class="v"><span data-lang="en">RTB2004 on real hardware. In use at the customer.</span><span data-lang="zh">RTB2004 實機。客戶使用中。</span></span></li>
+            <li><span class="k"><span data-lang="en">Platform</span><span data-lang="zh">平台</span></span><span class="v"><span data-lang="en">Windows 7 to 11, x64 and x86, installer with a VISA check.</span><span data-lang="zh">Windows 7 到 11，x64 與 x86，安裝檔含 VISA 檢查。</span></span></li>
+            <li><span class="k"><span data-lang="en">Build</span><span data-lang="zh">開發</span></span><span class="v"><span data-lang="en">C++17, CMake. <b>35</b> releases, <b>152</b> commits over 14 months.</span><span data-lang="zh">C++17、CMake。<b>35</b> 個版本、<b>152</b> 個 commit，歷時 14 個月。</span></span></li>
+          </ul>
+          <span class="open"><span data-lang="en">Open sheet U3 →</span><span data-lang="zh">看 U3 →</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a class="fp" id="fp-u4" href="./imx93/">
+      <span class="fpref">U4 <b>i.MX93 bsp</b></span>
+      <span class="pin1" aria-hidden="true"></span>
+      <div class="show">
+        <figure style="margin:0">
+          <div class="shot"><img src="./imx93/01-station.png" width="2560" height="1600" alt="Install station web page for i.MX93 boards: one board card mid-install at 62% with its eMMC layout bar, one factory-state card with an Install button and a red blank RS-485 EEPROM line, and a job list with one running and two passed jobs." loading="lazy" decoding="async" /></div>
+          <figcaption><span class="fig">Fig. 4</span><span><span data-lang="en">Install station</span><span data-lang="zh">裝機站</span></span></figcaption>
+        </figure>
+        <div class="side">
+          <p class="one">
+            <span data-lang="en">The board vendor's engineer had left and the Linux build could not be reproduced. I rebuilt bootloader, kernel and system image from NXP sources, then built the install line that puts them on every board.</span>
+            <span data-lang="zh">板廠的工程師離職，Linux 建置無法重現。我從 NXP 原始碼重建 bootloader、kernel 與系統映像，再做出把它們裝到每塊板上的安裝線。</span>
+          </p>
+          <ul class="kv">
+            <li><span class="k"><span data-lang="en">For</span><span data-lang="zh">對象</span></span><span class="v"><span data-lang="en">A board maker shipping an industrial i.MX93 product.</span><span data-lang="zh">出貨工業用 i.MX93 產品的板廠。</span></span></li>
+            <li><span class="k"><span data-lang="en">Rebuilt</span><span data-lang="zh">自建</span></span><span class="v"><span data-lang="en">SPL, TF-A, OP-TEE, U-Boot, kernel 6.18.20. No vendor binary left.</span><span data-lang="zh">SPL、TF-A、OP-TEE、U-Boot、kernel 6.18.20。原廠 binary 全退役。</span></span></li>
+            <li><span class="k"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></span><span class="v"><span data-lang="en">Network only, no serial cable, about <b>15</b> min. Web station, <b>16</b> boards in parallel.</span><span data-lang="zh">純網路，不接 serial，約 <b>15</b> 分鐘。網頁站台 <b>16</b> 塊並行。</span></span></li>
+            <li><span class="k"><span data-lang="en">Found</span><span data-lang="zh">找到</span></span><span class="v"><span data-lang="en">A 9 kHz interrupt storm in the device tree. DRAM above spec. An unprogrammed RS-485 EEPROM.</span><span data-lang="zh">device tree 裡的 9 kHz 中斷風暴。DRAM 超規。沒燒的 RS-485 EEPROM。</span></span></li>
+            <li><span class="k"><span data-lang="en">Delivered</span><span data-lang="zh">交付</span></span><span class="v"><span data-lang="en"><b>7</b> boards. Customer repo, sha256 ledger, field update <code>.deb</code>.</span><span data-lang="zh"><b>7</b> 塊板。客戶 repo、sha256 帳本、現場更新 <code>.deb</code>。</span></span></li>
+            <li><span class="k"><span data-lang="en">Build</span><span data-lang="zh">開發</span></span><span class="v"><span data-lang="en">Python, 2 tools. <b>147</b> commits in one month.</span><span data-lang="zh">Python，2 支工具。<b>147</b> 個 commit，一個月內。</span></span></li>
+          </ul>
+          <span class="open"><span data-lang="en">Open sheet U4 →</span><span data-lang="zh">看 U4 →</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a class="fp" id="fp-u5" href="./genio/">
+      <span class="fpref">U5 <b>genio 420</b></span>
+      <span class="pin1" aria-hidden="true"></span>
+      <div class="show">
+        <figure style="margin:0">
+          <div class="shot"><img src="./genio/02-tsn-manager.png" width="1440" height="1120" alt="tsn-manager web page on the Genio 420: two TSN ports up, four status lamps, the 802.1AS section with file values beside hardware state, and the port 1 802.1Qbv schedule drawn as eight traffic-class bars over a 1 ms cycle." loading="lazy" decoding="async" /></div>
+          <figcaption><span class="fig">Fig. 5</span><span><span data-lang="en">tsn-manager page</span><span data-lang="zh">tsn-manager 頁面</span></span></figcaption>
+        </figure>
+        <div class="side">
+          <p class="one">
+            <span data-lang="en">Ubuntu 26.04 on a MediaTek Genio 420 module that MediaTek supports only to 24.04. Kernel from source, an install station, and an RT1180 switch that passes four TSN tests.</span>
+            <span data-lang="zh">MediaTek 只支援到 24.04 的 Genio 420 模組，裝上 Ubuntu 26.04。kernel 自建、裝機站、通過四項 TSN 測試的 RT1180 交換器。</span>
+          </p>
+          <ul class="kv">
+            <li><span class="k"><span data-lang="en">For</span><span data-lang="zh">對象</span></span><span class="v"><span data-lang="en">A module maker with its own carrier board.</span><span data-lang="zh">有自家載板的模組廠。</span></span></li>
+            <li><span class="k">Kernel</span><span class="v"><span data-lang="en"><b>6.6.137</b> rebuilt from IoT Yocto v26.0. Device trees byte-identical to the vendor's.</span><span data-lang="zh"><b>6.6.137</b> 從 IoT Yocto v26.0 重建。device tree 與原廠位元組一致。</span></span></li>
+            <li><span class="k"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></span><span class="v"><span data-lang="en">Station or USB stick. Factory restore <b>100 s</b>, unified system <b>135 s</b>.</span><span data-lang="zh">站台或 USB 碟。回復出廠 <b>100 秒</b>，裝統一版 <b>135 秒</b>。</span></span></li>
+            <li><span class="k"><span data-lang="en">Network</span><span data-lang="zh">網路</span></span><span class="v"><span data-lang="en">802.1AS, Qbv, Qci, Qbu verified with hardware timestamps. One YAML drives the switch.</span><span data-lang="zh">802.1AS、Qbv、Qci、Qbu 以硬體時戳驗過。一份 YAML 驅動交換器。</span></span></li>
+            <li><span class="k"><span data-lang="en">Camera, AI</span><span data-lang="zh">相機、AI</span></span><span class="v"><span data-lang="en">GMSL3 camera bring-up. IP camera decode <b>107 to 5 ms</b> per frame. Qwen3VL-2B on the NPU.</span><span data-lang="zh">GMSL3 相機 bring-up。IP camera 解碼每幀 <b>107 降到 5 ms</b>。NPU 上跑 Qwen3VL-2B。</span></span></li>
+            <li><span class="k"><span data-lang="en">Build</span><span data-lang="zh">開發</span></span><span class="v"><span data-lang="en"><b>396</b> commits so far, AI-assisted.</span><span data-lang="zh"><b>396</b> 個 commit，持續中，AI 協作。</span></span></li>
+          </ul>
+          <span class="open"><span data-lang="en">Open sheet U5 →</span><span data-lang="zh">看 U5 →</span></span>
         </div>
       </div>
     </a>
@@ -196,6 +295,9 @@
     <div class="links">
       <a href="./benchpress/">U1 benchpress</a>
       <a href="./pos/">U2 tujia pos</a>
+      <a href="./scope-dll/">U3 scope dll</a>
+      <a href="./imx93/">U4 i.MX93 bsp</a>
+      <a href="./genio/">U5 genio 420</a>
       <a href="./workflow/">J1 <span data-lang="en">method note</span><span data-lang="zh">方法筆記</span></a>
       <a href="https://github.com/COOMO" target="_blank" rel="noopener">github.com/COOMO</a>
     </div>
