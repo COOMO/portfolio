@@ -141,6 +141,12 @@
     }
 
     function hot(p, on) {
+      // the six traces share one bus down the left margin, so a lit trace must be
+      // drawn last or the later bronze traces and their vias cut it into pieces
+      if (on && animated && p.path && p.path.parentNode === svg) {
+        svg.appendChild(p.path);
+        (p.vias || []).forEach(function (v) { svg.appendChild(v); });
+      }
       if (p.path) p.path.classList.toggle('hot', on);
       (p.vias || []).forEach(function (v) { v.classList.toggle('hot', on); });
       p.from.classList.toggle('hot', on);
