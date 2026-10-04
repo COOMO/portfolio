@@ -53,8 +53,8 @@
     <div class="name">
       <h1><span data-lang="en">how i work with ai</span><span data-lang="zh">我怎麼跟 AI 一起開發</span></h1>
       <p class="title">
-        <span data-lang="en">How U1 and U2 were built with Claude Code. Four steps, then the gates that keep the model honest.</span>
-        <span data-lang="zh">U1 和 U2 怎麼用 Claude Code 做出來。四個步驟，加上讓模型不能唬弄的關卡。</span>
+        <span data-lang="en">How U3 and U2 were built with Claude Code. Four steps, then the gates that keep the model honest.</span>
+        <span data-lang="zh">U3 和 U2 怎麼用 Claude Code 做出來。四個步驟，加上讓模型不能唬弄的關卡。</span>
       </p>
     </div>
     <div class="right">
@@ -89,7 +89,7 @@
         <div class="note">
           <div class="label"><span data-lang="en">Evidence</span><span data-lang="zh">佐證</span></div>
           <ul class="list">
-            <li><a href="../benchpress/">U1 benchpress</a> <span class="dim">· 286 commits, 235 with a model co-author line</span></li>
+            <li><a href="../benchpress/">U3 benchpress</a> <span class="dim">· 286 commits, 235 with a model co-author line</span></li>
             <li><a href="../pos/">U2 tujia pos</a> <span class="dim">· 23 commits, at a counter since April</span></li>
           </ul>
         </div>
@@ -159,7 +159,7 @@
         <ul class="list">
           <li><span data-lang="en">Read at the start of every session. It tells the model to tick the ROADMAP box and update "Currently working on" after each step.</span><span data-lang="zh">每個 session 開頭都會讀。規定模型每完成一步就打勾 ROADMAP、更新「Currently working on」。</span></li>
           <li><span data-lang="en">Under 200 lines. Test per line: if this line were gone, would the model make a mistake? If not, delete it.</span><span data-lang="zh">200 行以內。每一行問：拿掉這行模型會犯錯嗎？不會就刪。</span></li>
-          <li><span data-lang="en">Rules that earned a line in U1: every code path has a MockVisa story; outputs never auto-enable; watch CI to the end after every push.</span><span data-lang="zh">在 U1 裡值得一行的規則：每條程式路徑都有 MockVisa 版本；輸出絕不自動開啟；每次 push 盯 CI 到結束。</span></li>
+          <li><span data-lang="en">Rules that earned a line in U3: every code path has a MockVisa story; outputs never auto-enable; watch CI to the end after every push.</span><span data-lang="zh">在 U3 裡值得一行的規則：每條程式路徑都有 MockVisa 版本；輸出絕不自動開啟；每次 push 盯 CI 到結束。</span></li>
           <li><span data-lang="en">Rules in U2: write an <code>operation_logs</code> row for every mutation, no exceptions; never hardcode the shop name or a flavor.</span><span data-lang="zh">U2 的規則：每個變更都寫一列 <code>operation_logs</code>，沒有例外；店名和口味絕不寫死。</span></li>
         </ul>
       </div>
@@ -171,7 +171,7 @@
       <div class="pinno"><small>Pin</small>4</div>
       <div class="stack-24">
         <h2 class="mb-0"><span data-lang="en">Gates the model cannot talk its way past</span><span data-lang="zh">模型說不過去的關卡</span></h2>
-        <p class="muted mb-0"><span data-lang="en">The task loop used on U1. Dashed boxes are the gates.</span><span data-lang="zh">U1 使用的任務流程。虛線框是關卡。</span></p>
+        <p class="muted mb-0"><span data-lang="en">The task loop used on U3. Dashed boxes are the gates.</span><span data-lang="zh">U3 使用的任務流程。虛線框是關卡。</span></p>
         <div class="flow" aria-label="Task loop">
           <div class="st"><span class="n">1</span><span class="t"><span data-lang="en">Open an issue</span><span data-lang="zh">開 issue</span></span></div>
           <div class="st"><span class="n">2</span><span class="t"><span data-lang="en">Plan in plan mode, approve</span><span data-lang="zh">plan mode 規劃，核可</span></span></div>
@@ -192,7 +192,7 @@
           <tbody>
             <tr><th scope="row">AskUserQuestion</th><td><span data-lang="en">The model interviews me before the SDD.</span><span data-lang="zh">寫 SDD 前讓模型訪談我。</span></td></tr>
             <tr><th scope="row"><a href="https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md" target="_blank" rel="noopener">test-driven-development</a></th><td><span data-lang="en">Red, green, refactor. A failing test gives the model its own loop.</span><span data-lang="zh">紅、綠、重構。會失敗的測試給模型自己的迴圈。</span></td></tr>
-            <tr><th scope="row"><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener">karpathy-guidelines</a></th><td><span data-lang="en">Simple first, surgical changes. Cut PDF export, bus bucketing, snippet parameters from U1's early plan.</span><span data-lang="zh">先簡單、外科手術式改動。U1 早期砍掉 PDF 輸出、bus 分桶、snippet 參數。</span></td></tr>
+            <tr><th scope="row"><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank" rel="noopener">karpathy-guidelines</a></th><td><span data-lang="en">Simple first, surgical changes. Cut PDF export, bus bucketing, snippet parameters from U1's early plan.</span><span data-lang="zh">先簡單、外科手術式改動。U3 早期砍掉 PDF 輸出、bus 分桶、snippet 參數。</span></td></tr>
             <tr><th scope="row">obsidian-vault</th><td><span data-lang="en">My own. Decisions and pitfalls get filed into my notes while the work happens.</span><span data-lang="zh">自己寫的。決策和踩坑在做的當下就歸檔進筆記。</span></td></tr>
           </tbody>
         </table>
@@ -204,7 +204,7 @@
     <div class="cols">
       <div class="c7 stack-24">
         <h2 class="mb-0"><span data-lang="en">Real prompts</span><span data-lang="zh">真實的 prompt</span></h2>
-        <p class="muted mb-0"><span data-lang="en">From the U1 project notes, unedited. Chinese as written; English alongside.</span><span data-lang="zh">取自 U1 的專案筆記，原文未修改，英文為對照翻譯。</span></p>
+        <p class="muted mb-0"><span data-lang="en">From the U3 project notes, unedited. Chinese as written; English alongside.</span><span data-lang="zh">取自 U3 的專案筆記，原文未修改，英文為對照翻譯。</span></p>
         <div class="prompt"><span data-lang="en">The old flow is hard-coded. I want the new flow to be built by dragging, like blocks: combine commands from different instruments into a full test item, with waits and the like. Also allow for several GPIB or Ethernet interfaces sending commands and handling replies at the same time.</span><span data-lang="zh">舊的操作流程是寫死的, 希望新的操作流程可以藉由拖拉的方式, 像積木一樣組合不同儀器的 command 拼湊出完整的側項, 也可以設定等待時間之類的操作, 另外也要考慮若有多條 GPIB 或 ethernet 介面, 同時發送指令和處理的可能性</span><span class="src"><span data-lang="en">Brief · became the block model and parallel lanes</span><span data-lang="zh">需求 · 成了積木模型與平行車道</span></span></div>
         <div class="prompt"><span data-lang="en">Plan an Error Handler flow. It is a special state entered whenever an error occurs. It must filter errors and, by severity, either let them pass or handle them.</span><span data-lang="zh">請規劃新增一個 Error Handler 流程 這是當任何時候有錯誤發生時會進入的特殊狀態, 要可以過濾錯誤, 視不同等級的錯誤放行或錯誤處理</span><span class="src"><span data-lang="en">Change request · became per-step Halt / Continue / Retry with severity</span><span data-lang="zh">修改需求 · 成了每步的 Halt / Continue / Retry 與錯誤分級</span></span></div>
         <div class="prompt"><span data-lang="en">Code cleanliness matters.</span><span data-lang="zh">code cleanliness 很重要</span><span class="src"><span data-lang="en">ROADMAP M9 · led to deleting 9 crates and 1,500 lines once templates replaced them</span><span data-lang="zh">ROADMAP M9 · 模板上線後據此刪掉 9 個 crate、1,500 行</span></span></div>
@@ -231,9 +231,9 @@
       <a href="../"><span data-lang="en">Board</span><span data-lang="zh">主板</span></a>
       <a href="../genio/">U5 genio 420</a>
       <a href="../imx93/">U4 i.MX93 bsp</a>
-      <a href="../benchpress/">U1 benchpress</a>
+      <a href="../benchpress/">U3 benchpress</a>
       <a href="../pos/">U2 tujia pos</a>
-      <a href="../scope-dll/">U3 scope dll</a>
+      <a href="../scope-dll/">U1 scope dll</a>
       <a href="mailto:cosccmo@gmail.com">cosccmo@gmail.com</a>
     </div>
   </footer>

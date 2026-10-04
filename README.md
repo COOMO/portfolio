@@ -7,9 +7,9 @@ Personal portfolio of Tom Huang. Five shipped works (a method note is kept unlis
 ## Pages
 
 - `index.html` — the board. Bill of materials (the five works, newest first), then each work as a footprint with screenshots and a fact list. Name and contact sit in the data line at the bottom.
-- `benchpress/` (U1) — Windows desktop app for bench instruments. Rust + Dioxus, GPIB / Ethernet, drag-and-drop test sequences, MCP server, headless CLI.
+- `benchpress/` (U3) — Windows desktop app for bench instruments. Rust + Dioxus, GPIB / Ethernet, drag-and-drop test sequences, MCP server, headless CLI.
 - `pos/` (U2) — Local-first POS for a family bakery. Rust + Dioxus on Android / iPad / Windows.
-- `scope-dll/` (U3) — C++ DLL for an R&S RTB2000 oscilloscope: Soft AMR and FWF APIs, called from LabVIEW.
+- `scope-dll/` (U1) — C++ DLL for an R&S RTB2000 oscilloscope: Soft AMR and FWF APIs, called from LabVIEW.
 - `imx93/` (U4) — BSP rebuilt from NXP sources and a network install station for an industrial i.MX93 board.
 - `genio/` (U5) — Ubuntu 26.04 on a MediaTek Genio 420 module: kernel from source, install station, RT1180 TSN switch, GMSL3 camera, NPU demos.
 - `workflow/` (J1) — Method note. Unlisted since 2026-10-05 (not linked from the board, `noindex`); the file stays so it can be relinked.
