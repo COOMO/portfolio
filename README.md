@@ -38,7 +38,7 @@ No build step. Commit and push; GitHub Pages serves the files as they are. Fonts
 
 ## Language
 
-Every page carries both languages inline as `<span data-lang="en">` / `<span data-lang="zh">`. The JP1 jumper in the header switches `html[lang]`; the choice is stored in `localStorage` under `portfolio-lang` and defaults from the browser language. `<title>` and the meta description swap through `data-en` / `data-zh`.
+Every page carries both languages inline as `<span data-lang="en">` / `<span data-lang="zh">`. The JP1 jumper in the header switches `html[lang]`; the choice is stored in `localStorage` under `portfolio-lang` and defaults to Chinese on a first visit. `<title>` and the meta description swap through `data-en` / `data-zh`.
 
 ## Adding a work
 

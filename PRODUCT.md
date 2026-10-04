@@ -29,7 +29,7 @@ Tom builds complete, shipped tools for real operating environments he knows firs
 ## Operating Context
 
 - Static site on GitHub Pages at https://coomo.github.io/portfolio/ ; repo `COOMO/portfolio`. Each project is a folder with a self-contained `index.html` plus PNG screenshots. No build step, no framework; commit and push deploys.
-- Bilingual EN / zh-TW via a client-side toggle, persisted in localStorage, defaulting from browser language. Both languages must stay first-class.
+- Bilingual EN / zh-TW via a client-side toggle, persisted in localStorage, defaulting to zh-TW on a first visit (changed 2026-10-04 at Tom's request; previously followed the browser language). Both languages must stay first-class.
 - Readers often arrive from a résumé link, a LinkedIn profile, or a direct email, so the landing page is the first and sometimes only page seen.
 - Résumé PDF is shared on request, not hosted on the site (confirmed: keep as is).
 

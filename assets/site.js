@@ -27,7 +27,7 @@
   try { saved = localStorage.getItem(KEY); } catch (_) {}
   var initial = saved;
   if (initial !== 'en' && initial !== 'zh') {
-    initial = ((navigator.language || 'en').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en';
+    initial = 'zh';                          // first visit: Chinese; the JP1 jumper and localStorage override
   }
   setLang(initial);
 
