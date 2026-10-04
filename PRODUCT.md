@@ -77,3 +77,5 @@ Technical constraints: plain HTML/CSS/JS, one file per page, Google Fonts allowe
 ## Accessibility & Inclusion
 
 Standard web accessibility: keyboard-reachable controls, visible focus, sufficient contrast in both themes, alt text on every screenshot, reduced-motion respected. No product-specific requirement beyond that.
+
+- Corrections 2026-10-04 (Tom): the i.MX93 network install takes about 3 minutes per board, not 15 (the README figure was stale). The checkup excerpt block was removed from U4 at Tom's request. The Genio benchmark text now carries its caveats from the vault note: the theoretical GPU peak assumes the Genio 520's 880 MHz clock, the SAXPY baseline is single-threaded NEON, the INT8 rule relies on MediaTek's rated TOPS, 18 GB/s is CPU-side STREAM (GPU side 15 GB/s), and a first home-made version of the sheet was discarded.

@@ -70,8 +70,7 @@
         <ul class="list list--filled">
           <li><span data-lang="en">I rebuilt the whole chain from NXP's LF6.18.20 sources: SPL, TF-A, OP-TEE, U-Boot and kernel 6.18.20 with the board's own device tree, so no vendor binary remains.</span><span data-lang="zh">整條鏈從 NXP 的 LF6.18.20 原始碼重建：SPL、TF-A、OP-TEE、U-Boot，加上配板子自己 device tree 的 kernel 6.18.20，沒有留下任何原廠 binary。</span></li>
           <li><span data-lang="en">Two payloads: a Debian maintenance system on p1 and the Ubuntu main system on p2, and either one can reinstall the other.</span><span data-lang="zh">兩個 payload：p1 放 Debian 維護系統，p2 放 Ubuntu 主系統，任一邊都能重灌另一邊。</span></li>
-          <li><span data-lang="en">An install line in Python turns a factory board into a unified one in about 15 minutes, with no serial cable. A web page runs it for many boards at once.</span><span data-lang="zh">Python 寫的安裝線，大約 15 分鐘把出廠板裝成統一版，不需要 serial 線。網頁版可以同時處理很多塊板。</span></li>
-          <li><span data-lang="en"><code>checkup</code> is one command that collects identity, health and link state into a report with a verdict; the first PASS is kept as the board's baseline.</span><span data-lang="zh"><code>checkup</code> 一條指令蒐集身分、健康、連線狀態，產出一份帶結論的報告，第一次 PASS 就存成該板的 baseline。</span></li>
+          <li><span data-lang="en">An install line in Python turns a factory board into a unified one in about three minutes, with no serial cable. A web page runs it for many boards at once.</span><span data-lang="zh">Python 寫的安裝線，約三分鐘把出廠板裝成統一版，不需要 serial 線。網頁版可以同時處理很多塊板。</span></li>
         </ul>
       </div>
       <div class="c5">
@@ -81,7 +80,7 @@
             <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">Delivered</span><span data-lang="zh">已交付</span></span> <span class="dim">7 <span data-lang="en">boards on the unified image</span><span data-lang="zh">塊板上統一版</span></span></td></tr>
             <tr><th scope="row"><span data-lang="en">Hardware</span><span data-lang="zh">硬體</span></th><td>NXP i.MX93 · eMMC · RS-485 · TPM · NPU · Ethernet</td></tr>
             <tr><th scope="row"><span data-lang="en">Rebuilt</span><span data-lang="zh">自建</span></th><td>SPL + TF-A + OP-TEE + U-Boot · kernel 6.18.20 · Debian p1 · Ubuntu 26.04 p2</td></tr>
-            <tr><th scope="row"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></th><td><span data-lang="en">Network only, about 15 min per board · web station, up to 16 in parallel · serial path with full boot log</span><span data-lang="zh">純網路，每板約 15 分鐘 · 網頁站台最多 16 塊並行 · serial 路徑含完整開機 log</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></th><td><span data-lang="en">Network only, about 3 min per board · web station, up to 16 in parallel · serial path with full boot log</span><span data-lang="zh">純網路，每板約 3 分鐘 · 網頁站台最多 16 塊並行 · serial 路徑含完整開機 log</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">驗收</span></th><td><span data-lang="en"><code>checkup</code> report with VERDICT per board · baseline file · RS-485 loopback jig</span><span data-lang="zh">每板一份 <code>checkup</code> 報告含 VERDICT · baseline 檔 · RS-485 回送治具</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></th><td><span data-lang="en">Customer repo · images in a GitHub Release · sha256 ledger · CI compares ledger and Release</span><span data-lang="zh">客戶 repo · 映像放 GitHub Release · sha256 校驗清單 · CI 比對清單與 Release</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td><span data-lang="en">2 Python tools, about 3,000 lines · 147 commits</span><span data-lang="zh">2 支 Python 工具，約 3,000 行 · 147 個 commit</span></td></tr>
@@ -114,41 +113,6 @@
       </div>
     </div>
 
-    <div class="figrow flip">
-      <div class="fp" style="margin:0">
-        <span class="fpref">U4.2 <b>checkup</b></span><span class="pin1" aria-hidden="true"></span>
-        <div class="code" style="margin-top:4px"><pre><span class="cm"># checkup board-1e  (<span data-lang="en">excerpt</span><span data-lang="zh">節錄</span>)</span>
-<span class="k">VERDICT: PASS</span>
-
-== IDENTITY
-soc-rev:     1.2
-kernel:      6.18.20 SMP PREEMPT
-bootloader:  U-Boot
-os-release:  Ubuntu 26.04 LTS
-env-core:    bootcmd=run mmcargs; run bootcmd_mmc
-             ethaddr=02:4a:9c:04:fe:1e
-partitions:  mmcblk0p1 2 GiB · mmcblk0p2 12.7 GiB
-
-== HEALTH
-rootdev:     /dev/mmcblk0p2
-dmesg-err:   (empty)
-deferred:    (empty)
-optee:       revision 4.10
-tpm:         /dev/tpm0
-mmc-mode:    HS400 enhanced strobe
-eth-links:   end0 carrier=1 speed=1000
-rtc-read:    ok
-sdcard:      empty-slot</pre></div>
-      </div>
-      <div class="text">
-        <h3>checkup</h3>
-        <ul class="list">
-          <li><span data-lang="en">One SSH session gathers about 30 facts: silicon revision, serial, MAC pairs, kernel, bootloader, U-Boot env, partitions, dmesg errors, deferred probes, OP-TEE, TPM, eMMC mode, link state, RTC.</span><span data-lang="zh">一次 SSH 連線蒐集約 30 項事實：矽版本、序號、MAC 對、kernel、bootloader、U-Boot env、分割區、dmesg 錯誤、deferred probe、OP-TEE、TPM、eMMC 模式、link 狀態、RTC。</span></li>
-          <li><span data-lang="en">Rules produce one VERDICT. The report is written to the board's folder, and the first PASS becomes its baseline.</span><span data-lang="zh">規則算出一個 VERDICT，報告寫進該板的資料夾，第一次 PASS 就是它的 baseline。</span></li>
-          <li><span data-lang="en">The install job reports the install outcome and checkup reports the board, so a green job with a FAIL checkup is shown as both.</span><span data-lang="zh">安裝作業回報的是安裝結果，checkup 回報的是板子本身。作業成功但 checkup FAIL 時，兩個狀態都會顯示。</span></li>
-        </ul>
-      </div>
-    </div>
   </section>
 
   <section class="sec region" id="line">
