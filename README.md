@@ -24,7 +24,7 @@ Personal portfolio of Tom Huang. Five shipped works and one method note, in Engl
 │   └── site.js           # language jumper, lightbox, copper traces
 ├── benchpress/           # one folder per work
 │   ├── index.html
-│   └── *.png             # real app screenshots
+│   └── *.webp           # real app screenshots (WebP, max 1600 px wide; PNG only where it is smaller)
 ├── pos/
 ├── scope-dll/
 ├── imx93/
