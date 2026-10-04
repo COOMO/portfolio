@@ -10,6 +10,13 @@
       content="Bootloader, kernel and system image rebuilt from NXP sources for an industrial i.MX93 board, plus a network install station that converts and verifies every unit. Python tools, GitHub Release delivery." />
 <meta name="color-scheme" content="dark" />
 <meta name="theme-color" content="#121314" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Tom Huang · portfolio" />
+<meta property="og:title" content="i.MX93 bsp · Tom Huang" />
+<meta property="og:description" content="Bootloader, kernel and system image rebuilt from NXP sources for an industrial i.MX93 board, plus a network install station that converts and verifies every unit. Python tools, GitHub Release delivery." />
+<meta property="og:url" content="https://coomo.github.io/portfolio/imx93/" />
+<meta property="og:image" content="https://coomo.github.io/portfolio/imx93/01-station.png" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
@@ -46,7 +53,7 @@
     <a href="#why"><span data-lang="en">Problem</span><span data-lang="zh">問題</span></a>
     <a href="#figures"><span data-lang="en">Key screens</span><span data-lang="zh">主要畫面</span></a>
     <a href="#line"><span data-lang="en">Install line</span><span data-lang="zh">安裝線</span></a>
-    <a href="#causes"><span data-lang="en">Root causes</span><span data-lang="zh">根因</span></a>
+    <a href="#causes"><span data-lang="en">Found and fixed</span><span data-lang="zh">找到並修正</span></a>
     <a href="#delivery"><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></a>
   </nav>
 
@@ -56,7 +63,7 @@
         <div><h2><span data-lang="en">Problem</span><span data-lang="zh">問題</span></h2></div>
         <ul class="list">
           <li><span data-lang="en">A board maker ships an i.MX93 product whose Linux system one engineer had built with Yocto. After that engineer left, nobody could reproduce the build.</span><span data-lang="zh">一家板廠出貨的 i.MX93 產品，Linux 系統是一位工程師用 Yocto 建的。他離職後，沒人能重現建置。</span></li>
-          <li><span data-lang="en">The shipped image had errors in dmesg, a 9 kHz interrupt storm and kernel panics under load.</span><span data-lang="zh">出貨映像的 dmesg 有錯誤，還有一條 9 kHz 的中斷風暴，高負載下會 kernel panic。</span></li>
+          <li><span data-lang="en">The shipped image was unstable under load, and nobody could change it.</span><span data-lang="zh">出貨映像在高負載下不穩，而且沒有人能改它。</span></li>
           <li><span data-lang="en">More boards were coming, and each needed the same system, its own MAC pair and a record that it passed.</span><span data-lang="zh">後面還有更多板子要出。每一塊都要裝同一套系統、燒各自的 MAC，並留下通過驗收的紀錄。</span></li>
         </ul>
         <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
@@ -72,11 +79,11 @@
           <caption class="sr"><span data-lang="en">At a glance</span><span data-lang="zh">一覽</span></caption>
           <tbody>
             <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">Delivered</span><span data-lang="zh">已交付</span></span> <span class="dim">7 <span data-lang="en">boards on the unified image</span><span data-lang="zh">塊板上統一版</span></span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Hardware</span><span data-lang="zh">硬體</span></th><td>NXP i.MX93 · eMMC · 4 × RS-485 (FT4232H) · TPM 2.0 · Ethos-U65 NPU · 2 × GbE</td></tr>
+            <tr><th scope="row"><span data-lang="en">Hardware</span><span data-lang="zh">硬體</span></th><td>NXP i.MX93 · eMMC · RS-485 · TPM · NPU · Ethernet</td></tr>
             <tr><th scope="row"><span data-lang="en">Rebuilt</span><span data-lang="zh">自建</span></th><td>SPL + TF-A + OP-TEE + U-Boot · kernel 6.18.20 · Debian p1 · Ubuntu 26.04 p2</td></tr>
             <tr><th scope="row"><span data-lang="en">Install</span><span data-lang="zh">安裝</span></th><td><span data-lang="en">Network only, about 15 min per board · web station, up to 16 in parallel · serial path with full boot log</span><span data-lang="zh">純網路，每板約 15 分鐘 · 網頁站台最多 16 塊並行 · serial 路徑含完整開機 log</span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">驗收</span></th><td><span data-lang="en"><code>checkup</code> report with VERDICT per board · baseline file · four-port RS-485 jig</span><span data-lang="zh">每板一份 <code>checkup</code> 報告含 VERDICT · baseline 檔 · 四埠 RS-485 治具</span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></th><td><span data-lang="en">Customer repo · images in a GitHub Release · sha256 ledger · CI compares ledger and Release</span><span data-lang="zh">客戶 repo · 映像放 GitHub Release · sha256 帳本 · CI 比對帳本與 Release</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Verified</span><span data-lang="zh">驗收</span></th><td><span data-lang="en"><code>checkup</code> report with VERDICT per board · baseline file · RS-485 loopback jig</span><span data-lang="zh">每板一份 <code>checkup</code> 報告含 VERDICT · baseline 檔 · RS-485 回送治具</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Delivery</span><span data-lang="zh">交付</span></th><td><span data-lang="en">Customer repo · images in a GitHub Release · sha256 ledger · CI compares ledger and Release</span><span data-lang="zh">客戶 repo · 映像放 GitHub Release · sha256 校驗清單 · CI 比對清單與 Release</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td><span data-lang="en">2 Python tools, about 3,000 lines · 147 commits</span><span data-lang="zh">2 支 Python 工具，約 3,000 行 · 147 個 commit</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo, contract. BSP, tools, docs, handover.</span><span data-lang="zh">獨立承接。BSP、工具、文件、交接。</span></td></tr>
           </tbody>
@@ -163,12 +170,11 @@ sdcard:      empty-slot</pre></div>
       </div>
       <div class="c7 stack-24">
         <ul class="list">
-          <li><span data-lang="en">Asset names are the interface: kernel, modules, payload, each with its own <code>.sha256</code> and size file. One installer handles both the factory conversion and a plain reinstall.</span><span data-lang="zh">素材檔名就是介面：kernel、modules、payload，各自配一個 <code>.sha256</code> 與大小檔。同一支安裝器既做出廠改裝，也做一般重灌。</span></li>
+          <li><span data-lang="en">Asset names are the interface: kernel, modules, payload, each with its own <code>.sha256</code> and size file. One installer handles both the factory conversion and a plain reinstall.</span><span data-lang="zh">發布檔名就是介面：kernel、modules、payload，各自配一個 <code>.sha256</code> 與大小檔。同一支安裝器既做出廠改裝，也做一般重灌。</span></li>
           <li><span data-lang="en">Every write is read back and hashed before the board reboots. On a mismatch the installer stops and keeps the shell.</span><span data-lang="zh">每次寫入都先回讀算 hash，對了才重開機；不符就停在 shell，保留現場。</span></li>
           <li><span data-lang="en">The board keeps one IP for the whole job, and the station reserves that IP for the new MAC before the board changes identity, which is what lets several installs run at once.</span><span data-lang="zh">一塊板在整個作業中都用同一個 IP，板子換身分之前站台就先把這個 IP 預留給新 MAC，多塊板才能同時安裝。</span></li>
-          <li><span data-lang="en">A job that fails resumes from its phase. A job that succeeds is not re-run, and a backup equal to a known asset is not kept twice.</span><span data-lang="zh">失敗的作業從停下的那個階段續跑；成功的作業不重跑，和已知素材相同的備份也不會留第二份。</span></li>
+          <li><span data-lang="en">A job that fails resumes from its phase. A job that succeeds is not re-run, and a backup equal to a known asset is not kept twice.</span><span data-lang="zh">失敗的作業從停下的那個階段續跑；成功的作業不重跑，和已知發布檔相同的備份也不會留第二份。</span></li>
           <li><span data-lang="en">The page and the CLI share the same job code; the page only wraps it.</span><span data-lang="zh">頁面與 CLI 共用同一份作業碼，頁面只是外面的一層包裝。</span></li>
-          <li><span data-lang="en">Bench rules: test on SD first, then write eMMC. Pull the USB cable with the power. Never move the boot switch under power.</span><span data-lang="zh">台架規矩：先寫 SD 測，通過才寫 eMMC；斷電時 USB 線一起拔；開關不在通電時撥。</span></li>
         </ul>
       </div>
     </div>
@@ -176,46 +182,46 @@ sdcard:      empty-slot</pre></div>
 
   <section class="sec region" id="causes">
     <div class="head">
-      <h2><span data-lang="en">Root causes</span><span data-lang="zh">根因</span></h2>
-      <p class="muted mb-0"><span data-lang="en">What was wrong with the shipped system, and what fixed it. Each one was verified on the original board before and after.</span><span data-lang="zh">出貨系統哪裡有問題、怎麼修的。每一項都在原板上做過修前修後的對照。</span></p>
+      <h2><span data-lang="en">Found and fixed</span><span data-lang="zh">找到並修正的問題</span></h2>
+      <p class="muted mb-0"><span data-lang="en">What turned up while rebuilding, and what fixed it. Each item was verified on the original board before and after.</span><span data-lang="zh">重建過程中找到的問題與修法。每一項都在原板上做過修前修後的對照。</span></p>
     </div>
     <div>
       <div class="dec">
-        <h3><span data-lang="en">9 kHz interrupt storm</span><span data-lang="zh">9 kHz 中斷風暴</span></h3>
+        <h3><span data-lang="en">Interrupt storm</span><span data-lang="zh">中斷風暴</span></h3>
         <ul class="list">
-          <li><span data-lang="en">The PMIC interrupt line was routed to a UART7 pad in the device tree. Removing it brought dmesg errors to zero and stopped the panic under load.</span><span data-lang="zh">device tree 把 PMIC 的中斷線接到 UART7 的 pad。移掉之後 dmesg 錯誤歸零，高負載 panic 也消失。</span></li>
+          <li><span data-lang="en">A PMIC interrupt was routed to the wrong pad in the device tree and fired at 9 kHz. Rerouting it brought dmesg errors to zero and stopped the panic under load.</span><span data-lang="zh">device tree 把 PMIC 的中斷線接到錯的 pad，每秒觸發 9 千次。改正之後 dmesg 錯誤歸零，高負載 panic 也消失。</span></li>
           <li><span data-lang="en">The station still watches for it and raises a badge on the card.</span><span data-lang="zh">站台持續監看，再發生就在卡片上亮標記。</span></li>
         </ul>
       </div>
       <div class="dec">
-        <h3><span data-lang="en">DRAM above spec</span><span data-lang="zh">DRAM 超規</span></h3>
+        <h3><span data-lang="en">DRAM timing</span><span data-lang="zh">DRAM timing</span></h3>
         <ul class="list">
-          <li><span data-lang="en">The vendor bootloader ran the memory at 3733 MT/s. The rebuilt one uses the 3200 MT/s in the datasheet.</span><span data-lang="zh">原廠 bootloader 把記憶體跑在 3733 MT/s，自建版改回規格書上的 3200 MT/s。</span></li>
+          <li><span data-lang="en">The DRAM is plain LPDDR4 rated to 3200 MT/s, and the original bootloader clocked it faster than that. The rebuilt bootloader uses the part's rated timing.</span><span data-lang="zh">板上的 DRAM 是額定 3200 MT/s 的 LPDDR4，原本的 bootloader 把它跑得比額定快。自建版改用顆粒額定的 timing。</span></li>
         </ul>
       </div>
       <div class="dec">
-        <h3><span data-lang="en">RS-485 dead on some boards</span><span data-lang="zh">部分板子 RS-485 不通</span></h3>
+        <h3><span data-lang="en">RS-485 direction pin</span><span data-lang="zh">RS-485 方向腳</span></h3>
         <ul class="list">
-          <li><span data-lang="en">Production had not programmed the FT4232H EEPROM, so the direction-control pin was undefined. A four-port loopback jig found it.</span><span data-lang="zh">產線沒有燒 FT4232H 的 EEPROM，方向控制腳因此沒有定義。這是用四埠回送治具找到的。</span></li>
-          <li><span data-lang="en">Every install path now burns it and checkup verifies it. The customer re-burned its fielded boards with the same tool.</span><span data-lang="zh">現在每條安裝路徑都會補燒，checkup 也必檢。客戶用同一支工具把已出貨的板子全部補燒完成。</span></li>
+          <li><span data-lang="en">On some boards the USB-serial bridge's EEPROM was blank, which left the RS-485 direction pin undefined. A four-port loopback jig found it.</span><span data-lang="zh">部分板子的 USB 轉序列橋接晶片 EEPROM 是空白的，RS-485 的方向腳因此沒有定義。這是用四埠回送治具找到的。</span></li>
+          <li><span data-lang="en">Every install path now programs it and checkup verifies it; fielded boards were brought up to date with the same tool.</span><span data-lang="zh">現在每條安裝路徑都會燒好，checkup 也必檢；已出貨的板子用同一支工具補齊。</span></li>
         </ul>
       </div>
       <div class="dec">
         <h3><span data-lang="en">Interface names flip</span><span data-lang="zh">網路介面名對調</span></h3>
         <ul class="list">
-          <li><span data-lang="en"><code>end0</code> and <code>end1</code> are numbered differently on Debian and Ubuntu, so the network self-setup picks the port by carrier instead of by name.</span><span data-lang="zh"><code>end0</code> 與 <code>end1</code> 在 Debian 和 Ubuntu 上的編號相反，網路自組因此改成依 carrier 選埠，不寫死介面名。</span></li>
+          <li><span data-lang="en"><code>end0</code> and <code>end1</code> are numbered differently on Debian and Ubuntu, so the network self-setup picks the port by carrier instead of by name.</span><span data-lang="zh"><code>end0</code> 與 <code>end1</code> 在 Debian 和 Ubuntu 上的編號相反，網路自動設定因此改成依 carrier 選埠，不寫死介面名。</span></li>
         </ul>
       </div>
       <div class="dec">
-        <h3><span data-lang="en">NPU never ran</span><span data-lang="zh">NPU 從來跑不起來</span></h3>
+        <h3><span data-lang="en">NPU userspace</span><span data-lang="zh">NPU userspace</span></h3>
         <ul class="list">
-          <li><span data-lang="en">The shipped userspace had an old delegate, firmware in the wrong path and no Python runtime. All three are fixed, and fielded boards upgrade with one <code>.deb</code>.</span><span data-lang="zh">出貨的 userspace 用的是舊 delegate，韌體放錯位置，也沒有 Python runtime。三項都修好了，已出貨的板子裝一個 <code>.deb</code> 就能升級。</span></li>
+          <li><span data-lang="en">The NPU userspace could not run inference: an outdated delegate, firmware in the wrong path and no Python runtime. All three are fixed, and fielded boards upgrade with one <code>.deb</code>.</span><span data-lang="zh">NPU 的 userspace 跑不了推論：delegate 過舊、韌體放錯位置、沒有 Python runtime。三項都修好了，已出貨的板子裝一個 <code>.deb</code> 就能升級。</span></li>
         </ul>
       </div>
       <div class="dec">
-        <h3><span data-lang="en">OP-TEE and TPM missing</span><span data-lang="zh">缺 OP-TEE 與 TPM</span></h3>
+        <h3><span data-lang="en">OP-TEE and TPM</span><span data-lang="zh">OP-TEE 與 TPM</span></h3>
         <ul class="list">
-          <li><span data-lang="en">BL32 and <code>TPM2_Startup</code> were missing from the boot chain. With them added, the TPM appears as <code>/dev/tpm0</code> and checkup reads PCR0.</span><span data-lang="zh">開機鏈少了 BL32 與 <code>TPM2_Startup</code>。補上後 TPM 以 <code>/dev/tpm0</code> 出現，checkup 會讀 PCR0。</span></li>
+          <li><span data-lang="en">BL32 and <code>TPM2_Startup</code> were absent from the boot chain. With them added, the TPM appears as <code>/dev/tpm0</code> and checkup reads PCR0.</span><span data-lang="zh">開機鏈原本沒有 BL32 與 <code>TPM2_Startup</code>。補上後 TPM 以 <code>/dev/tpm0</code> 出現，checkup 會讀 PCR0。</span></li>
         </ul>
       </div>
     </div>
@@ -226,12 +232,12 @@ sdcard:      empty-slot</pre></div>
     <div class="cols">
       <div class="c7">
         <ul class="list">
-          <li><span data-lang="en">The customer repo holds the tool, the README and small files, while kernel and images live in a GitHub Release. <code>fetch-assets.py</code> downloads them and verifies every file against the committed sha256 ledger.</span><span data-lang="zh">客戶 repo 放工具、README 與小檔案，kernel 與映像放在 GitHub Release。<code>fetch-assets.py</code> 下載後逐檔對照已提交的 sha256 帳本。</span></li>
-          <li><span data-lang="en">A GitHub Action re-checks the ledger against the Release on demand, because re-uploading an asset emits no event.</span><span data-lang="zh">GitHub Action 可以手動重新比對帳本與 Release，因為重新上傳素材不會觸發任何事件。</span></li>
+          <li><span data-lang="en">The customer repo holds the tool, the README and small files, while kernel and images live in a GitHub Release. <code>fetch-assets.py</code> downloads them and verifies every file against the committed sha256 ledger.</span><span data-lang="zh">客戶 repo 放工具、README 與小檔案，kernel 與映像放在 GitHub Release。<code>fetch-assets.py</code> 下載後逐檔對照已提交的 sha256 校驗清單。</span></li>
+          <li><span data-lang="en">A GitHub Action re-checks the ledger against the Release on demand, because re-uploading an asset emits no event.</span><span data-lang="zh">GitHub Action 可以手動重新比對校驗清單與 Release，因為重新上傳發布檔不會觸發任何事件。</span></li>
           <li><span data-lang="en"><code>LICENSES.md</code> lists every component, its license and where the source is.</span><span data-lang="zh"><code>LICENSES.md</code> 列每個元件、授權與原始碼位置。</span></li>
           <li><span data-lang="en">The customer's three steps are capture, install, checkup. The README gives the exact commands and the expected last line of each.</span><span data-lang="zh">客戶要做的三步是 capture、install、checkup。README 給出確切指令，以及每一步預期看到的最後一行。</span></li>
-          <li><span data-lang="en">The MAC ledger is one Markdown table that the station appends to, and it is the record of which board got which pair.</span><span data-lang="zh">MAC 帳本是一張 Markdown 表，由站台自動追加，哪塊板拿了哪組號都查得到。</span></li>
-          <li><span data-lang="en">The same skeleton was reused for U5: change the board files and keep the station, the ledger and the release flow.</span><span data-lang="zh">同一副骨架在 U5 再用了一次：換掉板子專屬的檔案，站台、帳本與發布流程都不用動。</span></li>
+          <li><span data-lang="en">The MAC ledger is one Markdown table that the station appends to, and it is the record of which board got which pair.</span><span data-lang="zh">MAC 配號表是一張 Markdown 表，由站台自動追加，哪塊板拿了哪組號都查得到。</span></li>
+          <li><span data-lang="en">The same skeleton was reused for <a href="../genio/">U5 genio 420</a>: change the board files and keep the station, the ledger and the release flow.</span><span data-lang="zh">同一副骨架在 <a href="../genio/">U5 genio 420</a> 再用了一次：換掉板子專屬的檔案，站台、配號表與發布流程都不用動。</span></li>
         </ul>
       </div>
       <div class="c5">
@@ -249,7 +255,7 @@ sdcard:      empty-slot</pre></div>
   <footer class="dataline region">
     <div class="id">
       <span>Tom Huang</span>
-      <span><span data-lang="en">Software engineer</span><span data-lang="zh">軟體工程師</span></span>
+      <span><span data-lang="en">Senior software engineer</span><span data-lang="zh">資深軟體工程師</span></span>
       <span>Taipei, TW</span>
       <span>U4 · <span data-lang="en">delivered</span><span data-lang="zh">已交付</span></span>
     </div>
