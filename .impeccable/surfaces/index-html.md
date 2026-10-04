@@ -38,7 +38,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ### Expansion 2026-10-04
 
-Three works added inside the same world, in the order Tom chose (oldest first): U3 scope dll, U4 i.MX93 bsp, U5 genio 420, placed between U2 and J1. Each has a BOM row, a landing footprint (one screenshot, one-liner, six-row kv list) and its own sheet built from the benchpress sheet pattern. Sheet count is now 7. Client naming per Tom: SoC and instrument names (Genio 420, i.MX93, RTB2000) are fine; board product names and company names are not. Screenshots of the two install stations and tsn-manager are the real pages run offline against recorded board output, stated in each figure caption.
+Three works added inside the same world: U3 scope dll, U4 i.MX93 bsp, U5 genio 420. On 2026-10-04 Tom set the board order newest first: U5 genio, U4 i.MX93, U1 benchpress, U2 tujia pos, U3 scope dll, then J1; sheet numbers follow that order. Each has a BOM row, a landing footprint (one screenshot, one-liner, six-row kv list) and its own sheet built from the benchpress sheet pattern. Sheet count is now 7. Client naming per Tom: SoC and instrument names (Genio 420, i.MX93, RTB2000) are fine; board product names and company names are not. Screenshots of the two install stations and tsn-manager are the real pages run offline against recorded board output, stated in each figure caption.
 
 ## Unresolved
 

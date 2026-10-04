@@ -6,7 +6,7 @@ Personal portfolio of Tom Huang. Five shipped works and one method note, in Engl
 
 ## Pages
 
-- `index.html` — the board. Bill of materials (the five works), then each work as a footprint with screenshots and a fact list. Name and contact sit in the data line at the bottom.
+- `index.html` — the board. Bill of materials (the five works, newest first), then each work as a footprint with screenshots and a fact list. Name and contact sit in the data line at the bottom.
 - `benchpress/` (U1) — Windows desktop app for bench instruments. Rust + Dioxus, GPIB / Ethernet, drag-and-drop test sequences, MCP server, headless CLI.
 - `pos/` (U2) — Local-first POS for a family bakery. Rust + Dioxus on Android / iPad / Windows.
 - `scope-dll/` (U3) — C++ DLL for an R&S RTB2000 oscilloscope: Soft AMR and FWF APIs, called from LabVIEW.
