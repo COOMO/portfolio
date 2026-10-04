@@ -1,6 +1,6 @@
 # portfolio
 
-Personal portfolio of Tom Huang. Five shipped works and one method note, in English and Traditional Chinese.
+Personal portfolio of Tom Huang. Five shipped works (a method note is kept unlisted), in English and Traditional Chinese.
 
 **Live:** https://coomo.github.io/portfolio/
 
@@ -12,7 +12,7 @@ Personal portfolio of Tom Huang. Five shipped works and one method note, in Engl
 - `scope-dll/` (U3) — C++ DLL for an R&S RTB2000 oscilloscope: Soft AMR and FWF APIs, called from LabVIEW.
 - `imx93/` (U4) — BSP rebuilt from NXP sources and a network install station for an industrial i.MX93 board.
 - `genio/` (U5) — Ubuntu 26.04 on a MediaTek Genio 420 module: kernel from source, install station, RT1180 TSN switch, GMSL3 camera, NPU demos.
-- `workflow/` (J1) — Method note: git first, three documents, a lean CLAUDE.md, skills on demand.
+- `workflow/` (J1) — Method note. Unlisted since 2026-10-05 (not linked from the board, `noindex`); the file stays so it can be relinked.
 
 ## Structure
 
