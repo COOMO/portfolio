@@ -66,11 +66,11 @@
           <li><span data-lang="en">An R&amp;D lab ran its bench from a LabVIEW station.</span><span data-lang="zh">一間研發實驗室的工作站跑 LabVIEW。</span></li>
           <li><span data-lang="en">Each new instrument meant days of wiring code, and each new test was a new VI.</span><span data-lang="zh">每加一台儀器要寫好幾天接線程式，每個新測項又是一個新 VI。</span></li>
           <li><span data-lang="en">Nothing was in version control and nothing was tested.</span><span data-lang="zh">沒有版本控制，也沒有測試。</span></li>
-          <li><span data-lang="en">The brief, in the lab's words: swap instruments freely, compose tests like blocks, run several buses at once.</span><span data-lang="zh">實驗室的要求：儀器隨時換、測項像積木一樣組、多條介面同時跑。</span></li>
+          <li><span data-lang="en">The brief, in the lab's words: swap instruments freely, compose tests like blocks, run several buses at once.</span><span data-lang="zh">實驗室自己的說法：儀器要能隨時換，測項要像積木一樣組，多條介面要能同時跑。</span></li>
         </ul>
         <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
         <ul class="list list--filled">
-          <li><span data-lang="en">An instrument is one row in <code>instruments.toml</code> plus one template file. No Rust changes.</span><span data-lang="zh">一台儀器是 <code>instruments.toml</code> 一列加一份模板檔。不動 Rust。</span></li>
+          <li><span data-lang="en">An instrument is one row in <code>instruments.toml</code> plus one template file. No Rust changes.</span><span data-lang="zh">新增一台儀器，就是在 <code>instruments.toml</code> 加一列、再放一份模板檔，Rust 程式不用改。</span></li>
           <li><span data-lang="en">A test is a sequence of blocks: Write, Query, Wait, For, If, Parallel, Shell, Set Variable, Print.</span><span data-lang="zh">一個測項是積木序列：Write、Query、Wait、For、If、Parallel、Shell、Set Variable、Print。</span></li>
           <li><span data-lang="en">Everything is plain text in one folder, so git shows the diffs and an LLM can draft a template from a manual.</span><span data-lang="zh">全部是純文字，放在一個資料夾，git 看得到 diff，LLM 也能照手冊草擬模板。</span></li>
         </ul>
@@ -108,9 +108,9 @@
         <h3>Sequence Editor</h3>
         <ul class="list">
           <li><span data-lang="en">The step list shows each step's instrument and real SCPI command.</span><span data-lang="zh">步驟列表顯示每一步的儀器和實際 SCPI 指令。</span></li>
-          <li><span data-lang="en">The inspector edits parameters and the on-error policy: Halt, Continue, Retry.</span><span data-lang="zh">檢視器編輯參數和錯誤策略：Halt、Continue、Retry。</span></li>
+          <li><span data-lang="en">The inspector edits parameters and the on-error policy: Halt, Continue, Retry.</span><span data-lang="zh">右側檢視器可改參數和錯誤處理策略：Halt、Continue、Retry。</span></li>
           <li><span data-lang="en">The DUT serial goes into the run header and the run folder name.</span><span data-lang="zh">DUT 序號會寫進執行表頭和執行資料夾名稱。</span></li>
-          <li><span data-lang="en">Breakpoints, pause, step over and step into are available during a run.</span><span data-lang="zh">執行中可用中斷點、暫停、逐步執行。</span></li>
+          <li><span data-lang="en">Breakpoints, pause, step over and step into are available during a run.</span><span data-lang="zh">執行中可以下中斷點、暫停、單步跨過或進入。</span></li>
         </ul>
       </div>
     </div>
@@ -158,7 +158,7 @@
         <ul class="list">
           <li><span data-lang="en"><code>PARALLEL</code> to <code>END PARALLEL</code> compiles to one lane per instrument. Instruments on the same GPIB board share a lane.</span><span data-lang="zh"><code>PARALLEL</code> 到 <code>END PARALLEL</code> 編譯成每台儀器一條車道。同一張 GPIB 卡上的儀器共用一條。</span></li>
           <li><span data-lang="en">All shell steps share one dedicated lane.</span><span data-lang="zh">所有 Shell 步驟共用一條專用車道。</span></li>
-          <li><span data-lang="en">Each lane runs on its own tokio thread. The UI never waits on an instrument.</span><span data-lang="zh">每條車道在自己的 tokio 執行緒上跑。UI 不等儀器。</span></li>
+          <li><span data-lang="en">Each lane runs on its own tokio thread. The UI never waits on an instrument.</span><span data-lang="zh">每條車道有自己的 tokio 執行緒，UI 從不等儀器。</span></li>
         </ul>
       </div>
     </div>
@@ -172,9 +172,9 @@
       <div class="text">
         <h3>Test Panel</h3>
         <ul class="list">
-          <li><span data-lang="en">Add an instrument by VISA address. Probe it with <code>*IDN?</code>.</span><span data-lang="zh">用 VISA 位址加入儀器。用 <code>*IDN?</code> 探測。</span></li>
-          <li><span data-lang="en">The on-stop SCPI field is part of the add form. Source-type instruments require it.</span><span data-lang="zh">停機 SCPI 欄位是新增表單的一部分。source 類儀器必填。</span></li>
-          <li><span data-lang="en">Send raw SCPI. Save it as an Action with named parameters.</span><span data-lang="zh">直接送 SCPI。存成帶參數的 Action。</span></li>
+          <li><span data-lang="en">Add an instrument by VISA address. Probe it with <code>*IDN?</code>.</span><span data-lang="zh">輸入 VISA 位址加入儀器，用 <code>*IDN?</code> 確認連得上。</span></li>
+          <li><span data-lang="en">The on-stop SCPI field is part of the add form. Source-type instruments require it.</span><span data-lang="zh">新增表單裡就有停機 SCPI 欄位，source 類儀器必填。</span></li>
+          <li><span data-lang="en">Send raw SCPI. Save it as an Action with named parameters.</span><span data-lang="zh">可以直接送 SCPI，也能存成帶具名參數的 Action。</span></li>
         </ul>
       </div>
     </div>
@@ -189,8 +189,8 @@
         <h3>Manage</h3>
         <ul class="list">
           <li><span data-lang="en">Three tables: instruments, actions, sequences. Each table is one TOML file.</span><span data-lang="zh">三張表：儀器、Action、序列。每張表是一份 TOML。</span></li>
-          <li><span data-lang="en">The GUI watches the folder. An edit from an editor, git or the MCP server appears within one second.</span><span data-lang="zh">GUI 監看資料夾。編輯器、git 或 MCP server 的改動一秒內出現。</span></li>
-          <li><span data-lang="en">A template file that no instrument claims shows under Orphan until it is attached.</span><span data-lang="zh">沒有儀器認領的模板檔會列在 Orphan，直到被指派。</span></li>
+          <li><span data-lang="en">The GUI watches the folder. An edit from an editor, git or the MCP server appears within one second.</span><span data-lang="zh">GUI 監看資料夾，不管是編輯器、git 還是 MCP server 改的檔，一秒內就反映在畫面上。</span></li>
+          <li><span data-lang="en">A template file that no instrument claims shows under Orphan until it is attached.</span><span data-lang="zh">沒有儀器使用的模板檔會列在 Orphan，指派後才歸位。</span></li>
         </ul>
       </div>
     </div>
@@ -223,7 +223,7 @@
       <div class="c4">
         <h3><span data-lang="en">For the engineer</span><span data-lang="zh">給工程師</span></h3>
         <ul class="list" style="margin-top:10px">
-          <li><span data-lang="en">Pre-flight opens every instrument a sequence needs, in parallel.</span><span data-lang="zh">執行前平行開啟序列用到的每台儀器。</span></li>
+          <li><span data-lang="en">Pre-flight opens every instrument a sequence needs, in parallel.</span><span data-lang="zh">執行前先平行開啟序列會用到的每台儀器。</span></li>
           <li><span data-lang="en">Per-step failure policy: Halt, Continue, Retry N.</span><span data-lang="zh">每步失敗策略：Halt、Continue、Retry N。</span></li>
           <li><span data-lang="en">Aggregate FOR: mean, std, min, max across iterations, CSV out.</span><span data-lang="zh">FOR 彙總：跨迭代的平均、標準差、最小、最大，可出 CSV。</span></li>
           <li><span data-lang="en">Shell steps in Bash or Python with a highlighted editor.</span><span data-lang="zh">Shell 步驟支援 Bash、Python，附語法高亮。</span></li>
@@ -235,14 +235,14 @@
         <ul class="list" style="margin-top:10px">
           <li><span data-lang="en"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>. Same compile, same report, exit codes.</span><span data-lang="zh"><code>benchpress.exe run &lt;sequence&gt; --mock | --hardware</code>。同一套編譯與報告，有 exit code。</span></li>
           <li><span data-lang="en"><code>benchpress.exe probe &lt;addr&gt;</code>: one query, timing, hex tail, a hint per VISA error.</span><span data-lang="zh"><code>benchpress.exe probe &lt;addr&gt;</code>：一條查詢、耗時、hex 尾端、每種 VISA 錯誤一句提示。</span></li>
-          <li><span data-lang="en">MCP server for Claude Desktop, Claude Code, Cursor. Lists instruments, validates and saves TOML, reads past runs. File only, never touches VISA.</span><span data-lang="zh">MCP server 給 Claude Desktop、Claude Code、Cursor。列儀器、驗證並存 TOML、讀過去的執行。只碰檔案，不碰 VISA。</span></li>
+          <li><span data-lang="en">MCP server for Claude Desktop, Claude Code, Cursor. Lists instruments, validates and saves TOML, reads past runs. File only, never touches VISA.</span><span data-lang="zh">MCP server 供 Claude Desktop、Claude Code、Cursor 使用：列出儀器、驗證並儲存 TOML、讀取過去的執行紀錄。它只碰檔案，碰不到 VISA。</span></li>
           <li><span data-lang="en">If MCP accepts a sequence, Run accepts it too; they share one compiler.</span><span data-lang="zh">MCP 收下的序列 Run 一定收，兩者共用同一個編譯器。</span></li>
         </ul>
       </div>
       <div class="c4">
         <h3><span data-lang="en">For the lab manager</span><span data-lang="zh">給實驗室管理者</span></h3>
         <ul class="list" style="margin-top:10px">
-          <li><span data-lang="en">Roles: admin, author, operator, viewer. Mapped from Windows accounts.</span><span data-lang="zh">角色：admin、author、operator、viewer。對應 Windows 帳號。</span></li>
+          <li><span data-lang="en">Roles: admin, author, operator, viewer. Mapped from Windows accounts.</span><span data-lang="zh">四種角色：admin、author、operator、viewer，由 Windows 帳號對應。</span></li>
           <li><span data-lang="en">Audit trail: app start, sequence saved, run started, MCP writes.</span><span data-lang="zh">稽核紀錄：啟動、存序列、開始執行、MCP 寫入。</span></li>
           <li><span data-lang="en">One-click diagnostics bundle: config, logs, newest run.</span><span data-lang="zh">一鍵診斷包：設定、log、最新執行。</span></li>
           <li><span data-lang="en">Offline licensing, ed25519 signed, node-locked. Base app free; a license unlocks premium flags.</span><span data-lang="zh">離線授權，ed25519 簽章、綁機器。基礎功能免費，授權解鎖付費功能。</span></li>
@@ -282,7 +282,7 @@
           </tbody>
         </table>
         <ul class="list">
-          <li><span data-lang="en">Instrument calls run on worker threads, not on the UI thread. The window stays responsive while an instrument is slow.</span><span data-lang="zh">儀器呼叫在工作執行緒上執行，不在 UI 執行緒。儀器回應慢時，視窗仍可操作。</span></li>
+          <li><span data-lang="en">Instrument calls run on worker threads, not on the UI thread. The window stays responsive while an instrument is slow.</span><span data-lang="zh">儀器呼叫都在工作執行緒上跑，不佔 UI 執行緒；儀器回應再慢，視窗照樣能操作。</span></li>
         </ul>
         <div class="code"><pre><span class="cm"># instruments.toml</span>
 <span class="k">schema_version</span> = <span class="n">1</span>
@@ -317,7 +317,7 @@
         <ul class="list">
           <li><span data-lang="en">CI runs about 350 tests on MockVisa with no instrument attached.</span><span data-lang="zh">CI 用 MockVisa 跑約 350 個測試，不接儀器。</span></li>
           <li><span data-lang="en">Hardware tests are <code>#[ignore]</code> and run only with <code>BENCHPRESS_HW=1</code>.</span><span data-lang="zh">實機測試標 <code>#[ignore]</code>，只在 <code>BENCHPRESS_HW=1</code> 時跑。</span></li>
-          <li><span data-lang="en">Acceptance has two layers: open and <code>*IDN?</code>, then every template command on the real unit. Logged per instrument with firmware and commit.</span><span data-lang="zh">驗收兩層：先開啟與 <code>*IDN?</code>，再把每條模板指令送到實機。每台記韌體與 commit。</span></li>
+          <li><span data-lang="en">Acceptance has two layers: open and <code>*IDN?</code>, then every template command on the real unit. Logged per instrument with firmware and commit.</span><span data-lang="zh">驗收分兩層：先確認能開啟並回應 <code>*IDN?</code>，再把每條模板指令送到實機跑一遍。每台儀器記下韌體版本與 commit。</span></li>
           <li><span data-lang="en">Verified so far: R&amp;S RTB24, 21 steps, three screenshots, report.</span><span data-lang="zh">目前已驗：R&amp;S RTB24，21 步、三張截圖、報告。</span></li>
         </ul>
       </div>

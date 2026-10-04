@@ -44,7 +44,7 @@
       <h1 class="latin">tujia pos</h1>
       <p class="title">
         <span data-lang="en">The order book for my mother-in-law's bakery, built for an elderly owner. One Rust codebase on an Android tablet, iPad and Windows.</span>
-        <span data-lang="zh">岳母麵包店的訂單系統。為高齡店主而做。一份 Rust 程式碼跑在 Android 平板、iPad、Windows。</span>
+        <span data-lang="zh">岳母麵包店的訂單系統，為高齡店主而做。一套 Rust 程式碼跑在 Android 平板、iPad 和 Windows 上。</span>
       </p>
     </div>
     <div class="right">
@@ -74,13 +74,13 @@
           <span class="who"><span data-lang="en">The owner, to every POS salesperson</span><span data-lang="zh">店主對每一個 POS 業務說的話</span></span>
         </div>
         <ul class="list">
-          <li><span data-lang="en">Facebook and Instagram posts went viral. Orders arrive by phone, Messenger and walk-in. Messages piled into the thousands.</span><span data-lang="zh">FB 與 IG 貼文爆紅。訂單從電話、Messenger、現場進來。訊息累積上千則。</span></li>
+          <li><span data-lang="en">Facebook and Instagram posts went viral. Orders arrive by phone, Messenger and walk-in. Messages piled into the thousands.</span><span data-lang="zh">Facebook 和 Instagram 貼文爆紅之後，訂單從電話、Messenger、現場三邊湧進來，訊息累積到上千則。</span></li>
           <li><span data-lang="en">Everything went into one handwritten notebook. Finding an order meant putting on reading glasses while a queue waited.</span><span data-lang="zh">全寫進一本手寫簿。找一筆單要先戴上老花眼鏡，後面還排著隊。</span></li>
           <li><span data-lang="en">Off-the-shelf POS systems failed on small text and nested menus, and none let her correct an order the way she does on paper, by crossing it out.</span><span data-lang="zh">市售 POS 字太小、選單一層又一層，也沒有一套能像她在紙上那樣用塗改修正。</span></li>
         </ul>
         <div><h2><span data-lang="en">Solution</span><span data-lang="zh">解法</span></h2></div>
         <ul class="list list--filled">
-          <li><span data-lang="en">Search by name or the first digits of a phone. Surnames sorted by how often they appear in the shop.</span><span data-lang="zh">用姓名或電話前幾碼找單。姓氏依店內出現頻率排序。</span></li>
+          <li><span data-lang="en">Search by name or the first digits of a phone. Surnames sorted by how often they appear in the shop.</span><span data-lang="zh">用姓名或電話前幾碼就能找到單。姓氏鍵盤依店裡出現的頻率排序。</span></li>
           <li><span data-lang="en">Orders, kiln batches and walk-in stock in one SQLite file. Over-booking triggers a warning and nothing more.</span><span data-lang="zh">訂單、窯次、現場庫存在同一個 SQLite。超量只會警告，不會擋單。</span></li>
           <li><span data-lang="en">The pickup calendar colours each day by bread count. The kiln tab shows demand per flavor per bake day.</span><span data-lang="zh">取件日月曆依麵包數上色。窯次頁顯示每個出爐日各口味的需求。</span></li>
           <li><span data-lang="en">Every change can be undone, which is the notebook's crossing-out carried over.</span><span data-lang="zh">每個變更都能還原，等於把訂單簿上的塗改搬進來。</span></li>
@@ -93,11 +93,11 @@
             <tr><th scope="row"><span data-lang="en">Status</span><span data-lang="zh">狀態</span></th><td><span class="mark shipped"><span data-lang="en">In use</span><span data-lang="zh">使用中</span></span> <span class="dim"><span data-lang="en">at the counter every day</span><span data-lang="zh">櫃台每天在用</span></span></td></tr>
             <tr><th scope="row"><span data-lang="en">Device</span><span data-lang="zh">裝置</span></th><td><span data-lang="en">Android tablet at the counter · iPad · Windows</span><span data-lang="zh">櫃台的 Android 平板 · iPad · Windows</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Stack</span><span data-lang="zh">技術</span></th><td>Rust · Dioxus 0.7 · sqlx · SQLite WAL · tokio</td></tr>
-            <tr><th scope="row"><span data-lang="en">Flavors</span><span data-lang="zh">口味</span></th><td>8, <span data-lang="en">in order-book order, stored as data.</span><span data-lang="zh">照訂單簿順序，存成資料。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Flavors</span><span data-lang="zh">口味</span></th><td>8 <span data-lang="en">flavors, in order-book order, stored as data.</span><span data-lang="zh">種，存成資料，順序照訂單簿。</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Bake days</span><span data-lang="zh">出爐日</span></th><td><span data-lang="en">Thursday, Saturday. Two or three batches a day.</span><span data-lang="zh">週四、週六。一天兩到三窯。</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Backup</span><span data-lang="zh">備份</span></th><td><span data-lang="en">Google Drive app folder, every 10 min, skipped when unchanged</span><span data-lang="zh">Google Drive 應用資料夾，每 10 分鐘，沒變就跳過</span></td></tr>
             <tr><th scope="row"><span data-lang="en">Size</span><span data-lang="zh">規模</span></th><td>12 migrations · 10 undo op types · 23 commits <span data-lang="en">over three months</span><span data-lang="zh">歷時三個月</span></td></tr>
-            <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo. Interviews at the counter, schema from photos of the notebook, APK on the tablet.</span><span data-lang="zh">獨立完成。櫃台訪談、從訂單簿照片推 schema、裝到平板。</span></td></tr>
+            <tr><th scope="row"><span data-lang="en">Role</span><span data-lang="zh">角色</span></th><td><span data-lang="en">Solo. Interviews at the counter, schema from photos of the notebook, APK on the tablet.</span><span data-lang="zh">獨立完成。在櫃台訪談、從訂單簿照片推出 schema、把 APK 裝到平板。</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -119,7 +119,7 @@
         <h3><span data-lang="en">Pick flavors</span><span data-lang="zh">選口味</span></h3>
         <ul class="list">
           <li><span data-lang="en">Eight cells, 80 × 80 px, price and ± on each. Total updates live.</span><span data-lang="zh">八格，80 × 80 px，每格有單價和加減。合計即時更新。</span></li>
-          <li><span data-lang="en">A dotted cell adds a one-off flavor without touching the catalogue.</span><span data-lang="zh">虛線格加臨時口味，不動主目錄。</span></li>
+          <li><span data-lang="en">A dotted cell adds a one-off flavor without touching the catalogue.</span><span data-lang="zh">虛線那格用來加臨時口味，不會動到主目錄。</span></li>
           <li><span data-lang="en">Three steps: customer, flavors, details. One button per page.</span><span data-lang="zh">三步：客戶、口味、細節。每頁一顆主按鈕。</span></li>
         </ul>
       </div>
@@ -152,7 +152,7 @@
         <ul class="list">
           <li><span data-lang="en">±day and ±week buttons move the date without opening the calendar.</span><span data-lang="zh">±日、±週 按鈕直接調日期，不用開月曆。</span></li>
           <li><span data-lang="en">Source chips: LINE, FB, 鄰居, 路過. Pickup time optional.</span><span data-lang="zh">來源：LINE、FB、鄰居、路過。取件時間可不填。</span></li>
-          <li><span data-lang="en">Phone optional. Regulars are saved by name only. The owner asked for this.</span><span data-lang="zh">電話可不填。熟客只記姓名。店主要求的。</span></li>
+          <li><span data-lang="en">Phone optional. Regulars are saved by name only. The owner asked for this.</span><span data-lang="zh">電話可以不填，熟客只記姓名，這是店主要求的。</span></li>
         </ul>
       </div>
     </div>
@@ -182,8 +182,8 @@
       <div class="text">
         <h3><span data-lang="en">Kiln plan</span><span data-lang="zh">窯次</span></h3>
         <ul class="list">
-          <li><span data-lang="en">Top: today's demand against stock, per flavor.</span><span data-lang="zh">上方：今日各口味需求對庫存。</span></li>
-          <li><span data-lang="en">Below: a date × flavor grid for coming bake days. Tap a cell to open that day in 管理.</span><span data-lang="zh">下方：未來出爐日的日期 × 口味表。點格子開該日的管理頁。</span></li>
+          <li><span data-lang="en">Top: today's demand against stock, per flavor.</span><span data-lang="zh">上方是今天各口味的需求對照庫存。</span></li>
+          <li><span data-lang="en">Below: a date × flavor grid for coming bake days. Tap a cell to open that day in 管理.</span><span data-lang="zh">下方是接下來幾個出爐日的日期 × 口味表，點一格就打開那天的管理頁。</span></li>
           <li><span data-lang="en">Dial a customer from the tablet through a paired phone over Bluetooth.</span><span data-lang="zh">從平板透過配對的手機用藍牙撥給客人。</span></li>
         </ul>
       </div>
@@ -210,8 +210,8 @@
       <div class="c7 stack-24">
         <ul class="list">
           <li><span data-lang="en">Layer rule: ui → services → db. Services never import ui.</span><span data-lang="zh">分層規則：ui → services → db。services 不碰 ui。</span></li>
-          <li><span data-lang="en">The UI thread never awaits the database. A slow query or an upload cannot freeze the counter.</span><span data-lang="zh">UI 執行緒不 await 資料庫。慢查詢或上傳凍不住櫃台。</span></li>
-          <li><span data-lang="en">Status moves one way: pending → ready → picked up. Enforced in the service, not the UI.</span><span data-lang="zh">狀態單向：待取 → 可取 → 已取。在 service 層強制，不在 UI。</span></li>
+          <li><span data-lang="en">The UI thread never awaits the database. A slow query or an upload cannot freeze the counter.</span><span data-lang="zh">UI 執行緒從不等資料庫，慢查詢或上傳都卡不住櫃台。</span></li>
+          <li><span data-lang="en">Status moves one way: pending → ready → picked up. Enforced in the service, not the UI.</span><span data-lang="zh">狀態只能單向走：待取 → 可取 → 已取，由 service 層把關，UI 管不到。</span></li>
           <li><span data-lang="en">Shop name, colour, logo, currency live in <code>tenant_settings</code>. A second shop is one row, no code.</span><span data-lang="zh">店名、主色、logo、幣別在 <code>tenant_settings</code>。第二間店是一列資料，不改程式。</span></li>
           <li><span data-lang="en">Times stored in UTC, shown in Asia/Taipei.</span><span data-lang="zh">時間存 UTC，顯示 Asia/Taipei。</span></li>
         </ul>
@@ -274,7 +274,7 @@
       <div class="c4 fp dnp">
         <span class="fpref">U2.7 <b><span data-lang="en">Reminders</span><span data-lang="zh">提醒</span></b></span><span class="dnp-tag">DNP</span><span class="pin1" aria-hidden="true"></span>
         <ul class="list">
-          <li><span data-lang="en">Order confirmed, pickup morning, overdue. LINE push when paired, SMS otherwise.</span><span data-lang="zh">建單、取貨當天早上、逾期。有配對走 LINE，否則簡訊。</span></li>
+          <li><span data-lang="en">Order confirmed, pickup morning, overdue. LINE push when paired, SMS otherwise.</span><span data-lang="zh">建單時、取貨當天早上、逾期時各提醒一次。有配對 LINE 就推播，否則發簡訊。</span></li>
         </ul>
       </div>
       <div class="c4 fp dnp">

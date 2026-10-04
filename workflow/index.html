@@ -79,7 +79,7 @@
       <div class="c7">
         <h2><span data-lang="en">The problem</span><span data-lang="zh">問題</span></h2>
         <ul class="list" style="margin-top:14px">
-          <li><span data-lang="en">A vague request gets code immediately, with the wrong assumptions baked in.</span><span data-lang="zh">模糊的要求會馬上得到程式碼，錯誤的假設也一起進來。</span></li>
+          <li><span data-lang="en">A vague request gets code immediately, with the wrong assumptions baked in.</span><span data-lang="zh">要求講得模糊，程式碼馬上就來，連錯誤的假設一起寫進去。</span></li>
           <li><span data-lang="en">"Fixed" often means it still breaks, plus a new side effect.</span><span data-lang="zh">「修好了」常常是一跑還是壞，還多一個副作用。</span></li>
           <li><span data-lang="en">A green test suite is not a working feature. Instruments and tablets do not read test output.</span><span data-lang="zh">測試全綠不等於功能可用。儀器和平板不看測試結果。</span></li>
         </ul>
@@ -104,7 +104,7 @@
         <ul class="list">
           <li><span data-lang="en">First command in a new folder: <code>git init</code>.</span><span data-lang="zh">新資料夾第一個指令：<code>git init</code>。</span></li>
           <li><span data-lang="en">Claude Code's checkpoint only undoes its own edits inside one session; it does not cover what you ran by hand, other machines, branches or review.</span><span data-lang="zh">Claude Code 的 checkpoint 只能倒回同一個 session 內它自己的改動，管不到你手動跑的、別台機器、分支和 review。</span></li>
-          <li><span data-lang="en">One branch per issue. Each commit maps to a ROADMAP step. Diffs are what gets reviewed.</span><span data-lang="zh">每個 issue 一條分支。每個 commit 對應一個 ROADMAP 步驟。review 的對象是 diff。</span></li>
+          <li><span data-lang="en">One branch per issue. Each commit maps to a ROADMAP step. Diffs are what gets reviewed.</span><span data-lang="zh">一個 issue 一條分支，一個 commit 對應一個 ROADMAP 步驟；review 看的是 diff。</span></li>
         </ul>
       </div>
     </div>
@@ -131,7 +131,7 @@
               <td>
                 <ul class="list">
                   <li><span data-lang="en">Architecture, data, error handling, acceptance. The model writes the happy path on its own; the other two sections are the point.</span><span data-lang="zh">架構、資料、錯誤處理、驗收。happy path 模型自己會寫；後兩項才是重點。</span></li>
-                  <li><span data-lang="en">Written by interview: the model asks me one question at a time until it reaches what I had not thought of.</span><span data-lang="zh">用訪談寫：模型一次問我一題，問到我沒想過的地方。</span></li>
+                  <li><span data-lang="en">Written by interview: the model asks me one question at a time until it reaches what I had not thought of.</span><span data-lang="zh">用訪談的方式寫：模型一次問我一題，一直問到我沒想過的地方為止。</span></li>
                 </ul>
               </td>
             </tr>
@@ -184,7 +184,7 @@
         <ul class="list">
           <li><span data-lang="en">The pause at step 7 is deliberate: green mock tests do not prove the feature, the instrument does.</span><span data-lang="zh">第 7 步的停頓是故意的：mock 測試綠不代表功能可用，要儀器說了算。</span></li>
           <li><span data-lang="en">Hardware tests are <code>#[ignore]</code> and need <code>BENCHPRESS_HW=1</code>. Acceptance per instrument is logged with firmware and commit.</span><span data-lang="zh">實機測試標 <code>#[ignore]</code>，要 <code>BENCHPRESS_HW=1</code>。每台儀器的驗收記韌體與 commit。</span></li>
-          <li><span data-lang="en">For U2 the gate was the counter: feedback came as phone photos of the tablet, and the next commit answered them.</span><span data-lang="zh">U2 的關卡是櫃台：回饋是平板的手機照片，下一個 commit 回答它們。</span></li>
+          <li><span data-lang="en">For U2 the gate was the counter: feedback came as phone photos of the tablet, and the next commit answered them.</span><span data-lang="zh">U2 的關卡是櫃台：回饋是用手機拍平板畫面的照片，下一個 commit 就回應它們。</span></li>
         </ul>
         <table class="facts skills">
           <caption class="sr"><span data-lang="en">Skills in regular use</span><span data-lang="zh">固定使用的 Skill</span></caption>
@@ -203,7 +203,7 @@
     <div class="cols">
       <div class="c7 stack-24">
         <h2 class="mb-0"><span data-lang="en">Real prompts</span><span data-lang="zh">真實的 prompt</span></h2>
-        <p class="muted mb-0"><span data-lang="en">From the U1 project notes, unedited. Chinese as written; English alongside.</span><span data-lang="zh">取自 U1 的專案筆記，未修改。</span></p>
+        <p class="muted mb-0"><span data-lang="en">From the U1 project notes, unedited. Chinese as written; English alongside.</span><span data-lang="zh">取自 U1 的專案筆記，原文未修改，英文為對照翻譯。</span></p>
         <div class="prompt"><span data-lang="en">The old flow is hard-coded. I want the new flow to be built by dragging, like blocks: combine commands from different instruments into a full test item, with waits and the like. Also allow for several GPIB or Ethernet interfaces sending commands and handling replies at the same time.</span><span data-lang="zh">舊的操作流程是寫死的, 希望新的操作流程可以藉由拖拉的方式, 像積木一樣組合不同儀器的 command 拼湊出完整的側項, 也可以設定等待時間之類的操作, 另外也要考慮若有多條 GPIB 或 ethernet 介面, 同時發送指令和處理的可能性</span><span class="src"><span data-lang="en">Brief · became the block model and parallel lanes</span><span data-lang="zh">需求 · 成了積木模型與平行車道</span></span></div>
         <div class="prompt"><span data-lang="en">Plan an Error Handler flow. It is a special state entered whenever an error occurs. It must filter errors and, by severity, either let them pass or handle them.</span><span data-lang="zh">請規劃新增一個 Error Handler 流程 這是當任何時候有錯誤發生時會進入的特殊狀態, 要可以過濾錯誤, 視不同等級的錯誤放行或錯誤處理</span><span class="src"><span data-lang="en">Change request · became per-step Halt / Continue / Retry with severity</span><span data-lang="zh">修改需求 · 成了每步的 Halt / Continue / Retry 與錯誤分級</span></span></div>
         <div class="prompt"><span data-lang="en">Code cleanliness matters.</span><span data-lang="zh">code cleanliness 很重要</span><span class="src"><span data-lang="en">ROADMAP M9 · led to deleting 9 crates and 1,500 lines once templates replaced them</span><span data-lang="zh">ROADMAP M9 · 模板上線後據此刪掉 9 個 crate、1,500 行</span></span></div>
